@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'features/app/presentation/widgets/sliver_wrap.dart';
+
 class WhatsApp extends StatelessWidget {
   const WhatsApp({super.key});
 
@@ -21,15 +23,7 @@ class WhatsApp extends StatelessWidget {
           onSurface: Colors.black,
         ),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('WhatsApp'),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.message),
-        ),
-      ),
+      home: const SliverWrap(),
     );
   }
 }
