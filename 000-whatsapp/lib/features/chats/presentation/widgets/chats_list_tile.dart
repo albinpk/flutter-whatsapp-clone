@@ -44,6 +44,7 @@ class ChatsListTile extends StatelessWidget {
                 children: const [
                   Icon(Icons.volume_off),
                   Icon(Icons.push_pin),
+                  _UnreadMessageBadge(),
                 ],
               ),
             ),
@@ -51,6 +52,33 @@ class ChatsListTile extends StatelessWidget {
         ),
       ),
       onTap: () {},
+    );
+  }
+}
+
+class _UnreadMessageBadge extends StatelessWidget {
+  const _UnreadMessageBadge({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      // Use size of other icons in ChatsListTile
+      dimension: IconTheme.of(context).size,
+      child: ClipOval(
+        child: ColoredBox(
+          color: Colors.green,
+          child: Center(
+            child: Text(
+              '2',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
