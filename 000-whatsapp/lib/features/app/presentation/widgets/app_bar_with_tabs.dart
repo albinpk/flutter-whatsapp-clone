@@ -27,6 +27,7 @@ class AppBarWithTabs extends StatelessWidget {
         ),
       ],
       bottom: const TabBar(
+        indicatorColor: Colors.white,
         tabs: [
           Tab(text: 'CHATS'),
           Tab(text: 'STATUS'),
