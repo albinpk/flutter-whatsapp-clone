@@ -26,6 +26,10 @@ class SliverWrap extends StatelessWidget {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.message),
+          onPressed: () {},
+        ),
       ),
     );
   }
