@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppBarWithTabs extends StatelessWidget {
   const AppBarWithTabs({super.key});
@@ -6,6 +7,9 @@ class AppBarWithTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
       title: const Text('WhatsApp'),
       floating: true,
       pinned: true,
