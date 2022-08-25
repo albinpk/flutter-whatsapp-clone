@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/chats_list_tile.dart';
+
 class ChatsView extends StatelessWidget {
   const ChatsView({super.key});
 
@@ -17,7 +19,7 @@ class ChatsView extends StatelessWidget {
           const SliverPadding(padding: EdgeInsets.only(top: 6)),
           SliverFixedExtentList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) => ListTile(title: Text('Item $index')),
+              (context, index) => const ChatsListTile(),
               childCount: 50,
             ),
             itemExtent: 76,
