@@ -16,6 +16,16 @@ class AppBarWithTabs extends StatelessWidget {
       pinned: true,
       snap: true,
       forceElevated: forceElevated,
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.search),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.more_vert),
+        ),
+      ],
       bottom: const TabBar(
         tabs: [
           Tab(text: 'CHATS'),
