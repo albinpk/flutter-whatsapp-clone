@@ -8,7 +8,7 @@ class ChatsListTile extends StatelessWidget {
     return ListTile(
       title: const Text('John Doe'),
       subtitle: const Text('Hi there!'),
-      leading: const CircleAvatar(),
+      leading: const CircleAvatar(radius: 26),
       trailing: const Text('8/8/22'),
       onTap: () {},
     );
