@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../chats/presentation/views/chats_view.dart';
+import 'app_bar_with_tabs.dart';
 
 class SliverWrap extends StatelessWidget {
   const SliverWrap({super.key});
-
-  static const _tabs = ['CHATS', 'STATUS', 'CALLS'];
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +15,7 @@ class SliverWrap extends StatelessWidget {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                title: const Text('WhatsApp'),
-                floating: true,
-                pinned: true,
-                snap: true,
-                forceElevated: innerBoxIsScrolled,
-                bottom: TabBar(
-                  tabs: _tabs.map((t) => Tab(text: t)).toList(),
-                ),
-              ),
+              sliver: AppBarWithTabs(forceElevated: innerBoxIsScrolled),
             ),
           ],
           body: const TabBarView(
