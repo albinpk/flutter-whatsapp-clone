@@ -12,10 +12,10 @@ class SliverWrap extends StatelessWidget {
       length: 3,
       child: Scaffold(
         body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          headerSliverBuilder: (context, _) => [
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: AppBarWithTabs(forceElevated: innerBoxIsScrolled),
+              sliver: const AppBarWithTabs(),
             ),
           ],
           body: const TabBarView(

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppBarWithTabs extends StatelessWidget {
-  const AppBarWithTabs({
-    super.key,
-    required this.forceElevated,
-  });
-
-  final bool forceElevated;
+  const AppBarWithTabs({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +10,8 @@ class AppBarWithTabs extends StatelessWidget {
       floating: true,
       pinned: true,
       snap: true,
-      forceElevated: forceElevated,
+      elevation: 1,
+      forceElevated: true,
       actions: [
         IconButton(
           onPressed: () {},
