@@ -14,12 +14,15 @@ class ChatsView extends StatelessWidget {
           SliverOverlapInjector(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          SliverList(
+          const SliverPadding(padding: EdgeInsets.only(top: 6)),
+          SliverFixedExtentList(
             delegate: SliverChildBuilderDelegate(
               (context, index) => ListTile(title: Text('Item $index')),
               childCount: 50,
             ),
-          )
+            itemExtent: 76,
+          ),
+          const SliverPadding(padding: EdgeInsets.only(bottom: 83)),
         ],
       ),
     );
