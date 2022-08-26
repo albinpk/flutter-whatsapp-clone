@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../utils/themes/custom_colors.dart';
+
 class ChatsListTile extends StatelessWidget {
   const ChatsListTile({super.key});
 
@@ -12,10 +14,10 @@ class ChatsListTile extends StatelessWidget {
           Expanded(
             child: Text(
               'John Doe',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: CustomColors.of(context).chatsListTileTitle,
+                  ),
             ),
           ),
           Text(
@@ -28,16 +30,19 @@ class ChatsListTile extends StatelessWidget {
         padding: const EdgeInsets.only(top: 5),
         child: Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Text(
                 'Hi there!',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: CustomColors.of(context).chatsListTileSubtitle,
+                    ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             IconTheme(
               data: IconTheme.of(context).copyWith(
-                size: 18,
-                color: Colors.grey[600],
+                size: 20,
+                color: CustomColors.of(context).chatsListTileIcon,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -66,7 +71,7 @@ class _UnreadMessageBadge extends StatelessWidget {
       dimension: IconTheme.of(context).size,
       child: ClipOval(
         child: ColoredBox(
-          color: Colors.green,
+          color: CustomColors.of(context).chatsListTileBadge!,
           child: Center(
             child: Text(
               '2',
