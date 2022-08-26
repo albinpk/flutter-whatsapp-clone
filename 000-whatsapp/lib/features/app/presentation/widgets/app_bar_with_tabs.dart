@@ -6,6 +6,8 @@ class AppBarWithTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SliverAppBar(
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -26,12 +28,19 @@ class AppBarWithTabs extends StatelessWidget {
           icon: const Icon(Icons.more_vert),
         ),
       ],
-      bottom: const TabBar(
-        indicatorColor: Colors.white,
-        tabs: [
-          Tab(text: 'CHATS'),
-          Tab(text: 'STATUS'),
-          Tab(text: 'CALLS'),
+      bottom: TabBar(
+        indicatorWeight: 3,
+        labelColor: theme.indicatorColor,
+        labelStyle: theme.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+        unselectedLabelColor: theme.brightness == Brightness.light
+            ? null
+            : theme.colorScheme.onSurface,
+        tabs: const [
+          Tab(child: Text('CHATS')),
+          Tab(child: Text('STATUS')),
+          Tab(child: Text('CALLS')),
         ],
       ),
     );
