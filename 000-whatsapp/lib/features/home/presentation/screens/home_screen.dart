@@ -44,26 +44,41 @@ class _DesktopHomeScreen extends StatelessWidget {
             maxWidth: max(min(screenSize.width, 1600), 850),
             maxHeight: max(screenSize.height, 600),
           ),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 400,
-                child: Scaffold(
-                  appBar: AppBar(title: const Text('ChatList')),
-                  body: ListView.builder(
-                    itemCount: 50,
-                    itemExtent: 76,
-                    itemBuilder: (context, index) => const ChatsListTile(),
+          child: LayoutBuilder(
+            builder: (context, constrains) => Row(
+              children: [
+                SizedBox(
+                  width: _calculateWidth(constrains.maxWidth),
+                  child: Scaffold(
+                    appBar: AppBar(title: const Text('ChatList')),
+                    body: ListView.builder(
+                      itemCount: 50,
+                      itemExtent: 76,
+                      itemBuilder: (context, index) => const ChatsListTile(),
+                    ),
                   ),
                 ),
-              ),
-              const Expanded(
-                child: WhatsAppWebDefaultView(),
-              ),
-            ],
+                const Expanded(
+                  child: WhatsAppWebDefaultView(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  double _calculateWidth(double maxWidth) {
+    final double widthFactor;
+    if (maxWidth > 1200) {
+      widthFactor = 0.3;
+    } else if (maxWidth > 1000) {
+      widthFactor = 0.35;
+    } else {
+      widthFactor = 0.4;
+    }
+
+    return maxWidth * widthFactor;
   }
 }
