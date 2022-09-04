@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'features/app/presentation/widgets/sliver_wrap.dart';
+import 'features/home/presentation/screens/home_screen.dart';
 import 'utils/themes/dark_theme.dart';
 import 'utils/themes/light_theme.dart';
 
@@ -13,7 +13,7 @@ class WhatsApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
-      home: const SliverWrap(),
+      home: const HomeScreen(),
     );
   }
 }
