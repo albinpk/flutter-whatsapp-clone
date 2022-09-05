@@ -7,21 +7,28 @@ class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = Theme.of(context).platform.isMobile;
     return AppBar(
       leadingWidth: 70,
       titleSpacing: 0,
       foregroundColor: Colors.white,
-      leading: Theme.of(context).platform.isMobile ? const _Leading() : null,
+      leading: isMobile ? const _Leading() : null,
       title: const _Title(),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.videocam_rounded),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.call),
-        ),
+        if (isMobile) ...[
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.videocam_rounded),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.call),
+          ),
+        ] else
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.more_vert),
