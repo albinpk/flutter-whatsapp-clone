@@ -29,18 +29,7 @@ class ChatScreenInputArea extends StatelessWidget {
                           onPressed: () {},
                           icon: const Icon(Icons.emoji_emotions_rounded),
                         ),
-                        Expanded(
-                          child: Text(
-                            'Message',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(
-                                  color: CustomColors.of(context)
-                                      .chatsListTileIcon,
-                                ),
-                          ),
-                        ),
+                        const Expanded(child: _InputField()),
                         IconButton(
                           onPressed: () {},
                           icon: const Icon(Icons.attach_file),
@@ -72,6 +61,26 @@ class ChatScreenInputArea extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _InputField extends StatelessWidget {
+  const _InputField({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+      textCapitalization: TextCapitalization.sentences,
+      decoration: const InputDecoration(
+        hintText: 'Message',
+        border: InputBorder.none,
+      ),
+      cursorColor: CustomColors.of(context).chatsListTileBadge,
     );
   }
 }
