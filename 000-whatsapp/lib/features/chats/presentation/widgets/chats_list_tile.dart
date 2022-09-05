@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../utils/themes/custom_colors.dart';
+import '../screens/chat_screen.dart';
 
 class ChatsListTile extends StatelessWidget {
   const ChatsListTile({super.key});
@@ -56,7 +57,13 @@ class ChatsListTile extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const ChatScreen(),
+          ),
+        );
+      },
     );
   }
 }
