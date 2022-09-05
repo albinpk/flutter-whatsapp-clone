@@ -9,42 +9,8 @@ class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
       leadingWidth: 70,
       titleSpacing: 0,
       foregroundColor: Colors.white,
-      leading: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: InkWell(
-            onTap: Navigator.of(context).pop,
-            borderRadius: BorderRadius.circular(50),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3),
-              child: Row(
-                children: const [
-                  Flexible(
-                    flex: 3,
-                    child: FittedBox(
-                      child: Icon(Icons.arrow_back),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 5,
-                    child: CircleAvatar(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('User name'),
-          Text(
-            'Last seen..',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ],
-      ),
+      leading: const _Leading(),
+      title: const _Title(),
       actions: [
         IconButton(
           onPressed: () {},
@@ -64,4 +30,56 @@ class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _Leading extends StatelessWidget {
+  const _Leading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: InkWell(
+          onTap: Navigator.of(context).pop,
+          borderRadius: BorderRadius.circular(50),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: Row(
+              children: const [
+                Flexible(
+                  flex: 3,
+                  child: FittedBox(
+                    child: Icon(Icons.arrow_back),
+                  ),
+                ),
+                Flexible(
+                  flex: 5,
+                  child: CircleAvatar(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('User name'),
+        Text(
+          'Last seen..',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+      ],
+    );
+  }
 }
