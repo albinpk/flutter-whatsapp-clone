@@ -8,6 +8,7 @@ import '../../../app/presentation/widgets/sliver_wrap.dart';
 import '../../../chats/presentation/widgets/chats_list_tile.dart';
 import '../views/whatsapp_web_default_view.dart';
 import '../widgets/both_axis_scroll_view.dart';
+import '../widgets/desktop_chats_list_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -50,7 +51,7 @@ class _DesktopHomeScreen extends StatelessWidget {
                 SizedBox(
                   width: _calculateWidth(constrains.maxWidth),
                   child: Scaffold(
-                    appBar: AppBar(title: const Text('ChatList')),
+                    appBar: const DesktopChatsListAppBar(),
                     body: ListView.builder(
                       itemCount: 50,
                       itemExtent: 76,
