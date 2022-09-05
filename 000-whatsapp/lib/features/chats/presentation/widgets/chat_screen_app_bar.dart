@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../utils/extensions/platform_type.dart';
+
 class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
   const ChatScreenAppBar({Key? key}) : super(key: key);
 
@@ -9,7 +11,7 @@ class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
       leadingWidth: 70,
       titleSpacing: 0,
       foregroundColor: Colors.white,
-      leading: const _Leading(),
+      leading: Theme.of(context).platform.isMobile ? const _Leading() : null,
       title: const _Title(),
       actions: [
         IconButton(
@@ -71,13 +73,22 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        const Text('User name'),
-        Text(
-          'Last seen..',
-          style: Theme.of(context).textTheme.bodySmall,
+        if (Theme.of(context).platform.isDesktop)
+          const Padding(
+            padding: EdgeInsets.all(10),
+            child: CircleAvatar(),
+          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('User name'),
+            Text(
+              'Last seen..',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
         ),
       ],
     );
