@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/user_model.dart';
+import '../../../../utils/extensions/platform_type.dart';
 import '../../../../utils/themes/custom_colors.dart';
+import '../../bloc/chats_bloc.dart';
 import '../screens/chat_screen.dart';
 
 class ChatsListTile extends StatelessWidget {
@@ -64,9 +67,12 @@ class ChatsListTile extends StatelessWidget {
         ),
       ),
       onTap: () {
+        if (Theme.of(context).platform.isDesktop) {
+          return context.read<ChatsBloc>().add(ChatsTilePressed(id: user.id));
+        }
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const ChatScreen(),
+            builder: (context) => ChatScreen(id: user.id),
           ),
         );
       },
