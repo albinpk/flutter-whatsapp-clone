@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/extensions/platform_type.dart';
 import '../../../chats/bloc/chats_bloc.dart';
+import '../../../chats/presentation/screens/chat_screen.dart';
 import '../../../chats/presentation/views/chats_view.dart';
 import '../views/default_chat_view.dart';
 import '../widgets/mobile_app_bar.dart';
@@ -76,8 +77,18 @@ class _HomeScreenDesktop extends StatelessWidget {
                   width: _calculateWidth(constrains.maxWidth),
                   child: const ChatsView(),
                 ),
-                const Expanded(
-                  child: DefaultChatView(),
+                Expanded(
+                  child: BlocBuilder<ChatsBloc, ChatsState>(
+                    buildWhen: (previous, current) {
+                      return current is ChatsRoomOpened && current != previous;
+                    },
+                    builder: (context, state) {
+                      if (state is ChatsRoomOpened) {
+                        return ChatScreen(id: state.id);
+                      }
+                      return const DefaultChatView();
+                    },
+                  ),
                 ),
               ],
             ),
