@@ -31,9 +31,10 @@ class _ChatsViewMobile extends StatelessWidget {
           SliverOverlapInjector(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          const SliverPadding(padding: EdgeInsets.only(top: 6)),
-          const _FriendsListView(),
-          const SliverPadding(padding: EdgeInsets.only(bottom: 83)),
+          const SliverPadding(
+            padding: EdgeInsets.only(top: 6, bottom: 83),
+            sliver: _FriendsListView(),
+          ),
         ],
       ),
     );
