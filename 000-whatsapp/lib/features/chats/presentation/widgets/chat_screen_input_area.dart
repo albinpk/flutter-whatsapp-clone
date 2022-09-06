@@ -99,6 +99,7 @@ class _DesktopInputArea extends StatelessWidget {
                 onPressed: () {},
                 icon: const Icon(Icons.attach_file),
               ),
+              const SizedBox(width: 10),
               Expanded(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -111,6 +112,7 @@ class _DesktopInputArea extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(width: 10),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.mic),
