@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DesktopChatsListAppBar extends StatelessWidget with PreferredSizeWidget {
-  const DesktopChatsListAppBar({super.key});
+class ChatsListAppBar extends StatelessWidget with PreferredSizeWidget {
+  const ChatsListAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

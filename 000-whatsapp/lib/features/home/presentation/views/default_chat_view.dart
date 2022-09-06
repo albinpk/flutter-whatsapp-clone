@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../utils/themes/custom_colors.dart';
 
-class WhatsAppWebDefaultView extends StatelessWidget {
-  const WhatsAppWebDefaultView({super.key});
+class DefaultChatView extends StatelessWidget {
+  const DefaultChatView({super.key});
 
   @override
   Widget build(BuildContext context) {

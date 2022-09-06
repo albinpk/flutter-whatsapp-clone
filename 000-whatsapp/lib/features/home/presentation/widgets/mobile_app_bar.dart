@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AppBarWithTabs extends StatelessWidget {
-  const AppBarWithTabs({super.key});
+class MobileAppBar extends StatelessWidget {
+  const MobileAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

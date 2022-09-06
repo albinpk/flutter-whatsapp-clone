@@ -1,41 +1,58 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
-import '../../../app/presentation/widgets/sliver_wrap.dart';
-import '../../../chats/presentation/widgets/chats_list_tile.dart';
-import '../views/whatsapp_web_default_view.dart';
+import '../../../chats/presentation/views/chats_view.dart';
+import '../views/default_chat_view.dart';
+import '../widgets/mobile_app_bar.dart';
 import '../widgets/both_axis_scroll_view.dart';
-import '../widgets/desktop_chats_list_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (!kIsWeb && Theme.of(context).platform.isMobile) {
-      return const _MobileHomeScreen();
-    }
-
-    return const _DesktopHomeScreen();
+    return Theme.of(context).platform.isMobile
+        ? const _HomeScreenMobile()
+        : const _HomeScreenDesktop();
   }
 }
 
-class _MobileHomeScreen extends StatelessWidget {
-  const _MobileHomeScreen({Key? key}) : super(key: key);
+class _HomeScreenMobile extends StatelessWidget {
+  const _HomeScreenMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const SliverWrap();
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (context, _) => [
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: const MobileAppBar(),
+            ),
+          ],
+          body: const TabBarView(
+            children: [
+              ChatsView(),
+              Center(child: Text('STATUS')),
+              Center(child: Text('CALLS')),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.message),
+          onPressed: () {},
+        ),
+      ),
+    );
   }
 }
 
-class _DesktopHomeScreen extends StatelessWidget {
-  const _DesktopHomeScreen({Key? key}) : super(key: key);
+class _HomeScreenDesktop extends StatelessWidget {
+  const _HomeScreenDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,23 +69,10 @@ class _DesktopHomeScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   width: _calculateWidth(constrains.maxWidth),
-                  child: Scaffold(
-                    appBar: const DesktopChatsListAppBar(),
-                    body: ListView.builder(
-                      itemCount: context.read<User>().friends.length,
-                      itemExtent: 76,
-                      itemBuilder: (context, index) => ChatsListTile(
-                        user: context.read<List<User>>().singleWhere(
-                              (user) =>
-                                  user.id ==
-                                  context.read<User>().friends[index],
-                            ),
-                      ),
-                    ),
-                  ),
+                  child: const ChatsView(),
                 ),
                 const Expanded(
-                  child: WhatsAppWebDefaultView(),
+                  child: DefaultChatView(),
                 ),
               ],
             ),
@@ -87,7 +91,6 @@ class _DesktopHomeScreen extends StatelessWidget {
     } else {
       widthFactor = 0.4;
     }
-
     return maxWidth * widthFactor;
   }
 }
