@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
 import '../../../app/presentation/widgets/sliver_wrap.dart';
 import '../../../chats/presentation/widgets/chats_list_tile.dart';
@@ -53,9 +55,15 @@ class _DesktopHomeScreen extends StatelessWidget {
                   child: Scaffold(
                     appBar: const DesktopChatsListAppBar(),
                     body: ListView.builder(
-                      itemCount: 50,
+                      itemCount: context.read<User>().friends.length,
                       itemExtent: 76,
-                      itemBuilder: (context, index) => const ChatsListTile(),
+                      itemBuilder: (context, index) => ChatsListTile(
+                        user: context.read<List<User>>().singleWhere(
+                              (user) =>
+                                  user.id ==
+                                  context.read<User>().friends[index],
+                            ),
+                      ),
                     ),
                   ),
                 ),

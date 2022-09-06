@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../models/user_model.dart';
 import '../widgets/chats_list_tile.dart';
 
 class ChatsView extends StatelessWidget {
@@ -19,8 +21,11 @@ class ChatsView extends StatelessWidget {
           const SliverPadding(padding: EdgeInsets.only(top: 6)),
           SliverFixedExtentList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) => const ChatsListTile(),
-              childCount: 50,
+              (context, index) => ChatsListTile(
+                user: context.read<List<User>>().singleWhere(
+                    (user) => user.id == context.read<User>().friends[index]),
+              ),
+              childCount: context.read<User>().friends.length,
             ),
             itemExtent: 76,
           ),

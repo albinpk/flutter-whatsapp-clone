@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../../../models/user_model.dart';
 import '../../../../utils/themes/custom_colors.dart';
 import '../screens/chat_screen.dart';
 
 class ChatsListTile extends StatelessWidget {
-  const ChatsListTile({super.key});
+  const ChatsListTile({
+    super.key,
+    required this.user,
+  });
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,7 @@ class ChatsListTile extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              'John Doe',
+              user.name,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w500,
                     color: CustomColors.of(context).chatsListTileTitle,
