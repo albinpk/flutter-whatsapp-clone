@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/extensions/platform_type.dart';
+import '../../../chats/bloc/chats_bloc.dart';
 import '../../../chats/presentation/views/chats_view.dart';
 import '../views/default_chat_view.dart';
 import '../widgets/mobile_app_bar.dart';
@@ -13,9 +15,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme.of(context).platform.isMobile
-        ? const _HomeScreenMobile()
-        : const _HomeScreenDesktop();
+    return BlocProvider(
+      create: (context) => ChatsBloc(),
+      child: Theme.of(context).platform.isMobile
+          ? const _HomeScreenMobile()
+          : const _HomeScreenDesktop(),
+    );
   }
 }
 
