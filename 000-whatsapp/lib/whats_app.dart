@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'dummy_data/app_user.dart';
+import 'dummy_data/users.dart';
 import 'features/home/presentation/screens/home_screen.dart';
+import 'models/user_model.dart';
 import 'utils/themes/dark_theme.dart';
 import 'utils/themes/light_theme.dart';
 
@@ -9,11 +13,17 @@ class WhatsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
-      home: const HomeScreen(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<User>.value(value: appUser),
+        RepositoryProvider<List<User>>.value(value: users),
+      ],
+      child: MaterialApp(
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: ThemeMode.system,
+        home: const HomeScreen(),
+      ),
     );
   }
 }
