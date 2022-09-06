@@ -8,3 +8,12 @@ abstract class ChatsState extends Equatable {
 }
 
 class ChatsInitial extends ChatsState {}
+
+class ChatsRoomOpened extends ChatsState {
+  const ChatsRoomOpened({required this.id});
+
+  final int id;
+
+  @override
+  List<Object> get props => [id];
+}

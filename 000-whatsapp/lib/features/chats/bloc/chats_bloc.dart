@@ -6,8 +6,13 @@ part 'chats_state.dart';
 
 class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
   ChatsBloc() : super(ChatsInitial()) {
-    on<ChatsEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<ChatsTilePressed>(_chatsTilePressed);
+  }
+
+  void _chatsTilePressed(
+    ChatsTilePressed event,
+    Emitter<ChatsState> emit,
+  ) {
+    emit(ChatsRoomOpened(id: event.id));
   }
 }
