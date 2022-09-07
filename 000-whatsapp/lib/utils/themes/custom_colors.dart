@@ -20,9 +20,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color? onSecondary;
 
   /// Scaffold background color
-  final Color? surface;
-  final Color? onSurface;
-  final Color? onSurfaceMuted;
+  final Color? background;
+  final Color? onBackground;
+  final Color? onBackgroundMuted;
 
   const CustomColors({
     required this.chatsListTileTitle,
@@ -33,9 +33,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.onPrimary,
     required this.secondary,
     required this.onSecondary,
-    required this.surface,
-    required this.onSurface,
-    required this.onSurfaceMuted,
+    required this.background,
+    required this.onBackground,
+    required this.onBackgroundMuted,
   });
 
   @override
@@ -57,9 +57,10 @@ class CustomColors extends ThemeExtension<CustomColors> {
       onPrimary: Color.lerp(onPrimary, other.onPrimary, t),
       secondary: Color.lerp(secondary, other.secondary, t),
       onSecondary: Color.lerp(onSecondary, other.onSecondary, t),
-      surface: Color.lerp(surface, other.surface, t),
-      onSurface: Color.lerp(onSurface, other.onSurface, t),
-      onSurfaceMuted: Color.lerp(onSurfaceMuted, other.onSurfaceMuted, t),
+      background: Color.lerp(background, other.background, t),
+      onBackground: Color.lerp(onBackground, other.onBackground, t),
+      onBackgroundMuted:
+          Color.lerp(onBackgroundMuted, other.onBackgroundMuted, t),
     );
   }
 
@@ -77,9 +78,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? onPrimary,
     Color? secondary,
     Color? onSecondary,
-    Color? surface,
-    Color? onSurface,
-    Color? onSurfaceMuted,
+    Color? background,
+    Color? onBackground,
+    Color? onBackgroundMuted,
   }) {
     return CustomColors(
       chatsListTileTitle: chatsListTileTitle ?? this.chatsListTileTitle,
@@ -91,9 +92,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
       onPrimary: onPrimary ?? this.onPrimary,
       secondary: secondary ?? this.secondary,
       onSecondary: onSecondary ?? this.onSecondary,
-      surface: surface ?? this.surface,
-      onSurface: onSurface ?? this.onSurface,
-      onSurfaceMuted: onSurfaceMuted ?? this.onSurfaceMuted,
+      background: background ?? this.background,
+      onBackground: onBackground ?? this.onBackground,
+      onBackgroundMuted: onBackgroundMuted ?? this.onBackgroundMuted,
     );
   }
 }

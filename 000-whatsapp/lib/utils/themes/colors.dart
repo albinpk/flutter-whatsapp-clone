@@ -17,9 +17,9 @@ final lightThemeColors = CustomColors(
   onPrimary: Colors.white,
   secondary: isMobile ? const Color(0xFF008069) : const Color(0xFFF0F2F5),
   onSecondary: isMobile ? Colors.white : const Color(0xFF111B21),
-  surface: Colors.white,
-  onSurface: const Color(0xFF111B21),
-  onSurfaceMuted: const Color(0xFF667781),
+  background: Colors.white,
+  onBackground: const Color(0xFF111B21),
+  onBackgroundMuted: const Color(0xFF667781),
 );
 
 const darkThemeColors = CustomColors(
@@ -32,7 +32,7 @@ const darkThemeColors = CustomColors(
   onPrimary: Colors.white,
   secondary: Color(0xFF202C33),
   onSecondary: Color(0xFFE9EDEF), // home Color(0xFF8696A0),
-  surface: Color(0xFF111B21),
-  onSurface: Color(0xFFE9EDEF),
-  onSurfaceMuted: Color(0xFF8696A0),
+  background: Color(0xFF111B21),
+  onBackground: Color(0xFFE9EDEF),
+  onBackgroundMuted: Color(0xFF8696A0),
 );

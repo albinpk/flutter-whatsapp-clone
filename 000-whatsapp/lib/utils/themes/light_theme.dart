@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 final lightTheme = ThemeData(
-  scaffoldBackgroundColor: lightThemeColors.surface,
+  scaffoldBackgroundColor: lightThemeColors.background,
   indicatorColor: Colors.white,
   extensions: [lightThemeColors],
   colorScheme: _lightColorScheme,
