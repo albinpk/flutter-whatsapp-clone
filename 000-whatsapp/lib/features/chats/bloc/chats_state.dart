@@ -17,3 +17,7 @@ class ChatsRoomOpened extends ChatsState {
   @override
   List<Object> get props => [id];
 }
+
+class ChatsRoomClosed extends ChatsState {
+  const ChatsRoomClosed();
+}

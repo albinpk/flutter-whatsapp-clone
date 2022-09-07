@@ -7,6 +7,7 @@ part 'chats_state.dart';
 class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
   ChatsBloc() : super(ChatsInitial()) {
     on<ChatsTilePressed>(_chatsTilePressed);
+    on<ChatsScreenCloseButtonPressed>(_chatsScreenCloseButtonPressed);
   }
 
   void _chatsTilePressed(
@@ -14,5 +15,12 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     Emitter<ChatsState> emit,
   ) {
     emit(ChatsRoomOpened(id: event.id));
+  }
+
+  void _chatsScreenCloseButtonPressed(
+    ChatsScreenCloseButtonPressed event,
+    Emitter<ChatsState> emit,
+  ) {
+    emit(const ChatsRoomClosed());
   }
 }
