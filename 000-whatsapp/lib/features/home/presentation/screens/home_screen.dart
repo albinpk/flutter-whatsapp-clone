@@ -85,7 +85,7 @@ class _HomeScreenDesktop extends StatelessWidget {
                     builder: (context, state) {
                       if (state is ChatsRoomOpened) {
                         final user = context.read<List<User>>().singleWhere(
-                              (user) => user.id == state.id,
+                              (user) => user == state.user,
                             );
                         return RepositoryProvider.value(
                           value: user,

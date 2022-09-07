@@ -33,7 +33,7 @@ class _ChatsViewMobile extends StatelessWidget {
       listener: (context, state) {
         if (state is ChatsRoomOpened) {
           final user = context.read<List<User>>().singleWhere(
-                (user) => user.id == state.id,
+                (user) => user == state.user,
               );
           Navigator.of(context).push(
             MaterialPageRoute(

@@ -8,12 +8,12 @@ abstract class ChatsEvent extends Equatable {
 }
 
 class ChatsTilePressed extends ChatsEvent {
-  const ChatsTilePressed({required this.id});
+  const ChatsTilePressed({required this.user});
 
-  final int id;
+  final User user;
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [user];
 }
 
 class ChatsScreenCloseButtonPressed extends ChatsEvent {

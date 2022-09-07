@@ -10,12 +10,12 @@ abstract class ChatsState extends Equatable {
 class ChatsInitial extends ChatsState {}
 
 class ChatsRoomOpened extends ChatsState {
-  const ChatsRoomOpened({required this.id});
+  const ChatsRoomOpened({required this.user});
 
-  final int id;
+  final User user;
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [user];
 }
 
 class ChatsRoomClosed extends ChatsState {

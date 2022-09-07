@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/user_model.dart';
-import '../../../../utils/extensions/platform_type.dart';
 import '../../../../utils/themes/custom_colors.dart';
 import '../../bloc/chats_bloc.dart';
-import '../screens/chat_screen.dart';
 
 class ChatsListTile extends StatelessWidget {
   const ChatsListTile({super.key});
@@ -63,7 +61,7 @@ class ChatsListTile extends StatelessWidget {
       ),
       onTap: () {
         final user = context.read<User>();
-        return context.read<ChatsBloc>().add(ChatsTilePressed(id: user.id));
+        return context.read<ChatsBloc>().add(ChatsTilePressed(user: user));
       },
     );
   }

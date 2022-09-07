@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/user_model.dart';
+
 part 'chats_event.dart';
 part 'chats_state.dart';
 
@@ -14,7 +16,7 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     ChatsTilePressed event,
     Emitter<ChatsState> emit,
   ) {
-    emit(ChatsRoomOpened(id: event.id));
+    emit(ChatsRoomOpened(user: event.user));
   }
 
   void _chatsScreenCloseButtonPressed(
