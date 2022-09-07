@@ -63,17 +63,7 @@ class ChatsListTile extends StatelessWidget {
       ),
       onTap: () {
         final user = context.read<User>();
-        if (Theme.of(context).platform.isDesktop) {
-          return context.read<ChatsBloc>().add(ChatsTilePressed(id: user.id));
-        }
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => RepositoryProvider.value(
-              value: user,
-              child: const ChatScreen(),
-            ),
-          ),
-        );
+        return context.read<ChatsBloc>().add(ChatsTilePressed(id: user.id));
       },
     );
   }

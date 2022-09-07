@@ -50,7 +50,11 @@ class _Leading extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: InkWell(
-          onTap: Navigator.of(context).pop,
+          onTap: () {
+            context
+                .read<ChatsBloc>()
+                .add(const ChatsScreenCloseButtonPressed());
+          },
           borderRadius: BorderRadius.circular(50),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 3),
