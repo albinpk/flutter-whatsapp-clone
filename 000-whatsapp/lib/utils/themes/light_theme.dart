@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 final lightTheme = ThemeData(
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: lightThemeColors.surface,
   indicatorColor: Colors.white,
-  extensions: const [lightThemeColors],
+  extensions: [lightThemeColors],
   colorScheme: _lightColorScheme,
 );
 
-const _lightColorScheme = ColorScheme(
+final _lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   // AppBar
-  primary: Color(0xFF008069),
-  onPrimary: Colors.white,
+  primary: lightThemeColors.secondary!,
+  onPrimary: lightThemeColors.onSecondary!,
   // FAB
-  secondary: Color(0xFF00A884),
-  onSecondary: Colors.white,
+  secondary: lightThemeColors.primary!,
+  onSecondary: lightThemeColors.onPrimary!,
   // Others (not using)
   error: Colors.red,
   onError: Colors.white,
