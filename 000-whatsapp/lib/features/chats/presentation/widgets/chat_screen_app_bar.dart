@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
 import '../../bloc/chats_bloc.dart';
 
@@ -89,7 +90,7 @@ class _Title extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('User name'),
+            Text(context.select((User user) => user.name)),
             Text(
               'Last seen..',
               style: Theme.of(context).textTheme.bodySmall,

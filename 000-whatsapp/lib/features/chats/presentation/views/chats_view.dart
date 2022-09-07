@@ -82,6 +82,9 @@ class _FriendsListView extends StatelessWidget {
     final user = context
         .read<List<User>>()
         .singleWhere((user) => user.id == currentFriendId);
-    return ChatsListTile(user: user);
+    return RepositoryProvider.value(
+      value: user,
+      child: const ChatsListTile(),
+    );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
 import '../../../chats/bloc/chats_bloc.dart';
 import '../../../chats/presentation/screens/chat_screen.dart';
@@ -86,7 +87,13 @@ class _HomeScreenDesktop extends StatelessWidget {
                     },
                     builder: (context, state) {
                       if (state is ChatsRoomOpened) {
-                        return ChatScreen(id: state.id);
+                        final user = context.read<List<User>>().singleWhere(
+                              (user) => user.id == state.id,
+                            );
+                        return RepositoryProvider.value(
+                          value: user,
+                          child: const ChatScreen(),
+                        );
                       }
                       return const DefaultChatView();
                     },

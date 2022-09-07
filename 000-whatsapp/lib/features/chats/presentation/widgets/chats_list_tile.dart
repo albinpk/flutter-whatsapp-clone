@@ -8,12 +8,7 @@ import '../../bloc/chats_bloc.dart';
 import '../screens/chat_screen.dart';
 
 class ChatsListTile extends StatelessWidget {
-  const ChatsListTile({
-    super.key,
-    required this.user,
-  });
-
-  final User user;
+  const ChatsListTile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +18,7 @@ class ChatsListTile extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              user.name,
+              context.select((User user) => user.name),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w500,
                     color: CustomColors.of(context).chatsListTileTitle,
@@ -67,12 +62,16 @@ class ChatsListTile extends StatelessWidget {
         ),
       ),
       onTap: () {
+        final user = context.read<User>();
         if (Theme.of(context).platform.isDesktop) {
           return context.read<ChatsBloc>().add(ChatsTilePressed(id: user.id));
         }
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ChatScreen(id: user.id),
+            builder: (context) => RepositoryProvider.value(
+              value: user,
+              child: const ChatScreen(),
+            ),
           ),
         );
       },
