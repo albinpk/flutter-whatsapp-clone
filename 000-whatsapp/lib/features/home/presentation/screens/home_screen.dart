@@ -17,12 +17,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ChatsBloc(),
-      child: Theme.of(context).platform.isMobile
-          ? const _HomeScreenMobile()
-          : const _HomeScreenDesktop(),
-    );
+    return Theme.of(context).platform.isMobile
+        ? const _HomeScreenMobile()
+        : const _HomeScreenDesktop();
   }
 }
 
