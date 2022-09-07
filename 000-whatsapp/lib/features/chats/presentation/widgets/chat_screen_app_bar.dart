@@ -29,10 +29,7 @@ class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
             onPressed: () {},
             icon: const Icon(Icons.search),
           ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.more_vert),
-        ),
+        const _PopupMenu()
       ],
     );
   }
@@ -97,6 +94,24 @@ class _Title extends StatelessWidget {
             ),
           ],
         ),
+      ],
+    );
+  }
+}
+
+class _PopupMenu extends StatelessWidget {
+  const _PopupMenu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isDesktop = Theme.of(context).platform.isDesktop;
+    return PopupMenuButton(
+      itemBuilder: (context) => [
+        if (isDesktop)
+          PopupMenuItem(
+            onTap: () {},
+            child: const Text('Close chat'),
+          ),
       ],
     );
   }
