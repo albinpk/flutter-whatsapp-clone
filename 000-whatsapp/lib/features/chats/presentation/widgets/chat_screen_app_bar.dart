@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/extensions/platform_type.dart';
+import '../../bloc/chats_bloc.dart';
 
 class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
   const ChatScreenAppBar({Key? key}) : super(key: key);
@@ -109,7 +111,11 @@ class _PopupMenu extends StatelessWidget {
       itemBuilder: (context) => [
         if (isDesktop)
           PopupMenuItem(
-            onTap: () {},
+            onTap: () {
+              context
+                  .read<ChatsBloc>()
+                  .add(const ChatsScreenCloseButtonPressed());
+            },
             child: const Text('Close chat'),
           ),
       ],

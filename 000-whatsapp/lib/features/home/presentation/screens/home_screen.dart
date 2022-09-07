@@ -80,7 +80,9 @@ class _HomeScreenDesktop extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<ChatsBloc, ChatsState>(
                     buildWhen: (previous, current) {
-                      return current is ChatsRoomOpened && current != previous;
+                      return (current is ChatsRoomOpened ||
+                              current is ChatsRoomClosed) &&
+                          current != previous;
                     },
                     builder: (context, state) {
                       if (state is ChatsRoomOpened) {
