@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../dummy_data/app_user.dart';
 import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
 import '../widgets/chats_list_app_bar.dart';
@@ -58,7 +59,7 @@ class _FriendsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final friendsLength = context.select<User, int>(
+    final friendsLength = context.select<AppUser, int>(
       (user) => user.friends.length,
     );
     return Theme.of(context).platform.isMobile
@@ -77,7 +78,7 @@ class _FriendsListView extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    final currentFriendId = context.read<User>().friends[index];
+    final currentFriendId = context.read<AppUser>().friends[index];
     final user = context
         .read<List<User>>()
         .singleWhere((user) => user.id == currentFriendId);

@@ -15,7 +15,7 @@ class WhatsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<User>.value(value: appUser),
+        RepositoryProvider<AppUser>.value(value: appUser),
         RepositoryProvider<List<User>>.value(value: users),
       ],
       child: MaterialApp(
