@@ -18,6 +18,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
   /// InputArea (desktop)
   final Color? secondary;
   final Color? onSecondary;
+  final Color? onSecondaryMuted;
 
   /// Scaffold background color
   final Color? background;
@@ -33,6 +34,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.onPrimary,
     required this.secondary,
     required this.onSecondary,
+    required this.onSecondaryMuted,
     required this.background,
     required this.onBackground,
     required this.onBackgroundMuted,
@@ -57,6 +59,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       onPrimary: Color.lerp(onPrimary, other.onPrimary, t),
       secondary: Color.lerp(secondary, other.secondary, t),
       onSecondary: Color.lerp(onSecondary, other.onSecondary, t),
+      onSecondaryMuted: Color.lerp(onSecondaryMuted, other.onSecondaryMuted, t),
       background: Color.lerp(background, other.background, t),
       onBackground: Color.lerp(onBackground, other.onBackground, t),
       onBackgroundMuted:
@@ -78,6 +81,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? onPrimary,
     Color? secondary,
     Color? onSecondary,
+    Color? onSecondaryMuted,
     Color? background,
     Color? onBackground,
     Color? onBackgroundMuted,
@@ -92,6 +96,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       onPrimary: onPrimary ?? this.onPrimary,
       secondary: secondary ?? this.secondary,
       onSecondary: onSecondary ?? this.onSecondary,
+      onSecondaryMuted: onSecondaryMuted ?? this.onSecondaryMuted,
       background: background ?? this.background,
       onBackground: onBackground ?? this.onBackground,
       onBackgroundMuted: onBackgroundMuted ?? this.onBackgroundMuted,
