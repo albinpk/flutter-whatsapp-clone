@@ -15,3 +15,7 @@ class ChatsTilePressed extends ChatsEvent {
   @override
   List<Object> get props => [id];
 }
+
+class ChatsScreenCloseButtonPressed extends ChatsEvent {
+  const ChatsScreenCloseButtonPressed();
+}
