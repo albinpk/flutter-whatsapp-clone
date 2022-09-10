@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../views/contacts_view.dart';
+
 class NewChatSelectionScreen extends StatelessWidget {
   const NewChatSelectionScreen({super.key});
 
@@ -19,9 +21,7 @@ class NewChatSelectionScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Users list'),
-      ),
+      body: const ContactsView(),
     );
   }
 }
