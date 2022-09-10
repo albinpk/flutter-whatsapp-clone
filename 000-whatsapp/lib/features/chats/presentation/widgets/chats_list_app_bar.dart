@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../utils/themes/custom_colors.dart';
+
 class ChatsListAppBar extends StatelessWidget with PreferredSizeWidget {
   const ChatsListAppBar({super.key});
 
@@ -10,6 +12,11 @@ class ChatsListAppBar extends StatelessWidget with PreferredSizeWidget {
       leading: const Padding(
         padding: EdgeInsets.only(left: 15),
         child: CircleAvatar(),
+      ),
+      iconTheme: IconThemeData(
+        color: Theme.of(context).brightness == Brightness.light
+            ? CustomColors.of(context).onBackgroundMuted
+            : CustomColors.of(context).iconMuted,
       ),
       actions: [
         IconButton(

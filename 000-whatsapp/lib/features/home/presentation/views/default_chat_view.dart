@@ -8,17 +8,16 @@ class DefaultChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF222E35),
       body: Center(
         child: Column(
           children: [
             const Spacer(),
-            const SizedBox(
+            SizedBox(
               width: 300,
               child: FittedBox(
                 child: Icon(
                   Icons.laptop_mac,
-                  color: Color(0xFFDFF3ED),
+                  color: CustomColors.of(context).onBackgroundMuted,
                 ),
               ),
             ),
@@ -38,8 +37,8 @@ class DefaultChatView extends StatelessWidget {
               'and 1 phone at the same time.',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w200,
-                    color: Colors.grey,
+                    fontWeight: FontWeight.w400,
+                    color: CustomColors.of(context).onBackgroundMuted,
                     height: 1.4,
                   ),
             ),
@@ -47,7 +46,7 @@ class DefaultChatView extends StatelessWidget {
             Text(
               ' End-to-end Encrypted',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: CustomColors.of(context).onBackgroundMuted,
                   ),
             ),
             const SizedBox(height: 50),
@@ -55,7 +54,9 @@ class DefaultChatView extends StatelessWidget {
               height: 5,
               width: double.infinity,
               child: ColoredBox(
-                color: CustomColors.of(context).chatsListTileBadge!,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? const Color(0xFF25D366)
+                    : CustomColors.of(context).primary!,
               ),
             ),
           ],

@@ -19,7 +19,7 @@ class ChatsListTile extends StatelessWidget {
               context.select((User user) => user.name),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: CustomColors.of(context).chatsListTileTitle,
+                    color: CustomColors.of(context).onBackground,
                   ),
             ),
           ),
@@ -37,7 +37,7 @@ class ChatsListTile extends StatelessWidget {
               child: Text(
                 'Hi there!',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: CustomColors.of(context).chatsListTileSubtitle,
+                      color: CustomColors.of(context).onBackgroundMuted,
                     ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -45,7 +45,7 @@ class ChatsListTile extends StatelessWidget {
             IconTheme(
               data: IconTheme.of(context).copyWith(
                 size: 20,
-                color: CustomColors.of(context).chatsListTileIcon,
+                color: CustomColors.of(context).iconMuted,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -77,7 +77,9 @@ class _UnreadMessageBadge extends StatelessWidget {
       dimension: IconTheme.of(context).size,
       child: ClipOval(
         child: ColoredBox(
-          color: CustomColors.of(context).chatsListTileBadge!,
+          color: Theme.of(context).brightness == Brightness.light
+              ? const Color(0xFF25D366)
+              : CustomColors.of(context).primary!,
           child: Center(
             child: Text(
               '2',

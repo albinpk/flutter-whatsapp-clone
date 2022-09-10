@@ -19,6 +19,7 @@ class _MobileInputArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = CustomColors.of(context);
     return SizedBox(
       height: kBottomNavigationBarHeight,
       child: Padding(
@@ -30,10 +31,12 @@ class _MobileInputArea extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: ColoredBox(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.white
+                      : customColors.secondary!,
                   child: IconTheme(
                     data: IconThemeData(
-                      color: CustomColors.of(context).chatsListTileIcon,
+                      color: customColors.iconMuted,
                     ),
                     child: Row(
                       children: [
@@ -65,8 +68,11 @@ class _MobileInputArea extends StatelessWidget {
               aspectRatio: 1 / 1,
               child: ClipOval(
                 child: ColoredBox(
-                  color: CustomColors.of(context).chatsListTileBadge!,
-                  child: const Icon(Icons.mic),
+                  color: customColors.primary!,
+                  child: Icon(
+                    Icons.mic,
+                    color: customColors.onPrimary,
+                  ),
                 ),
               ),
             ),
@@ -85,39 +91,46 @@ class _DesktopInputArea extends StatelessWidget {
     return SizedBox(
       height: kBottomNavigationBarHeight + 5,
       child: ColoredBox(
-        color: const Color(0xFF202C33),
+        color: CustomColors.of(context).secondary!,
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.emoji_emotions_rounded),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.attach_file),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: const ColoredBox(
-                    color: Color(0xFF2A3942),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: _InputField(),
+          child: IconTheme(
+            data: IconThemeData(
+              color: CustomColors.of(context).onSecondaryMuted,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.emoji_emotions_rounded),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.attach_file),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: ColoredBox(
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.white
+                          : const Color(0xFF2A3942),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: _InputField(),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.mic),
-              ),
-            ],
+                const SizedBox(width: 10),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.mic),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -136,15 +149,18 @@ class _InputField extends StatelessWidget {
     return TextField(
       style: textTheme.titleMedium!.copyWith(
         fontSize: isMobile ? 18 : null,
-        fontWeight: isMobile ? null : FontWeight.w300,
+        fontWeight: isMobile
+            ? null
+            : Theme.of(context).brightness == Brightness.light
+                ? null
+                : FontWeight.w300,
       ),
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         hintText: isMobile ? 'Message' : ' Type a message',
         border: InputBorder.none,
       ),
-      cursorColor:
-          isMobile ? CustomColors.of(context).chatsListTileBadge : Colors.white,
+      cursorColor: isMobile ? CustomColors.of(context).primary : Colors.white,
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
+import '../../../../utils/themes/custom_colors.dart';
 import '../../bloc/chats_bloc.dart';
 
 class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -17,6 +18,9 @@ class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
       foregroundColor: Colors.white,
       leading: isMobile ? const _Leading() : null,
       title: const _Title(),
+      actionsIconTheme: IconThemeData(
+        color: CustomColors.of(context).onSecondary,
+      ),
       actions: [
         if (isMobile) ...[
           IconButton(
@@ -94,10 +98,17 @@ class _Title extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(context.select((User user) => user.name)),
+            Text(
+              context.select((User user) => user.name),
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: CustomColors.of(context).onSecondary,
+                  ),
+            ),
             Text(
               'Last seen..',
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: CustomColors.of(context).onSecondaryMuted,
+                  ),
             ),
           ],
         ),
