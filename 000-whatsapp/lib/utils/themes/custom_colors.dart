@@ -25,6 +25,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color? onBackground;
   final Color? onBackgroundMuted;
 
+  /// Icon color
+  final Color? iconMuted;
+
   const CustomColors({
     required this.chatsListTileTitle,
     required this.chatsListTileSubtitle,
@@ -38,6 +41,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.background,
     required this.onBackground,
     required this.onBackgroundMuted,
+    required this.iconMuted,
   });
 
   @override
@@ -64,6 +68,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       onBackground: Color.lerp(onBackground, other.onBackground, t),
       onBackgroundMuted:
           Color.lerp(onBackgroundMuted, other.onBackgroundMuted, t),
+      iconMuted: Color.lerp(iconMuted, other.iconMuted, t),
     );
   }
 
@@ -85,6 +90,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? background,
     Color? onBackground,
     Color? onBackgroundMuted,
+    Color? iconMuted,
   }) {
     return CustomColors(
       chatsListTileTitle: chatsListTileTitle ?? this.chatsListTileTitle,
@@ -100,6 +106,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       background: background ?? this.background,
       onBackground: onBackground ?? this.onBackground,
       onBackgroundMuted: onBackgroundMuted ?? this.onBackgroundMuted,
+      iconMuted: iconMuted ?? this.iconMuted,
     );
   }
 }

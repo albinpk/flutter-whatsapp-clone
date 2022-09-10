@@ -22,6 +22,7 @@ final lightThemeColors = CustomColors(
   background: Colors.white,
   onBackground: const Color(0xFF111B21),
   onBackgroundMuted: const Color(0xFF667781),
+  iconMuted: const Color(0xFF8696A0),
 );
 
 final darkThemeColors = CustomColors(
@@ -39,4 +40,5 @@ final darkThemeColors = CustomColors(
   background: const Color(0xFF111B21),
   onBackground: const Color(0xFFE9EDEF),
   onBackgroundMuted: const Color(0xFF8696A0),
+  iconMuted: const Color(0xFF8696A0),
 );
