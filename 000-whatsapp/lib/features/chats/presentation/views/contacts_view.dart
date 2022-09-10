@@ -12,7 +12,7 @@ class ContactsView extends StatelessWidget {
     final users = context.select((List<User> users) => users);
     return ListView.builder(
       padding: const EdgeInsets.only(top: 6),
-      itemCount: users.length + 2,
+      itemCount: users.length + 2, // +2 for top and bottom button groups
       // itemExtent: 68,
       itemBuilder: (context, index) {
         if (index == 0) {
@@ -51,6 +51,7 @@ class _TopButtonGroup extends StatelessWidget {
           trailing: IconButton(
             onPressed: () {},
             icon: const Icon(Icons.qr_code),
+            color: CustomColors.of(context).iconMuted,
           ),
         ),
         Padding(
@@ -115,8 +116,9 @@ class _ExtraButton extends StatelessWidget {
     return ListTile(
       minVerticalPadding: 25,
       leading: CircleAvatar(
-        backgroundColor:
-            isLite ? customColors.onSecondaryMuted : customColors.primary,
+        backgroundColor: isLite
+            ? customColors.iconMuted!.withOpacity(0.2)
+            : customColors.primary,
         foregroundColor:
             isLite ? customColors.iconMuted : customColors.onPrimary,
         child: Icon(iconData),
