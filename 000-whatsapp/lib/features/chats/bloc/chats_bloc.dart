@@ -10,6 +10,8 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
   ChatsBloc() : super(ChatsInitial()) {
     on<ChatsTilePressed>(_chatsTilePressed);
     on<ChatsScreenCloseButtonPressed>(_chatsScreenCloseButtonPressed);
+    on<ChatsNewChatButtonPressed>(_newChatButtonPressed);
+    on<ChatsContactsScreenPopped>(_contactScreenPopped);
   }
 
   void _chatsTilePressed(
@@ -24,5 +26,19 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     Emitter<ChatsState> emit,
   ) {
     emit(const ChatsRoomClosed());
+  }
+
+  void _newChatButtonPressed(
+    ChatsNewChatButtonPressed event,
+    Emitter<ChatsState> emit,
+  ) {
+    emit(const ChatsContactListOpened());
+  }
+
+  void _contactScreenPopped(
+    ChatsContactsScreenPopped event,
+    Emitter<ChatsState> emit,
+  ) {
+    emit(const ChatsContactListClosed());
   }
 }

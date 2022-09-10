@@ -19,3 +19,11 @@ class ChatsTilePressed extends ChatsEvent {
 class ChatsScreenCloseButtonPressed extends ChatsEvent {
   const ChatsScreenCloseButtonPressed();
 }
+
+class ChatsNewChatButtonPressed extends ChatsEvent {
+  const ChatsNewChatButtonPressed();
+}
+
+class ChatsContactsScreenPopped extends ChatsEvent {
+  const ChatsContactsScreenPopped();
+}

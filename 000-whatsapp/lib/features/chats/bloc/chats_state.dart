@@ -21,3 +21,11 @@ class ChatsRoomOpened extends ChatsState {
 class ChatsRoomClosed extends ChatsState {
   const ChatsRoomClosed();
 }
+
+class ChatsContactListOpened extends ChatsState {
+  const ChatsContactListOpened();
+}
+
+class ChatsContactListClosed extends ChatsState {
+  const ChatsContactListClosed();
+}
