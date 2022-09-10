@@ -20,44 +20,58 @@ class _MobileInputArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
+    final boxDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(100),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black26,
+          blurRadius: 1,
+          offset: Offset(0, 0.5),
+        )
+      ],
+    );
+
     return SizedBox(
       height: kBottomNavigationBarHeight,
       child: Padding(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(5).copyWith(top: 4, bottom: 6),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: ColoredBox(
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.white
-                      : customColors.secondary!,
-                  child: IconTheme(
-                    data: IconThemeData(
-                      color: customColors.iconMuted,
-                    ),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.emoji_emotions_rounded),
-                        ),
-                        const Expanded(child: _InputField()),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.attach_file),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.currency_rupee),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.camera_alt),
-                        ),
-                      ],
+              child: DecoratedBox(
+                decoration: boxDecoration,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: ColoredBox(
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.white
+                        : customColors.secondary!,
+                    child: IconTheme(
+                      data: IconThemeData(
+                        color: customColors.iconMuted,
+                      ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.emoji_emotions_rounded),
+                          ),
+                          const Expanded(child: _InputField()),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.attach_file),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.currency_rupee),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.camera_alt),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -66,12 +80,15 @@ class _MobileInputArea extends StatelessWidget {
             const SizedBox(width: 4),
             AspectRatio(
               aspectRatio: 1 / 1,
-              child: ClipOval(
-                child: ColoredBox(
-                  color: customColors.primary!,
-                  child: Icon(
-                    Icons.mic,
-                    color: customColors.onPrimary,
+              child: DecoratedBox(
+                decoration: boxDecoration,
+                child: ClipOval(
+                  child: ColoredBox(
+                    color: customColors.primary!,
+                    child: Icon(
+                      Icons.mic,
+                      color: customColors.onPrimary,
+                    ),
                   ),
                 ),
               ),
