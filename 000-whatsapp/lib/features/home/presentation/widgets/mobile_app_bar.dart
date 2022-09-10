@@ -21,7 +21,6 @@ class MobileAppBar extends StatelessWidget {
       floating: true,
       pinned: true,
       snap: true,
-      elevation: 1,
       forceElevated: true,
       actions: [
         IconButton(

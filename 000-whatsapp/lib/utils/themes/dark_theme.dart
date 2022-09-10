@@ -5,6 +5,7 @@ import 'colors.dart';
 final darkTheme = ThemeData(
   scaffoldBackgroundColor: darkThemeColors.background,
   indicatorColor: darkThemeColors.primary,
+  appBarTheme: const AppBarTheme(elevation: 1),
   popupMenuTheme: PopupMenuThemeData(
     color: darkThemeColors.secondary,
   ),
