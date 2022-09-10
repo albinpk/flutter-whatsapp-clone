@@ -5,6 +5,9 @@ import 'colors.dart';
 final lightTheme = ThemeData(
   scaffoldBackgroundColor: lightThemeColors.background,
   indicatorColor: Colors.white,
+  popupMenuTheme: PopupMenuThemeData(
+    color: isMobile ? Colors.white : lightThemeColors.secondary,
+  ),
   extensions: [lightThemeColors],
   colorScheme: _lightColorScheme,
 );
