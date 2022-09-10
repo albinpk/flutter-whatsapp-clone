@@ -177,7 +177,10 @@ class _InputField extends StatelessWidget {
         hintText: isMobile ? 'Message' : ' Type a message',
         border: InputBorder.none,
       ),
-      cursorColor: isMobile ? CustomColors.of(context).primary : Colors.white,
+      cursorColor: isMobile
+          ? CustomColors.of(context).primary
+          : CustomColors.of(context).onBackground,
+      cursorWidth: isMobile ? 2 : 1,
     );
   }
 }
