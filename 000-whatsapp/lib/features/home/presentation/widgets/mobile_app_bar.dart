@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../utils/themes/custom_colors.dart';
+
 class MobileAppBar extends StatelessWidget {
   const MobileAppBar({super.key});
 
@@ -12,6 +14,9 @@ class MobileAppBar extends StatelessWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
+      foregroundColor: theme.brightness == Brightness.dark
+          ? CustomColors.of(context).onBackgroundMuted
+          : null,
       title: const Text('WhatsApp'),
       floating: true,
       pinned: true,
@@ -34,9 +39,9 @@ class MobileAppBar extends StatelessWidget {
         labelStyle: theme.textTheme.bodyLarge!.copyWith(
           fontWeight: FontWeight.bold,
         ),
-        unselectedLabelColor: theme.brightness == Brightness.light
-            ? null
-            : theme.colorScheme.onSurface,
+        unselectedLabelColor: theme.brightness == Brightness.dark
+            ? CustomColors.of(context).onBackgroundMuted
+            : null,
         tabs: const [
           Tab(child: Text('CHATS')),
           Tab(child: Text('STATUS')),
