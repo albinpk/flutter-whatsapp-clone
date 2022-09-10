@@ -29,26 +29,49 @@ class _HomeScreenMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (context, _) => [
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: const MobileAppBar(),
+    return BlocListener<ChatsBloc, ChatsState>(
+      listenWhen: (previous, current) {
+        return (current is ChatsRoomOpened || current is ChatsRoomClosed) &&
+            current != previous;
+      },
+      listener: (context, state) {
+        if (state is ChatsRoomOpened) {
+          final user = context.read<List<User>>().singleWhere(
+                (user) => user == state.user,
+              );
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => RepositoryProvider.value(
+                value: user,
+                child: const ChatScreen(),
+              ),
             ),
-          ],
-          body: const TabBarView(
-            children: [
-              ChatsView(),
-              Center(child: Text('STATUS')),
-              Center(child: Text('CALLS')),
+          );
+        } else if (state is ChatsRoomClosed) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          body: NestedScrollView(
+            headerSliverBuilder: (context, _) => [
+              SliverOverlapAbsorber(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: const MobileAppBar(),
+              ),
             ],
+            body: const TabBarView(
+              children: [
+                ChatsView(),
+                Center(child: Text('STATUS')),
+                Center(child: Text('CALLS')),
+              ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.message),
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.message),
           onPressed: () {},
         ),
       ),

@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../dummy_data/app_user.dart';
 import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
-import '../../bloc/chats_bloc.dart';
-import '../screens/chat_screen.dart';
 import '../widgets/chats_list_app_bar.dart';
 import '../widgets/chats_list_tile.dart';
 
@@ -25,43 +23,20 @@ class _ChatsViewMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChatsBloc, ChatsState>(
-      listenWhen: (previous, current) {
-        return (current is ChatsRoomOpened || current is ChatsRoomClosed) &&
-            current != previous;
-      },
-      listener: (context, state) {
-        if (state is ChatsRoomOpened) {
-          final user = context.read<List<User>>().singleWhere(
-                (user) => user == state.user,
-              );
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => RepositoryProvider.value(
-                value: user,
-                child: const ChatScreen(),
-              ),
-            ),
-          );
-        } else if (state is ChatsRoomClosed) {
-          Navigator.of(context).pop();
-        }
-      },
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: CustomScrollView(
-          key: const PageStorageKey('chats-view-key'),
-          slivers: [
-            SliverOverlapInjector(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            ),
-            const SliverPadding(
-              padding: EdgeInsets.only(top: 6, bottom: 83),
-              sliver: _FriendsListView(),
-            ),
-          ],
-        ),
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: CustomScrollView(
+        key: const PageStorageKey('chats-view-key'),
+        slivers: [
+          SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+          const SliverPadding(
+            padding: EdgeInsets.only(top: 6, bottom: 83),
+            sliver: _FriendsListView(),
+          ),
+        ],
       ),
     );
   }
