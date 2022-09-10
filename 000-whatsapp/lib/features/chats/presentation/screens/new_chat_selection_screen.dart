@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../bloc/chats_bloc.dart';
 import '../views/contacts_view.dart';
 
 class NewChatSelectionScreen extends StatelessWidget {
@@ -9,6 +11,12 @@ class NewChatSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.read<ChatsBloc>().add(const ChatsContactsScreenPopped());
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text('Select contact'),
         actions: [
           IconButton(

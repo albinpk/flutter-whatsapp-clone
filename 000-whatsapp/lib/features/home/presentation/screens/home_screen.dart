@@ -7,6 +7,7 @@ import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
 import '../../../chats/bloc/chats_bloc.dart';
 import '../../../chats/presentation/screens/chat_screen.dart';
+import '../../../chats/presentation/screens/new_chat_selection_screen.dart';
 import '../../../chats/presentation/views/chats_view.dart';
 import '../views/default_chat_view.dart';
 import '../widgets/mobile_app_bar.dart';
@@ -73,7 +74,18 @@ class _HomeScreenDesktop extends StatelessWidget {
               children: [
                 SizedBox(
                   width: _calculateWidth(constrains.maxWidth),
-                  child: const ChatsView(),
+                  child: BlocBuilder<ChatsBloc, ChatsState>(
+                    buildWhen: (previous, current) {
+                      return current is ChatsContactListOpened ||
+                          current is ChatsContactListClosed;
+                    },
+                    builder: (context, state) {
+                      if (state is ChatsContactListOpened) {
+                        return const NewChatSelectionScreen();
+                      }
+                      return const ChatsView();
+                    },
+                  ),
                 ),
                 Expanded(
                   child: BlocBuilder<ChatsBloc, ChatsState>(

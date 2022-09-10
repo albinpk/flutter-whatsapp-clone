@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/themes/custom_colors.dart';
+import '../../bloc/chats_bloc.dart';
 
 class ChatsListAppBar extends StatelessWidget with PreferredSizeWidget {
   const ChatsListAppBar({super.key});
@@ -25,7 +27,9 @@ class ChatsListAppBar extends StatelessWidget with PreferredSizeWidget {
           padding: actionsIconPadding,
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            context.read<ChatsBloc>().add(const ChatsNewChatButtonPressed());
+          },
           icon: const Icon(Icons.message),
           padding: actionsIconPadding,
         ),
