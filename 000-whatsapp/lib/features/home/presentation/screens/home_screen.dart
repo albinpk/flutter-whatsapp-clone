@@ -31,7 +31,10 @@ class _HomeScreenMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ChatsBloc, ChatsState>(
       listenWhen: (previous, current) {
-        return (current is ChatsRoomOpened || current is ChatsRoomClosed) &&
+        return (current is ChatsRoomOpened ||
+                current is ChatsRoomClosed ||
+                current is ChatsContactListOpened ||
+                current is ChatsContactListClosed) &&
             current != previous;
       },
       listener: (context, state) {
@@ -48,6 +51,12 @@ class _HomeScreenMobile extends StatelessWidget {
             ),
           );
         } else if (state is ChatsRoomClosed) {
+          Navigator.of(context).pop();
+        } else if (state is ChatsContactListOpened) {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const NewChatSelectionScreen(),
+          ));
+        } else if (state is ChatsContactListClosed) {
           Navigator.of(context).pop();
         }
       },
@@ -72,7 +81,10 @@ class _HomeScreenMobile extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.message),
-          onPressed: () {},
+            onPressed: () {
+              context.read<ChatsBloc>().add(const ChatsNewChatButtonPressed());
+            },
+          ),
         ),
       ),
     );

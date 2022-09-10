@@ -9,27 +9,33 @@ class NewChatSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            context.read<ChatsBloc>().add(const ChatsContactsScreenPopped());
-          },
-          icon: const Icon(Icons.arrow_back),
+    return WillPopScope(
+      onWillPop: () async {
+        context.read<ChatsBloc>().add(const ChatsContactsScreenPopped());
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              context.read<ChatsBloc>().add(const ChatsContactsScreenPopped());
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
+          title: const Text('Select contact'),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.more_vert),
+            ),
+          ],
         ),
-        title: const Text('Select contact'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert),
-          ),
-        ],
+        body: const ContactsView(),
       ),
-      body: const ContactsView(),
     );
   }
 }
