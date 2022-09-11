@@ -1,9 +1,10 @@
+import 'package:uuid/uuid.dart';
+
 import '../models/user_model.dart';
 
-const appUser = AppUser(
-  id: -1,
+final appUser = AppUser(
+  id: const Uuid().v4(),
   name: 'John Doe',
-  friends: [2, 4, 5],
 );
 
 class AppUser extends User {
