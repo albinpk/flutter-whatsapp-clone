@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../dummy_data/app_user.dart';
 import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
+import '../../../../utils/themes/custom_colors.dart';
 import '../widgets/friends_list_app_bar_desktop.dart';
 import '../widgets/friends_list_tile.dart';
 
@@ -32,10 +33,16 @@ class _FriendsViewMobile extends StatelessWidget {
           SliverOverlapInjector(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          const SliverPadding(
-            padding: EdgeInsets.only(top: 6, bottom: 83),
-            sliver: _FriendsListView(),
-          ),
+          if (context.select((AppUser user) => user.friends.isEmpty))
+            const SliverFillRemaining(
+              hasScrollBody: false,
+              child: _NoFriendsFound(),
+            )
+          else
+            const SliverPadding(
+              padding: EdgeInsets.only(top: 6, bottom: 83),
+              sliver: _FriendsListView(),
+            ),
         ],
       ),
     );
@@ -47,9 +54,11 @@ class _FriendsViewDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: FriendsListAppBarDesktop(),
-      body: _FriendsListView(),
+    return Scaffold(
+      appBar: const FriendsListAppBarDesktop(),
+      body: context.select((AppUser user) => user.friends.isEmpty)
+          ? const _NoFriendsFound()
+          : const _FriendsListView(),
     );
   }
 }
@@ -85,6 +94,22 @@ class _FriendsListView extends StatelessWidget {
     return RepositoryProvider.value(
       value: user,
       child: const FriendsListTile(),
+    );
+  }
+}
+
+class _NoFriendsFound extends StatelessWidget {
+  const _NoFriendsFound({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'Start new chat',
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: CustomColors.of(context).onBackgroundMuted,
+            ),
+      ),
     );
   }
 }
