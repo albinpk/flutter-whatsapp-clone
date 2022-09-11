@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
+import '../../../../utils/themes/custom_colors.dart';
 import '../../../chats/bloc/chats_bloc.dart';
 import '../../../chats/presentation/screens/chat_screen.dart';
 import '../../../chats/presentation/screens/new_chat_selection_screen.dart';
@@ -91,53 +92,58 @@ class _HomeScreenDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Center(
-      child: BothAxisScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: max(min(screenSize.width, 1600), 750),
-            maxHeight: max(screenSize.height, 510),
-          ),
-          child: LayoutBuilder(
-            builder: (context, constrains) => Row(
-              children: [
-                SizedBox(
-                  width: _calculateWidth(constrains.maxWidth),
-                  child: BlocBuilder<ChatsBloc, ChatsState>(
-                    buildWhen: (previous, current) {
-                      return current is ChatsContactListOpened ||
-                          current is ChatsContactListClosed;
-                    },
-                    builder: (context, state) {
-                      if (state is ChatsContactListOpened) {
-                        return const NewChatSelectionScreen();
-                      }
-                      return const ChatsView();
-                    },
+    return ColoredBox(
+      color: Theme.of(context).brightness == Brightness.light
+          ? Colors.grey.shade300
+          : CustomColors.of(context).background!,
+      child: Center(
+        child: BothAxisScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: max(min(screenSize.width, 1600), 750),
+              maxHeight: max(screenSize.height, 510),
+            ),
+            child: LayoutBuilder(
+              builder: (context, constrains) => Row(
+                children: [
+                  SizedBox(
+                    width: _calculateWidth(constrains.maxWidth),
+                    child: BlocBuilder<ChatsBloc, ChatsState>(
+                      buildWhen: (previous, current) {
+                        return current is ChatsContactListOpened ||
+                            current is ChatsContactListClosed;
+                      },
+                      builder: (context, state) {
+                        if (state is ChatsContactListOpened) {
+                          return const NewChatSelectionScreen();
+                        }
+                        return const ChatsView();
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: BlocBuilder<ChatsBloc, ChatsState>(
-                    buildWhen: (previous, current) {
-                      return (current is ChatsRoomOpened ||
-                              current is ChatsRoomClosed) &&
-                          current != previous;
-                    },
-                    builder: (context, state) {
-                      if (state is ChatsRoomOpened) {
-                        final user = context.read<List<User>>().singleWhere(
-                              (user) => user == state.user,
-                            );
-                        return RepositoryProvider.value(
-                          value: user,
-                          child: const ChatScreen(),
-                        );
-                      }
-                      return const DefaultChatView();
-                    },
+                  Expanded(
+                    child: BlocBuilder<ChatsBloc, ChatsState>(
+                      buildWhen: (previous, current) {
+                        return (current is ChatsRoomOpened ||
+                                current is ChatsRoomClosed) &&
+                            current != previous;
+                      },
+                      builder: (context, state) {
+                        if (state is ChatsRoomOpened) {
+                          final user = context.read<List<User>>().singleWhere(
+                                (user) => user == state.user,
+                              );
+                          return RepositoryProvider.value(
+                            value: user,
+                            child: const ChatScreen(),
+                          );
+                        }
+                        return const DefaultChatView();
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
