@@ -101,8 +101,8 @@ class _HomeScreenDesktop extends StatelessWidget {
       child: BothAxisScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxWidth: max(min(screenSize.width, 1600), 850),
-            maxHeight: max(screenSize.height, 600),
+            maxWidth: max(min(screenSize.width, 1600), 750),
+            maxHeight: max(screenSize.height, 510),
           ),
           child: LayoutBuilder(
             builder: (context, constrains) => Row(
