@@ -5,8 +5,8 @@ import '../../../../models/user_model.dart';
 import '../../../../utils/themes/custom_colors.dart';
 import '../../bloc/chats_bloc.dart';
 
-class ChatsListTile extends StatelessWidget {
-  const ChatsListTile({super.key});
+class FriendsListTile extends StatelessWidget {
+  const FriendsListTile({super.key});
 
   @override
   Widget build(BuildContext context) {

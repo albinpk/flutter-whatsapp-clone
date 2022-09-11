@@ -8,8 +8,8 @@ import '../../../../utils/extensions/platform_type.dart';
 import '../../../../utils/themes/custom_colors.dart';
 import '../../../chats/bloc/chats_bloc.dart';
 import '../../../chats/presentation/screens/chat_screen.dart';
-import '../../../chats/presentation/screens/new_chat_selection_screen.dart';
-import '../../../chats/presentation/views/chats_view.dart';
+import '../../../chats/presentation/screens/users_screen.dart';
+import '../../../chats/presentation/views/friends_view.dart';
 import '../views/default_chat_view.dart';
 import '../widgets/mobile_app_bar.dart';
 import '../widgets/both_axis_scroll_view.dart';
@@ -51,7 +51,7 @@ class _HomeScreenMobile extends StatelessWidget {
           );
         } else if (state is ChatsContactListOpened) {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const NewChatSelectionScreen(),
+            builder: (context) => const UsersScreen(),
           ));
         }
       },
@@ -68,7 +68,7 @@ class _HomeScreenMobile extends StatelessWidget {
             ],
             body: const TabBarView(
               children: [
-                ChatsView(),
+                FriendsView(),
                 Center(child: Text('STATUS')),
                 Center(child: Text('CALLS')),
               ],
@@ -118,9 +118,9 @@ class _HomeScreenDesktop extends StatelessWidget {
                       },
                       builder: (context, state) {
                         if (state is ChatsContactListOpened) {
-                          return const NewChatSelectionScreen();
+                          return const UsersScreen();
                         }
-                        return const ChatsView();
+                        return const FriendsView();
                       },
                     ),
                   ),

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../models/user_model.dart';
 import '../../bloc/chats_bloc.dart';
 import '../widgets/chat_screen_app_bar.dart';
-import '../widgets/chat_screen_input_area.dart';
+import '../widgets/chat_input_area.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -27,7 +27,7 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const ChatScreenInputArea(),
+            const ChatInputArea(),
           ],
         ),
       ),

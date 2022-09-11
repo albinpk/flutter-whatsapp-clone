@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../models/user_model.dart';
 import '../../../../utils/themes/custom_colors.dart';
 
-class ContactsView extends StatelessWidget {
-  const ContactsView({super.key});
+class UsersView extends StatelessWidget {
+  const UsersView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import '../../../../utils/extensions/platform_type.dart';
 import '../../../../utils/themes/custom_colors.dart';
 
-class ChatScreenInputArea extends StatelessWidget {
-  const ChatScreenInputArea({super.key});
+class ChatInputArea extends StatelessWidget {
+  const ChatInputArea({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Theme.of(context).platform.isMobile
-        ? const _MobileInputArea()
-        : const _DesktopInputArea();
+        ? const _ChatInputAreaMobile()
+        : const _ChatInputAreaDesktop();
   }
 }
 
-class _MobileInputArea extends StatelessWidget {
-  const _MobileInputArea({Key? key}) : super(key: key);
+class _ChatInputAreaMobile extends StatelessWidget {
+  const _ChatInputAreaMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _MobileInputArea extends StatelessWidget {
                             onPressed: () {},
                             icon: const Icon(Icons.emoji_emotions_rounded),
                           ),
-                          const Expanded(child: _InputField()),
+                          const Expanded(child: _ChatTextField()),
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.attach_file),
@@ -100,8 +100,8 @@ class _MobileInputArea extends StatelessWidget {
   }
 }
 
-class _DesktopInputArea extends StatelessWidget {
-  const _DesktopInputArea({Key? key}) : super(key: key);
+class _ChatInputAreaDesktop extends StatelessWidget {
+  const _ChatInputAreaDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +136,7 @@ class _DesktopInputArea extends StatelessWidget {
                           : const Color(0xFF2A3942),
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: _InputField(),
+                        child: _ChatTextField(),
                       ),
                     ),
                   ),
@@ -155,8 +155,8 @@ class _DesktopInputArea extends StatelessWidget {
   }
 }
 
-class _InputField extends StatelessWidget {
-  const _InputField({Key? key}) : super(key: key);
+class _ChatTextField extends StatelessWidget {
+  const _ChatTextField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

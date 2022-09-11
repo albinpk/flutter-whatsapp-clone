@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../utils/themes/custom_colors.dart';
 import '../../bloc/chats_bloc.dart';
 
-class ChatsListAppBar extends StatelessWidget with PreferredSizeWidget {
-  const ChatsListAppBar({super.key});
+class FriendsListAppBarDesktop extends StatelessWidget
+    with PreferredSizeWidget {
+  const FriendsListAppBarDesktop({super.key});
 
   @override
   Widget build(BuildContext context) {

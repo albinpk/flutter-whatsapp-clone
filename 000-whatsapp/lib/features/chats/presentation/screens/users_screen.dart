@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/chats_bloc.dart';
-import '../views/contacts_view.dart';
+import '../views/users_view.dart';
 
-class NewChatSelectionScreen extends StatelessWidget {
-  const NewChatSelectionScreen({super.key});
+class UsersScreen extends StatelessWidget {
+  const UsersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class NewChatSelectionScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: const ContactsView(),
+        body: const UsersView(),
       ),
     );
   }

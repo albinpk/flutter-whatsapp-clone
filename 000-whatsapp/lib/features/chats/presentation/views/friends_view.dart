@@ -4,22 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../dummy_data/app_user.dart';
 import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
-import '../widgets/chats_list_app_bar.dart';
-import '../widgets/chats_list_tile.dart';
+import '../widgets/friends_list_app_bar_desktop.dart';
+import '../widgets/friends_list_tile.dart';
 
-class ChatsView extends StatelessWidget {
-  const ChatsView({super.key});
+class FriendsView extends StatelessWidget {
+  const FriendsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Theme.of(context).platform.isMobile
-        ? const _ChatsViewMobile()
-        : const _ChatsViewDesktop();
+        ? const _FriendsViewMobile()
+        : const _FriendsViewDesktop();
   }
 }
 
-class _ChatsViewMobile extends StatelessWidget {
-  const _ChatsViewMobile({Key? key}) : super(key: key);
+class _FriendsViewMobile extends StatelessWidget {
+  const _FriendsViewMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +42,13 @@ class _ChatsViewMobile extends StatelessWidget {
   }
 }
 
-class _ChatsViewDesktop extends StatelessWidget {
-  const _ChatsViewDesktop({Key? key}) : super(key: key);
+class _FriendsViewDesktop extends StatelessWidget {
+  const _FriendsViewDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: ChatsListAppBar(),
+      appBar: FriendsListAppBarDesktop(),
       body: _FriendsListView(),
     );
   }
@@ -84,7 +84,7 @@ class _FriendsListView extends StatelessWidget {
         .singleWhere((user) => user.id == currentFriendId);
     return RepositoryProvider.value(
       value: user,
-      child: const ChatsListTile(),
+      child: const FriendsListTile(),
     );
   }
 }
