@@ -92,6 +92,7 @@ class _HomeScreenDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    const padding = 20.0;
     final mainView = Center(
       child: BothAxisScrollView(
         child: ConstrainedBox(
@@ -101,8 +102,8 @@ class _HomeScreenDesktop extends StatelessWidget {
           ),
           child: Padding(
             padding: screenSize.width > 1440
-                ? const EdgeInsets.all(20).copyWith(
-                    bottom: screenSize.height > 510 ? 20 : 0,
+                ? const EdgeInsets.all(padding).copyWith(
+                    bottom: screenSize.height > 510 ? padding : 0,
                   )
                 : EdgeInsets.zero,
             child: LayoutBuilder(
@@ -160,7 +161,7 @@ class _HomeScreenDesktop extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
-                height: kToolbarHeight * 2 + 20,
+                height: min(screenSize.height, kToolbarHeight * 2 + padding),
                 child: ColoredBox(
                   color: CustomColors.of(context).primary!,
                 ),
