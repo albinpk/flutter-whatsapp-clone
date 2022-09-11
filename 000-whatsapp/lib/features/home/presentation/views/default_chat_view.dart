@@ -21,7 +21,6 @@ class DefaultChatView extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 30),
             Text(
               'WhatsApp Web',
               style: Theme.of(context)
@@ -49,7 +48,7 @@ class DefaultChatView extends StatelessWidget {
                     color: CustomColors.of(context).onBackgroundMuted,
                   ),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             SizedBox(
               height: 5,
               width: double.infinity,
