@@ -92,70 +92,95 @@ class _HomeScreenDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return ColoredBox(
-      color: Theme.of(context).brightness == Brightness.light
-          ? Colors.grey.shade300
-          : CustomColors.of(context).background!,
-      child: Center(
-        child: BothAxisScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: max(min(screenSize.width, 1600), 750),
-              maxHeight: max(screenSize.height, 510),
-            ),
-            child: Padding(
-              padding: screenSize.width > 1440
-                  ? const EdgeInsets.all(20).copyWith(
-                      bottom: screenSize.height > 510 ? 20 : 0,
-                    )
-                  : EdgeInsets.zero,
-              child: LayoutBuilder(
-                builder: (context, constrains) => Row(
-                  children: [
-                    SizedBox(
-                      width: _calculateWidth(constrains.maxWidth),
-                      child: BlocBuilder<ChatsBloc, ChatsState>(
-                        buildWhen: (previous, current) {
-                          return current is ChatsContactListOpened ||
-                              current is ChatsContactListClosed;
-                        },
-                        builder: (context, state) {
-                          if (state is ChatsContactListOpened) {
-                            return const NewChatSelectionScreen();
-                          }
-                          return const ChatsView();
-                        },
-                      ),
+    final mainView = Center(
+      child: BothAxisScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: max(min(screenSize.width, 1600), 750),
+            maxHeight: max(screenSize.height, 510),
+          ),
+          child: Padding(
+            padding: screenSize.width > 1440
+                ? const EdgeInsets.all(20).copyWith(
+                    bottom: screenSize.height > 510 ? 20 : 0,
+                  )
+                : EdgeInsets.zero,
+            child: LayoutBuilder(
+              builder: (context, constrains) => Row(
+                children: [
+                  SizedBox(
+                    width: _calculateWidth(constrains.maxWidth),
+                    child: BlocBuilder<ChatsBloc, ChatsState>(
+                      buildWhen: (previous, current) {
+                        return current is ChatsContactListOpened ||
+                            current is ChatsContactListClosed;
+                      },
+                      builder: (context, state) {
+                        if (state is ChatsContactListOpened) {
+                          return const NewChatSelectionScreen();
+                        }
+                        return const ChatsView();
+                      },
                     ),
-                    Expanded(
-                      child: BlocBuilder<ChatsBloc, ChatsState>(
-                        buildWhen: (previous, current) {
-                          return (current is ChatsRoomOpened ||
-                                  current is ChatsRoomClosed) &&
-                              current != previous;
-                        },
-                        builder: (context, state) {
-                          if (state is ChatsRoomOpened) {
-                            final user = context.read<List<User>>().singleWhere(
-                                  (user) => user == state.user,
-                                );
-                            return RepositoryProvider.value(
-                              value: user,
-                              child: const ChatScreen(),
-                            );
-                          }
-                          return const DefaultChatView();
-                        },
-                      ),
+                  ),
+                  Expanded(
+                    child: BlocBuilder<ChatsBloc, ChatsState>(
+                      buildWhen: (previous, current) {
+                        return (current is ChatsRoomOpened ||
+                                current is ChatsRoomClosed) &&
+                            current != previous;
+                      },
+                      builder: (context, state) {
+                        if (state is ChatsRoomOpened) {
+                          final user = context.read<List<User>>().singleWhere(
+                                (user) => user == state.user,
+                              );
+                          return RepositoryProvider.value(
+                            value: user,
+                            child: const ChatScreen(),
+                          );
+                        }
+                        return const DefaultChatView();
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
       ),
     );
+
+    if (Theme.of(context).brightness == Brightness.light &&
+        screenSize.width > 1440) {
+      return Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: kToolbarHeight * 2 + 20,
+                child: ColoredBox(
+                  color: CustomColors.of(context).primary!,
+                ),
+              ),
+              Expanded(
+                child: ColoredBox(
+                  color: Colors.grey.shade300,
+                ),
+              ),
+            ],
+          ),
+          mainView,
+        ],
+      );
+    } else {
+      return ColoredBox(
+        color: CustomColors.of(context).background!,
+        child: mainView,
+      );
+    }
   }
 
   double _calculateWidth(double maxWidth) {
