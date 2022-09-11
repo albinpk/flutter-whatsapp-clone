@@ -14,7 +14,7 @@ class ContactsView extends StatelessWidget {
       padding: const EdgeInsets.only(top: 6),
       itemCount: users.length + 2, // +2 for top and bottom button groups
       // itemExtent: 68,
-      itemBuilder: (context, index) {
+      itemBuilder: (_, index) {
         if (index == 0) {
           return const _TopButtonGroup();
         } else if (index == users.length + 1) {
@@ -24,7 +24,13 @@ class ContactsView extends StatelessWidget {
         final user = users[index - 1];
         return ListTile(
           leading: const CircleAvatar(),
-          title: Text(user.name),
+          title: Text(
+            user.name,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.w600,
+                  // color: Colors.yellow,
+                ),
+          ),
           subtitle: Text(user.name),
           onTap: () {},
         );
