@@ -31,7 +31,7 @@ class UsersView extends StatelessWidget {
                   // color: Colors.yellow,
                 ),
           ),
-          subtitle: Text(user.name),
+          subtitle: Text(user.about),
           onTap: () {},
         );
       },
