@@ -31,7 +31,12 @@ class UsersView extends StatelessWidget {
                   // color: Colors.yellow,
                 ),
           ),
-          subtitle: Text(user.about),
+          subtitle: Text(
+            user.about,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: CustomColors.of(context).onBackgroundMuted,
+                ),
+          ),
           onTap: () {},
         );
       },
