@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/user_model.dart';
-import '../../../../utils/extensions/platform_type.dart';
-import '../../../../utils/themes/custom_colors.dart';
-import '../../bloc/chats_bloc.dart';
+import '../../../../../../models/user_model.dart';
+import '../../../../../../utils/extensions/platform_type.dart';
+import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../bloc/chats_bloc.dart';
 
-class ChatScreenAppBar extends StatelessWidget with PreferredSizeWidget {
-  const ChatScreenAppBar({Key? key}) : super(key: key);
+class ChatRoomAppBar extends StatelessWidget with PreferredSizeWidget {
+  const ChatRoomAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

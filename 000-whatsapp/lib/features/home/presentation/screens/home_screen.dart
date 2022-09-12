@@ -7,11 +7,11 @@ import '../../../../models/user_model.dart';
 import '../../../../utils/extensions/platform_type.dart';
 import '../../../../utils/themes/custom_colors.dart';
 import '../../../chats/bloc/chats_bloc.dart';
-import '../../../chats/presentation/screens/chat_screen.dart';
-import '../../../chats/presentation/screens/users_screen.dart';
-import '../../../chats/presentation/views/friends_view.dart';
+import '../../../chats/features/chat_room/presentation/screens/chat_room_screen.dart';
+import '../../../chats/features/users/presentation/screens/users_screen.dart';
+import '../../../chats/features/recent_chats/presentation/views/recent_chats_view.dart';
 import '../views/default_chat_view.dart';
-import '../widgets/mobile_app_bar.dart';
+import '../widgets/app_bar_mobile.dart';
 import '../widgets/both_axis_scroll_view.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -45,7 +45,7 @@ class _HomeScreenMobile extends StatelessWidget {
             MaterialPageRoute(
               builder: (_) => RepositoryProvider.value(
                 value: user,
-                child: const ChatScreen(),
+                child: const ChatRoomScreen(),
               ),
             ),
           );
@@ -63,12 +63,12 @@ class _HomeScreenMobile extends StatelessWidget {
               SliverOverlapAbsorber(
                 handle:
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: const MobileAppBar(),
+                sliver: const AppBarMobile(),
               ),
             ],
             body: const TabBarView(
               children: [
-                FriendsView(),
+                RecentChatsView(),
                 Center(child: Text('STATUS')),
                 Center(child: Text('CALLS')),
               ],
@@ -120,7 +120,7 @@ class _HomeScreenDesktop extends StatelessWidget {
                         if (state is ChatsContactListOpened) {
                           return const UsersScreen();
                         }
-                        return const FriendsView();
+                        return const RecentChatsView();
                       },
                     ),
                   ),
@@ -138,7 +138,7 @@ class _HomeScreenDesktop extends StatelessWidget {
                               );
                           return RepositoryProvider.value(
                             value: user,
-                            child: const ChatScreen(),
+                            child: const ChatRoomScreen(),
                           );
                         }
                         return const DefaultChatView();

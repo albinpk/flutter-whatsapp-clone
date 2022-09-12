@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/user_model.dart';
-import '../../../../utils/themes/custom_colors.dart';
-import '../../bloc/chats_bloc.dart';
+import '../../../../../../models/user_model.dart';
+import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../bloc/chats_bloc.dart';
 
-class FriendsListTile extends StatelessWidget {
-  const FriendsListTile({super.key});
+class RecentChatsListTile extends StatelessWidget {
+  const RecentChatsListTile({super.key});
 
   @override
   Widget build(BuildContext context) {

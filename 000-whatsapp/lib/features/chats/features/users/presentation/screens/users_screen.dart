@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../utils/extensions/platform_type.dart';
-import '../../bloc/chats_bloc.dart';
+import '../../../../../../utils/extensions/platform_type.dart';
+import '../../../../bloc/chats_bloc.dart';
 import '../views/users_view.dart';
 
 class UsersScreen extends StatelessWidget {

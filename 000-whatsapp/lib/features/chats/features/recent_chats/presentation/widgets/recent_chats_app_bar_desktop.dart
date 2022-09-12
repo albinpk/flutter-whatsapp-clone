@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../utils/themes/custom_colors.dart';
-import '../../bloc/chats_bloc.dart';
+import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../bloc/chats_bloc.dart';
 
-class FriendsListAppBarDesktop extends StatelessWidget
+class RecentChatsAppBarDesktop extends StatelessWidget
     with PreferredSizeWidget {
-  const FriendsListAppBarDesktop({super.key});
+  const RecentChatsAppBarDesktop({super.key});
 
   @override
   Widget build(BuildContext context) {

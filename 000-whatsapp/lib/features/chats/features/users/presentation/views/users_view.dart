@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/user_model.dart';
-import '../../../../utils/themes/custom_colors.dart';
+import '../../../../../../models/user_model.dart';
+import '../../../../../../utils/themes/custom_colors.dart';
 
 class UsersView extends StatelessWidget {
   const UsersView({super.key});

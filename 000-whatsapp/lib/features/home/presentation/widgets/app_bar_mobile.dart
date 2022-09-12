@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 import '../../../../utils/themes/custom_colors.dart';
 
-class MobileAppBar extends StatelessWidget {
-  const MobileAppBar({super.key});
+class AppBarMobile extends StatelessWidget {
+  const AppBarMobile({super.key});
 
   @override
   Widget build(BuildContext context) {

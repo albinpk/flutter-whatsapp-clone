@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../dummy_data/app_user.dart';
-import '../../../../models/user_model.dart';
-import '../../../../utils/extensions/platform_type.dart';
-import '../../../../utils/themes/custom_colors.dart';
-import '../widgets/friends_list_app_bar_desktop.dart';
-import '../widgets/friends_list_tile.dart';
+import '../../../../../../dummy_data/app_user.dart';
+import '../../../../../../models/user_model.dart';
+import '../../../../../../utils/extensions/platform_type.dart';
+import '../../../../../../utils/themes/custom_colors.dart';
+import '../widgets/recent_chats_app_bar_desktop.dart';
+import '../widgets/recent_chats_list_tile.dart';
 
-class FriendsView extends StatelessWidget {
-  const FriendsView({super.key});
+class RecentChatsView extends StatelessWidget {
+  const RecentChatsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Theme.of(context).platform.isMobile
-        ? const _FriendsViewMobile()
-        : const _FriendsViewDesktop();
+        ? const _RecentChatsViewMobile()
+        : const _RecentChatsViewDesktop();
   }
 }
 
-class _FriendsViewMobile extends StatelessWidget {
-  const _FriendsViewMobile({Key? key}) : super(key: key);
+class _RecentChatsViewMobile extends StatelessWidget {
+  const _RecentChatsViewMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +36,12 @@ class _FriendsViewMobile extends StatelessWidget {
           if (context.select((AppUser user) => user.friends.isEmpty))
             const SliverFillRemaining(
               hasScrollBody: false,
-              child: _NoFriendsFound(),
+              child: _NoRecentChatsFound(),
             )
           else
             const SliverPadding(
               padding: EdgeInsets.only(top: 6, bottom: 83),
-              sliver: _FriendsListView(),
+              sliver: _RecentChatsListView(),
             ),
         ],
       ),
@@ -49,22 +49,22 @@ class _FriendsViewMobile extends StatelessWidget {
   }
 }
 
-class _FriendsViewDesktop extends StatelessWidget {
-  const _FriendsViewDesktop({Key? key}) : super(key: key);
+class _RecentChatsViewDesktop extends StatelessWidget {
+  const _RecentChatsViewDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const FriendsListAppBarDesktop(),
+      appBar: const RecentChatsAppBarDesktop(),
       body: context.select((AppUser user) => user.friends.isEmpty)
-          ? const _NoFriendsFound()
-          : const _FriendsListView(),
+          ? const _NoRecentChatsFound()
+          : const _RecentChatsListView(),
     );
   }
 }
 
-class _FriendsListView extends StatelessWidget {
-  const _FriendsListView({Key? key}) : super(key: key);
+class _RecentChatsListView extends StatelessWidget {
+  const _RecentChatsListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,13 +93,13 @@ class _FriendsListView extends StatelessWidget {
         .singleWhere((user) => user.id == currentFriendId);
     return RepositoryProvider.value(
       value: user,
-      child: const FriendsListTile(),
+      child: const RecentChatsListTile(),
     );
   }
 }
 
-class _NoFriendsFound extends StatelessWidget {
-  const _NoFriendsFound({Key? key}) : super(key: key);
+class _NoRecentChatsFound extends StatelessWidget {
+  const _NoRecentChatsFound({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

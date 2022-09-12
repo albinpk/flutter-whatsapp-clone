@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/user_model.dart';
-import '../../bloc/chats_bloc.dart';
-import '../widgets/chat_screen_app_bar.dart';
+import '../../../../../../models/user_model.dart';
+import '../../../../bloc/chats_bloc.dart';
+import '../widgets/chat_room_app_bar.dart';
 import '../widgets/chat_input_area.dart';
 
-class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+class ChatRoomScreen extends StatelessWidget {
+  const ChatRoomScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ChatScreen extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        appBar: const ChatScreenAppBar(),
+        appBar: const ChatRoomAppBar(),
         body: Column(
           children: [
             Expanded(

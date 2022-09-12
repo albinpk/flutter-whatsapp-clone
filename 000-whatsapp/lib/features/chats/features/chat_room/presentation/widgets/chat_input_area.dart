@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/extensions/platform_type.dart';
-import '../../../../utils/themes/custom_colors.dart';
+import '../../../../../../utils/extensions/platform_type.dart';
+import '../../../../../../utils/themes/custom_colors.dart';
 
 class ChatInputArea extends StatelessWidget {
   const ChatInputArea({super.key});
