@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../utils/extensions/platform_type.dart';
-import '../views/users_and_contacts_view.dart';
-import '../widgets/new_chat_selection_app_bar.dart';
+import '../../new_chat.dart';
 
 class NewChatSelectionScreen extends StatelessWidget {
   const NewChatSelectionScreen({super.key});
@@ -11,8 +11,8 @@ class NewChatSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // context.read<ChatsBloc>().add(const ChatsContactsScreenPopped());
-        return false;
+        context.read<NewChatBloc>().add(const NewChatSelectionScreenClose());
+        return true;
       },
       child: Scaffold(
         appBar: PreferredSize(

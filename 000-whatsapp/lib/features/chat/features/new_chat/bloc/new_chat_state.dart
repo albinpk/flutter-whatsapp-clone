@@ -12,3 +12,7 @@ class NewChatInitial extends NewChatState {}
 class NewChatSelectionScreenOpenState extends NewChatState {
   const NewChatSelectionScreenOpenState();
 }
+
+class NewChatSelectionScreenCloseState extends NewChatState {
+  const NewChatSelectionScreenCloseState();
+}

@@ -10,3 +10,7 @@ abstract class NewChatEvent extends Equatable {
 class NewChatSelectionScreenOpen extends NewChatEvent {
   const NewChatSelectionScreenOpen();
 }
+
+class NewChatSelectionScreenClose extends NewChatEvent {
+  const NewChatSelectionScreenClose();
+}

@@ -27,8 +27,15 @@ class _HomeScreenMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChatRoomBloc, ChatRoomState>(
-      listener: _chatBlocListener,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ChatRoomBloc, ChatRoomState>(
+          listener: _chatBlocListener,
+        ),
+        BlocListener<NewChatBloc, NewChatState>(
+          listener: _newChatBlocListener,
+        ),
+      ],
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -51,9 +58,9 @@ class _HomeScreenMobile extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.message),
             onPressed: () {
-              // context
-              //     .read<ChatsBloc>()
-              //     .add(const ChatsNewChatButtonPressed());
+              context
+                  .read<NewChatBloc>()
+                  .add(const NewChatSelectionScreenOpen());
             },
           ),
         ),
@@ -72,6 +79,16 @@ class _HomeScreenMobile extends StatelessWidget {
             value: user,
             child: const ChatRoomScreen(),
           ),
+        ),
+      );
+    }
+  }
+
+  void _newChatBlocListener(BuildContext context, NewChatState state) {
+    if (state is NewChatSelectionScreenOpenState) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => const NewChatSelectionScreen(),
         ),
       );
     }

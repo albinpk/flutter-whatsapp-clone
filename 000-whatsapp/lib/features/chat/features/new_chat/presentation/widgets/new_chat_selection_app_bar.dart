@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp/utils/extensions/platform_type.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../../utils/extensions/platform_type.dart';
+import '../../new_chat.dart';
 
 class NewChatSelectionAppBar extends StatelessWidget {
   const NewChatSelectionAppBar({Key? key}) : super(key: key);
@@ -10,7 +13,9 @@ class NewChatSelectionAppBar extends StatelessWidget {
     final appBar = AppBar(
       leading: IconButton(
         onPressed: () {
-          // context.read<ChatsBloc>().add(const ChatsContactsScreenPopped());
+          context.read<NewChatBloc>().add(const NewChatSelectionScreenClose());
+          // TODO: test on desktop
+          Navigator.of(context).pop();
         },
         icon: const Icon(Icons.arrow_back),
       ),

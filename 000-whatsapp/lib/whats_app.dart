@@ -25,6 +25,7 @@ class WhatsApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => ChatRoomBloc()),
+          BlocProvider(create: (context) => NewChatBloc()),
         ],
         child: MaterialApp(
           theme: lightTheme,
