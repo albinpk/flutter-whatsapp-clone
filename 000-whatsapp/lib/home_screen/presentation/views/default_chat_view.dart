@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/themes/custom_colors.dart';
+import '../../../utils/themes/custom_colors.dart';
 
 class DefaultChatView extends StatelessWidget {
   const DefaultChatView({super.key});

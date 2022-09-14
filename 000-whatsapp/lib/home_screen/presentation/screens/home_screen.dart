@@ -3,10 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/whats_app_user_model.dart';
-import '../../../../utils/extensions/platform_type.dart';
-import '../../../../utils/themes/custom_colors.dart';
-import '../../../chat/chat.dart';
+import '../../../models/whats_app_user_model.dart';
+import '../../../utils/extensions/platform_type.dart';
+import '../../../utils/themes/custom_colors.dart';
+import '../../../features/chat/chat.dart';
 import '../views/default_chat_view.dart';
 import '../widgets/app_bar_mobile.dart';
 import '../widgets/both_axis_scroll_view.dart';

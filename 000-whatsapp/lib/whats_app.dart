@@ -4,7 +4,7 @@ import 'package:whatsapp/dummy_data/whats_app_users.dart';
 
 import 'dummy_data/app_user.dart';
 import 'features/chat/chat.dart';
-import 'features/home_screen/home_screen.dart';
+import 'home_screen/home_screen.dart';
 import 'models/app_user_model.dart';
 import 'models/whats_app_user_model.dart';
 import 'utils/themes/dark_theme.dart';

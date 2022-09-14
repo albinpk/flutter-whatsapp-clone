@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../utils/themes/custom_colors.dart';
+import '../../../utils/themes/custom_colors.dart';
 
 class AppBarMobile extends StatelessWidget {
   const AppBarMobile({super.key});
