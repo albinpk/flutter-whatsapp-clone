@@ -33,7 +33,7 @@ class _RecentChatsViewMobile extends StatelessWidget {
           SliverOverlapInjector(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          if (context.select((AppUser user) => user.friends.isEmpty))
+          if (context.select((User user) => user.friends.isEmpty))
             const SliverFillRemaining(
               hasScrollBody: false,
               child: _NoRecentChatsFound(),
@@ -56,7 +56,7 @@ class _RecentChatsViewDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const RecentChatsAppBarDesktop(),
-      body: context.select((AppUser user) => user.friends.isEmpty)
+      body: context.select((User user) => user.friends.isEmpty)
           ? const _NoRecentChatsFound()
           : const _RecentChatsListView(),
     );
@@ -68,7 +68,7 @@ class _RecentChatsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final friendsLength = context.select<AppUser, int>(
+    final friendsLength = context.select<User, int>(
       (user) => user.friends.length,
     );
     return Theme.of(context).platform.isMobile
@@ -87,7 +87,7 @@ class _RecentChatsListView extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    final currentFriendId = context.read<AppUser>().friends[index];
+    final currentFriendId = context.read<User>().friends[index];
     final user = context
         .read<List<WhatsAppUser>>()
         .singleWhere((user) => user.id == currentFriendId);
