@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/app_user_model.dart';
 import '../../../../../../utils/extensions/platform_type.dart';
-import '../../../../../../utils/themes/custom_colors.dart';
-import '../widgets/recent_chats_app_bar_desktop.dart';
-import '../widgets/recent_chats_list_view.dart';
+import '../widgets/widgets.dart';
 
 class RecentChatsView extends StatelessWidget {
   const RecentChatsView({super.key});
@@ -35,7 +33,7 @@ class _RecentChatsViewMobile extends StatelessWidget {
           if (context.select((User user) => user.friends.isEmpty))
             const SliverFillRemaining(
               hasScrollBody: false,
-              child: _NoRecentChatsFound(),
+              child: NoRecentChatsFound(),
             )
           else
             const SliverPadding(
@@ -56,24 +54,8 @@ class _RecentChatsViewDesktop extends StatelessWidget {
     return Scaffold(
       appBar: const RecentChatsAppBarDesktop(),
       body: context.select((User user) => user.friends.isEmpty)
-          ? const _NoRecentChatsFound()
+          ? const NoRecentChatsFound()
           : const RecentChatsListView(),
-    );
-  }
-}
-
-class _NoRecentChatsFound extends StatelessWidget {
-  const _NoRecentChatsFound({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Start new chat',
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: CustomColors.of(context).onBackgroundMuted,
-            ),
-      ),
     );
   }
 }
