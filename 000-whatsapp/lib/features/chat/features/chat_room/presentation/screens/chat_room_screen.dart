@@ -11,7 +11,7 @@ class ChatRoomScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.read<ChatBloc>().add(const ChatRoomClose());
+        context.read<ChatRoomBloc>().add(const ChatRoomClose());
         return true;
       },
       child: Scaffold(

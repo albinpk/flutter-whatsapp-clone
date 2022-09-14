@@ -62,7 +62,7 @@ class RecentChatsListTile extends StatelessWidget {
       onTap: () {
         final user = context.read<WhatsAppUser>();
         // return context.read<ChatsBloc>().add(ChatsTilePressed(user: user));
-        context.read<ChatBloc>().add(ChatRoomOpen(user: user));
+        context.read<ChatRoomBloc>().add(ChatRoomOpen(user: user));
       },
     );
   }

@@ -1,13 +1,13 @@
-part of 'chat_bloc.dart';
+part of 'chat_room_bloc.dart';
 
-abstract class ChatEvent extends Equatable {
-  const ChatEvent();
+abstract class ChatRoomEvent extends Equatable {
+  const ChatRoomEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class ChatRoomOpen extends ChatEvent {
+class ChatRoomOpen extends ChatRoomEvent {
   const ChatRoomOpen({required this.user});
 
   final WhatsAppUser user;
@@ -16,6 +16,6 @@ class ChatRoomOpen extends ChatEvent {
   List<Object> get props => [user];
 }
 
-class ChatRoomClose extends ChatEvent {
+class ChatRoomClose extends ChatRoomEvent {
   const ChatRoomClose();
 }

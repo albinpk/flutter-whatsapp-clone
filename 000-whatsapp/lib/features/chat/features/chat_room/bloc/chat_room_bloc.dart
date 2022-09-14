@@ -1,29 +1,27 @@
-import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/whats_app_user_model.dart';
+import '../../../../../models/models.dart';
 
-part 'chat_event.dart';
-part 'chat_state.dart';
+part 'chat_room_event.dart';
+part 'chat_room_state.dart';
 
-class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  ChatBloc() : super(ChatInitial()) {
+class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
+  ChatRoomBloc() : super(ChatRoomInitial()) {
     on<ChatRoomOpen>(_onChatRoomOpen);
     on<ChatRoomClose>(_onChatRoomClose);
   }
 
   void _onChatRoomOpen(
     ChatRoomOpen event,
-    Emitter<ChatState> emit,
+    Emitter<ChatRoomState> emit,
   ) {
     emit(ChatRoomOpenState(user: event.user));
   }
 
-  FutureOr<void> _onChatRoomClose(
+  void _onChatRoomClose(
     ChatRoomClose event,
-    Emitter<ChatState> emit,
+    Emitter<ChatRoomState> emit,
   ) {
     emit(const ChatRoomCloseState());
   }

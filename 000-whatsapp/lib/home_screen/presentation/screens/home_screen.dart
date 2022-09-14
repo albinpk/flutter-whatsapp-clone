@@ -27,7 +27,7 @@ class _HomeScreenMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChatBloc, ChatState>(
+    return BlocListener<ChatRoomBloc, ChatRoomState>(
       listener: _chatBlocListener,
       child: DefaultTabController(
         length: 3,
@@ -61,7 +61,7 @@ class _HomeScreenMobile extends StatelessWidget {
     );
   }
 
-  void _chatBlocListener(BuildContext context, ChatState state) {
+  void _chatBlocListener(BuildContext context, ChatRoomState state) {
     if (state is ChatRoomOpenState) {
       final user = context.read<List<WhatsAppUser>>().singleWhere(
             (user) => user == state.user,
@@ -103,7 +103,7 @@ class _HomeScreenDesktop extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: _calculateWidth(constrains.maxWidth),
-                    child: BlocBuilder<ChatBloc, ChatState>(
+                    child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
                       // buildWhen: (previous, current) {
                       //   return current is ChatsContactListOpened ||
                       //       current is ChatsContactListClosed;
@@ -117,7 +117,7 @@ class _HomeScreenDesktop extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: BlocBuilder<ChatBloc, ChatState>(
+                    child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
                       // buildWhen: (previous, current) {
                       //   return (current is ChatsRoomOpened ||
                       //           current is ChatsRoomClosed) &&

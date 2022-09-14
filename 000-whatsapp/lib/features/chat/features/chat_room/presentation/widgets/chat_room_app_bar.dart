@@ -55,7 +55,7 @@ class _Leading extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: InkWell(
           onTap: () {
-            context.read<ChatBloc>().add(const ChatRoomClose());
+            context.read<ChatRoomBloc>().add(const ChatRoomClose());
             Navigator.of(context).pop();
           },
           borderRadius: BorderRadius.circular(50),
@@ -127,7 +127,7 @@ class _PopupMenu extends StatelessWidget {
         if (isDesktop)
           PopupMenuItem(
             onTap: () {
-              context.read<ChatBloc>().add(const ChatRoomClose());
+              context.read<ChatRoomBloc>().add(const ChatRoomClose());
             },
             child: const Text('Close chat'),
           ),
