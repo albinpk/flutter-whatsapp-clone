@@ -4,6 +4,7 @@ import 'package:whatsapp/dummy_data/whats_app_users.dart';
 
 import 'dummy_data/user.dart';
 import 'features/chat/chat.dart';
+import 'home_screen/domain/repository/user_repository.dart';
 import 'home_screen/home_screen.dart';
 import 'models/app_user_model.dart';
 import 'models/whats_app_user_model.dart';
@@ -17,6 +18,7 @@ class WhatsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider(create: (context) => UserRepository()),
         RepositoryProvider<User>.value(value: user),
         RepositoryProvider<List<WhatsAppUser>>.value(value: whatsappUsers),
       ],
