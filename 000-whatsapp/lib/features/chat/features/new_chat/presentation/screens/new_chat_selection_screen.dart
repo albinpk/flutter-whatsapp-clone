@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../utils/extensions/platform_type.dart';
 import '../views/users_and_contacts_view.dart';
-import '../widgets/users_app_bar.dart';
+import '../widgets/new_chat_selection_app_bar.dart';
 
 class NewChatSelectionScreen extends StatelessWidget {
   const NewChatSelectionScreen({super.key});
@@ -19,7 +19,7 @@ class NewChatSelectionScreen extends StatelessWidget {
           preferredSize: Theme.of(context).platform.isMobile
               ? const Size.fromHeight(kToolbarHeight)
               : const Size.fromHeight(kToolbarHeight * 2),
-          child: const UsersAppBar(),
+          child: const NewChatSelectionAppBar(),
         ),
         body: const UsersAndContactsView(),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/utils/extensions/platform_type.dart';
 
-class UsersAppBar extends StatelessWidget {
-  const UsersAppBar({Key? key}) : super(key: key);
+class NewChatSelectionAppBar extends StatelessWidget {
+  const NewChatSelectionAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
