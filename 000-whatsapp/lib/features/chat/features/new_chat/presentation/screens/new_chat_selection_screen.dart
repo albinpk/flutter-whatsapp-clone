@@ -26,5 +26,3 @@ class NewChatSelectionScreen extends StatelessWidget {
     );
   }
 }
-
-// TODO: Extract to widgets

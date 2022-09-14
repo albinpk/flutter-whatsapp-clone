@@ -14,8 +14,7 @@ class NewChatSelectionAppBar extends StatelessWidget {
       leading: IconButton(
         onPressed: () {
           context.read<NewChatBloc>().add(const NewChatSelectionScreenClose());
-          // TODO: test on desktop
-          Navigator.of(context).pop();
+          if (isMobile) Navigator.of(context).pop();
         },
         icon: const Icon(Icons.arrow_back),
       ),

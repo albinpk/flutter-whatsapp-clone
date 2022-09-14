@@ -120,15 +120,11 @@ class _HomeScreenDesktop extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: _calculateWidth(constrains.maxWidth),
-                    child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
-                      // buildWhen: (previous, current) {
-                      //   return current is ChatsContactListOpened ||
-                      //       current is ChatsContactListClosed;
-                      // },
+                    child: BlocBuilder<NewChatBloc, NewChatState>(
                       builder: (context, state) {
-                        // if (state is ChatsContactListOpened) {
-                        //   return const UsersScreen();
-                        // }
+                        if (state is NewChatSelectionScreenOpenState) {
+                          return const NewChatSelectionScreen();
+                        }
                         return const RecentChatsView();
                       },
                     ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../new_chat/new_chat.dart';
 
 class RecentChatsAppBarDesktop extends StatelessWidget
     with PreferredSizeWidget {
@@ -27,7 +29,7 @@ class RecentChatsAppBarDesktop extends StatelessWidget
         ),
         IconButton(
           onPressed: () {
-            // context.read<ChatsBloc>().add(const ChatsNewChatButtonPressed());
+            context.read<NewChatBloc>().add(const NewChatSelectionScreenOpen());
           },
           icon: const Icon(Icons.message),
           padding: actionsIconPadding,
