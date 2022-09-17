@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/whats_app_user_model.dart';
 import '../../../../../../utils/themes/custom_colors.dart';
+import '../widgets/widgets.dart';
 
 class UsersAndContactsView extends StatelessWidget {
   const UsersAndContactsView({super.key});
@@ -22,23 +23,7 @@ class UsersAndContactsView extends StatelessWidget {
         }
 
         final user = users[index - 1];
-        return ListTile(
-          leading: const CircleAvatar(),
-          title: Text(
-            user.name,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
-                  // color: Colors.yellow,
-                ),
-          ),
-          subtitle: Text(
-            user.about,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: CustomColors.of(context).onBackgroundMuted,
-                ),
-          ),
-          onTap: () {},
-        );
+        return UsersAndContactsListTile(user: user);
       },
     );
   }
