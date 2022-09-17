@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import '../models/contact_model.dart';
+
+final _random = Random();
 
 /// All contacts saved in user's phone
 final List<Contact> contacts = List<Contact>.generate(
   30,
   (index) => Contact(
-    name: 'User name ${++index}',
+    name: '${String.fromCharCode(_random.nextInt(25) + 65)} User ${++index}',
     phNumber: '+000${++index}',
   ),
 );
