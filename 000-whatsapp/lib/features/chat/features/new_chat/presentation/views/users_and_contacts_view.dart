@@ -50,16 +50,25 @@ class _TopButtonGroup extends StatelessWidget {
             color: CustomColors.of(context).iconMuted,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8).copyWith(left: 15),
-          child: Text(
-            'Contacts on WhatsApp',
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: CustomColors.of(context).onBackgroundMuted,
-                ),
-          ),
-        ),
+        const _ItemCategoryTitle(),
       ],
+    );
+  }
+}
+
+class _ItemCategoryTitle extends StatelessWidget {
+  const _ItemCategoryTitle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8).copyWith(left: 15),
+      child: Text(
+        'Contacts on WhatsApp',
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              color: CustomColors.of(context).onBackgroundMuted,
+            ),
+      ),
     );
   }
 }
