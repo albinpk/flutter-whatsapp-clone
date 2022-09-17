@@ -37,11 +37,11 @@ class _TopButtonGroup extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _ExtraButton(
+        const ButtonListTile(
           iconData: Icons.group,
           title: 'New group',
         ),
-        _ExtraButton(
+        ButtonListTile(
           title: 'New contact',
           iconData: Icons.person_add,
           trailing: IconButton(
@@ -80,61 +80,15 @@ class _BottomButtonGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        _ExtraButton.lite(
+        ButtonListTile.lite(
           title: 'Share invite link',
           iconData: Icons.share,
         ),
-        _ExtraButton.lite(
+        ButtonListTile.lite(
           title: 'Contact help',
           iconData: Icons.question_mark,
         ),
       ],
-    );
-  }
-}
-
-class _ExtraButton extends StatelessWidget {
-  const _ExtraButton({
-    Key? key,
-    required this.title,
-    required this.iconData,
-    this.trailing,
-  })  : isLite = false,
-        super(key: key);
-
-  const _ExtraButton.lite({
-    Key? key,
-    required this.title,
-    required this.iconData,
-  })  : isLite = true,
-        trailing = null,
-        super(key: key);
-
-  final String title;
-  final IconData iconData;
-  final Widget? trailing;
-  final bool isLite;
-
-  @override
-  Widget build(BuildContext context) {
-    final customColors = CustomColors.of(context);
-    return ListTile(
-      minVerticalPadding: 25,
-      leading: CircleAvatar(
-        backgroundColor: isLite
-            ? customColors.iconMuted!.withOpacity(0.2)
-            : customColors.primary,
-        foregroundColor:
-            isLite ? customColors.iconMuted : customColors.onPrimary,
-        child: Icon(iconData),
-      ),
-      title: Text(
-        title,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-      ),
-      trailing: trailing,
     );
   }
 }
