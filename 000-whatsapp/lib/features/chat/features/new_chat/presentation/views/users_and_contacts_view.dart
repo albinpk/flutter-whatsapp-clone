@@ -14,18 +14,15 @@ class UsersAndContactsView extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 6),
       itemCount: users.length + 2, // +2 for top and bottom button groups
-      // itemExtent: 68,
-      itemBuilder: (_, index) {
-        if (index == 0) {
-          return const _TopButtonGroup();
-        } else if (index == users.length + 1) {
-          return const _BottomButtonGroup();
-        }
-
-        final user = users[index - 1];
-        return UsersAndContactsListTile(user: user);
-      },
+      itemBuilder: _itemBuilder,
     );
+  }
+
+  Widget _itemBuilder(BuildContext context, int index) {
+    if (index == 0) return const _TopButtonGroup();
+    final users = context.read<List<WhatsAppUser>>();
+    if (index == users.length + 1) return const _BottomButtonGroup();
+    return UsersAndContactsListTile(user: users[index - 1]);
   }
 }
 
