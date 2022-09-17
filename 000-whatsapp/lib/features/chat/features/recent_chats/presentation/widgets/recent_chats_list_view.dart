@@ -21,9 +21,9 @@ class RecentChatsListView extends StatelessWidget {
               childCount: friendsLength,
             ),
           )
-        : ListView.builder(
+        : ListView.separated(
+            separatorBuilder: (_, __) => const Divider(height: 0, indent: 80),
             itemCount: friendsLength,
-            itemExtent: 76,
             itemBuilder: _itemBuilder,
           );
   }
