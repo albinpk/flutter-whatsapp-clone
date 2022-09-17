@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/whats_app_user_model.dart';
+import '../../../../../../utils/extensions/platform_type.dart';
 import '../../../../../../utils/themes/custom_colors.dart';
 import '../widgets/widgets.dart';
 
@@ -10,19 +11,32 @@ class UsersAndContactsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Theme.of(context).platform.isMobile
+        ? const _UsersAndContactsViewMobile()
+        : const Text('Desktop view');
+  }
+}
+
+class _UsersAndContactsViewMobile extends StatelessWidget {
+  const _UsersAndContactsViewMobile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final users = context.select((List<WhatsAppUser> users) => users);
     return ListView.builder(
       padding: const EdgeInsets.only(top: 6),
-      itemCount: users.length + 2, // +2 for top and bottom button groups
+      // +3 for top and bottom button groups, and category title
+      itemCount: users.length + 3,
       itemBuilder: _itemBuilder,
     );
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
     if (index == 0) return const _TopButtonGroup();
+    if (index == 1) return const ItemCategoryTitle('Contacts on WhatsApp');
     final users = context.read<List<WhatsAppUser>>();
-    if (index == users.length + 1) return const _BottomButtonGroup();
-    return UsersAndContactsListTile(user: users[index - 1]);
+    if (index == users.length + 2) return const _BottomButtonGroup();
+    return UsersAndContactsListTile(user: users[index - 2]);
   }
 }
 
@@ -47,7 +61,6 @@ class _TopButtonGroup extends StatelessWidget {
             color: CustomColors.of(context).iconMuted,
           ),
         ),
-        const ItemCategoryTitle('Contact on WhatsApp'),
       ],
     );
   }
