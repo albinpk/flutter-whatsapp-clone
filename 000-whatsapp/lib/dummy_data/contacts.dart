@@ -11,4 +11,4 @@ final List<Contact> contacts = List<Contact>.generate(
     name: '${String.fromCharCode(_random.nextInt(25) + 65)} User ${++index}',
     phNumber: '+000${++index}',
   ),
-);
+)..sort((a, b) => a.name.compareTo(b.name));

@@ -22,10 +22,8 @@ class _UsersAndContactsViewMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final users = context.watch<List<WhatsAppUser>>()
-      ..sort((a, b) => a.name.compareTo(b.name));
-    final contacts = context.watch<List<Contact>>()
-      ..sort((a, b) => a.name.compareTo(b.name));
+    final users = context.watch<List<WhatsAppUser>>();
+    final contacts = context.watch<List<Contact>>();
     final List<ListItem> items = _generateItems(context, contacts, users);
     return ListView.builder(
       padding: const EdgeInsets.only(top: 6),
@@ -75,9 +73,7 @@ class _UsersAndContactsViewDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final users = context.watch<List<WhatsAppUser>>()
-      ..sort((a, b) => a.name.compareTo(b.name));
-
+    final users = context.watch<List<WhatsAppUser>>();
     final List<ListItem> items = _generateItems(users);
 
     return ListView.separated(
