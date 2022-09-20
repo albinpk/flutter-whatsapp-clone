@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/dummy_data/whats_app_users.dart';
 
-import 'dummy_data/user.dart';
+import 'dummy_data/dummy_data.dart';
 import 'features/chat/chat.dart';
 import 'home_screen/domain/repository/user_repository.dart';
 import 'home_screen/home_screen.dart';
-import 'models/app_user_model.dart';
-import 'models/whats_app_user_model.dart';
+import 'models/models.dart';
 import 'utils/themes/dark_theme.dart';
 import 'utils/themes/light_theme.dart';
 
@@ -21,6 +19,7 @@ class WhatsApp extends StatelessWidget {
         RepositoryProvider(create: (context) => UserRepository()),
         RepositoryProvider<User>.value(value: user),
         RepositoryProvider<List<WhatsAppUser>>.value(value: whatsappUsers),
+        RepositoryProvider<List<Contact>>.value(value: contacts),
       ],
       child: MultiBlocProvider(
         providers: [
