@@ -86,22 +86,17 @@ class _UsersAndContactsViewDesktop extends StatelessWidget {
   }
 
   List<ListItem> _generateItems(List<WhatsAppUser> users) {
+    String lastTitle = '';
     final List<ListItem> items = [
-      const ButtonItem(title: 'New group', iconData: Icons.add),
+      const ButtonItem(title: 'New group', iconData: Icons.group),
     ];
-
-    final Map<String, List<WhatsAppUser>> map = {};
     for (final user in users) {
-      final first = user.name.characters.first.toUpperCase();
-      map[first] ??= [];
-      map[first]!.add(user);
+      items.addAll([
+        if (lastTitle != (lastTitle = user.name[0].toUpperCase()))
+          TitleItem(lastTitle),
+        UserItem(user),
+      ]);
     }
-    map.forEach((key, value) => items.addAll(
-          [
-            TitleItem(key),
-            ...value.map((user) => UserItem(user)),
-          ],
-        ));
     return items;
   }
 }
