@@ -4,8 +4,8 @@ import 'package:whatsapp/utils/themes/custom_colors.dart';
 import '../../../../../../models/models.dart';
 import '../../../../../../widgets/widgets.dart';
 
-class UsersAndContactsListTile extends StatelessWidget {
-  const UsersAndContactsListTile({
+class UserTile extends StatelessWidget {
+  const UserTile({
     super.key,
     required this.user,
   });

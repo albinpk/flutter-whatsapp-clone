@@ -10,5 +10,5 @@ class UserItem implements ListItem {
   const UserItem(this.user);
 
   @override
-  Widget buildItem(context) => UsersAndContactsListTile(user: user);
+  Widget buildItem(context) => UserTile(user: user);
 }
