@@ -70,13 +70,10 @@ class _HomeScreenMobile extends StatelessWidget {
 
   void _chatBlocListener(BuildContext context, ChatRoomState state) {
     if (state is ChatRoomOpenState) {
-      final user = context.read<List<WhatsAppUser>>().singleWhere(
-            (user) => user == state.user,
-          );
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => RepositoryProvider.value(
-            value: user,
+            value: state.user,
             child: const ChatRoomScreen(),
           ),
         ),
