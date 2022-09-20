@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp/utils/themes/custom_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/models.dart';
+import '../../../../../../utils/extensions/platform_type.dart';
+import '../../../../../../utils/themes/custom_colors.dart';
 import '../../../../../../widgets/widgets.dart';
+import '../../../../chat.dart';
 
 class UserTile extends StatelessWidget {
   const UserTile({
@@ -28,7 +31,11 @@ class UserTile extends StatelessWidget {
               color: CustomColors.of(context).onBackgroundMuted,
             ),
       ),
-      onTap: () {},
+      onTap: () {
+        context.read<NewChatBloc>().add(const NewChatSelectionScreenClose());
+        if (Theme.of(context).platform.isMobile) Navigator.of(context).pop();
+        context.read<ChatRoomBloc>().add(ChatRoomOpen(user: user));
+      },
     );
   }
 }
