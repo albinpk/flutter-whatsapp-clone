@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../models/whats_app_user_model.dart';
+import '../../../../../../models/models.dart';
 import '../../../../../../utils/extensions/platform_type.dart';
 import '../../../../../../utils/themes/custom_colors.dart';
-import '../widgets/widgets.dart';
+import '../models/models.dart';
 
 class UsersAndContactsView extends StatelessWidget {
   const UsersAndContactsView({super.key});
@@ -13,7 +13,7 @@ class UsersAndContactsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme.of(context).platform.isMobile
         ? const _UsersAndContactsViewMobile()
-        : const Text('Desktop view');
+        : const _UsersAndContactsViewDesktop();
   }
 }
 
@@ -22,66 +22,86 @@ class _UsersAndContactsViewMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final users = context.select((List<WhatsAppUser> users) => users);
+    final users = context.watch<List<WhatsAppUser>>();
+    final contacts = context.watch<List<Contact>>();
+    final List<ListItem> items = _generateItems(context, contacts, users);
     return ListView.builder(
       padding: const EdgeInsets.only(top: 6),
-      // +3 for top and bottom button groups, and category title
-      itemCount: users.length + 3,
-      itemBuilder: _itemBuilder,
+      itemCount: items.length,
+      itemBuilder: (c, i) => items[i].buildItem(c),
     );
   }
 
-  Widget _itemBuilder(BuildContext context, int index) {
-    if (index == 0) return const _TopButtonGroup();
-    if (index == 1) return const ItemCategoryTitle('Contacts on WhatsApp');
-    final users = context.read<List<WhatsAppUser>>();
-    if (index == users.length + 2) return const _BottomButtonGroup();
-    return UsersAndContactsListTile(user: users[index - 2]);
+  List<ListItem> _generateItems(
+    BuildContext context,
+    List<Contact> contacts,
+    List<WhatsAppUser> users,
+  ) {
+    return [
+      const ButtonItem(title: 'New group', iconData: Icons.group),
+      ButtonItem(
+        title: 'New contact',
+        iconData: Icons.person_add,
+        trailing: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.qr_code),
+          color: CustomColors.of(context).iconMuted,
+        ),
+      ),
+      const TitleItem('Contacts on WhatsApp'),
+      ...users.map((u) => UserItem(u)),
+      const TitleItem('Invite to WhatsApp'),
+      ...contacts
+          .where((c) => users.where((u) => u.phNumber == c.phNumber).isEmpty)
+          .map((e) => ContactItem(e)),
+      const ButtonItem(
+        title: 'Share invite link',
+        iconData: Icons.share,
+        isLite: true,
+      ),
+      const ButtonItem(
+        title: 'Contact help',
+        iconData: Icons.question_mark,
+        isLite: true,
+      ),
+    ];
   }
 }
 
-class _TopButtonGroup extends StatelessWidget {
-  const _TopButtonGroup({Key? key}) : super(key: key);
+class _UsersAndContactsViewDesktop extends StatelessWidget {
+  const _UsersAndContactsViewDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const ButtonListTile(
-          iconData: Icons.group,
-          title: 'New group',
-        ),
-        ButtonListTile(
-          title: 'New contact',
-          iconData: Icons.person_add,
-          trailing: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.qr_code),
-            color: CustomColors.of(context).iconMuted,
-          ),
-        ),
-      ],
+    final users = context.watch<List<WhatsAppUser>>()
+      ..sort((a, b) => a.name.compareTo(b.name));
+
+    final List<ListItem> items = _generateItems(users);
+
+    return ListView.separated(
+      separatorBuilder: (_, __) => const Divider(indent: 65, height: 1),
+      itemCount: items.length,
+      itemBuilder: (c, i) => items[i].buildItem(c),
     );
   }
-}
 
-class _BottomButtonGroup extends StatelessWidget {
-  const _BottomButtonGroup({Key? key}) : super(key: key);
+  List<ListItem> _generateItems(List<WhatsAppUser> users) {
+    final List<ListItem> items = [
+      const ButtonItem(title: 'New group', iconData: Icons.add),
+    ];
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        ButtonListTile.lite(
-          title: 'Share invite link',
-          iconData: Icons.share,
-        ),
-        ButtonListTile.lite(
-          title: 'Contact help',
-          iconData: Icons.question_mark,
-        ),
-      ],
-    );
+    final Map<String, List<WhatsAppUser>> map = {};
+    for (final user in users) {
+      final first = user.name.characters.first.toUpperCase();
+      map[first] ??= [];
+      map[first]!.add(user);
+    }
+    map.forEach((key, value) => items.addAll(
+          [
+            TitleItem(key),
+            ...value.map((user) => UserItem(user)),
+          ],
+        ));
+    return items;
   }
 }
