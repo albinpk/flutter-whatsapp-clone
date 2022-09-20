@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../models/whats_app_user_model.dart';
 import '../../../../../../utils/extensions/platform_type.dart';
 import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../../../widgets/widgets.dart';
 import '../../../../chat.dart';
 
 class ChatRoomAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -60,7 +61,7 @@ class _Leading extends StatelessWidget {
           },
           borderRadius: BorderRadius.circular(50),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3),
+            padding: const EdgeInsets.all(4).copyWith(left: 0),
             child: Row(
               children: const [
                 Flexible(
@@ -71,7 +72,7 @@ class _Leading extends StatelessWidget {
                 ),
                 Flexible(
                   flex: 5,
-                  child: CircleAvatar(),
+                  child: FittedBox(child: UserDP()),
                 ),
               ],
             ),
@@ -92,7 +93,7 @@ class _Title extends StatelessWidget {
         if (Theme.of(context).platform.isDesktop)
           const Padding(
             padding: EdgeInsets.all(10),
-            child: CircleAvatar(),
+            child: UserDP(),
           ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

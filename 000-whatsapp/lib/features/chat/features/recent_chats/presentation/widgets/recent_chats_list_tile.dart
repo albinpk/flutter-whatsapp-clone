@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/whats_app_user_model.dart';
 import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../../../widgets/widgets.dart';
 import '../../../../chat.dart';
 
 class RecentChatsListTile extends StatelessWidget {
@@ -11,7 +12,7 @@ class RecentChatsListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const CircleAvatar(radius: 26),
+      leading: const UserDP(radius: 25),
       title: Row(
         children: [
           Expanded(

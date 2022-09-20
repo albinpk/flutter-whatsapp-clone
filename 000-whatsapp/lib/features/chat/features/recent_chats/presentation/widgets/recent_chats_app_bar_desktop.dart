@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../../../widgets/widgets.dart';
 import '../../../new_chat/new_chat.dart';
 
 class RecentChatsAppBarDesktop extends StatelessWidget
@@ -14,7 +15,7 @@ class RecentChatsAppBarDesktop extends StatelessWidget
     return AppBar(
       leading: const Padding(
         padding: EdgeInsets.only(left: 15),
-        child: CircleAvatar(),
+        child: FittedBox(child: UserDP()),
       ),
       iconTheme: IconThemeData(
         color: Theme.of(context).brightness == Brightness.light

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../models/models.dart';
 import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../../../widgets/widgets.dart';
 
 class ContactTile extends StatelessWidget {
   const ContactTile({
@@ -21,7 +22,7 @@ class ContactTile extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
       ),
-      leading: const CircleAvatar(),
+      leading: const UserDP(),
       trailing: TextButton(
         onPressed: () {},
         style: ButtonStyle(

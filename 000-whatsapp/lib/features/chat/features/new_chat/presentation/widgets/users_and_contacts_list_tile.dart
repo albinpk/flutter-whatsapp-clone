@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp/utils/themes/custom_colors.dart';
 
 import '../../../../../../models/models.dart';
+import '../../../../../../widgets/widgets.dart';
 
 class UsersAndContactsListTile extends StatelessWidget {
   const UsersAndContactsListTile({
@@ -14,7 +15,7 @@ class UsersAndContactsListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const CircleAvatar(),
+      leading: const UserDP(),
       title: Text(
         user.name,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
