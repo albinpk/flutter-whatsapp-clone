@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../utils/extensions/platform_type.dart';
 import '../../../../../../utils/themes/custom_colors.dart';
+import 'widgets.dart';
 
 class ChatInputArea extends StatelessWidget {
   const ChatInputArea({super.key});
@@ -57,7 +58,7 @@ class _ChatInputAreaMobile extends StatelessWidget {
                             onPressed: () {},
                             icon: const Icon(Icons.emoji_emotions_rounded),
                           ),
-                          const Expanded(child: _ChatTextField()),
+                          const Expanded(child: ChatTextField()),
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.attach_file),
@@ -136,7 +137,7 @@ class _ChatInputAreaDesktop extends StatelessWidget {
                           : const Color(0xFF2A3942),
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: _ChatTextField(),
+                        child: ChatTextField(),
                       ),
                     ),
                   ),
@@ -151,36 +152,6 @@ class _ChatInputAreaDesktop extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ChatTextField extends StatelessWidget {
-  const _ChatTextField({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = Theme.of(context).platform.isMobile;
-    final textTheme = Theme.of(context).textTheme;
-
-    return TextField(
-      style: textTheme.titleMedium!.copyWith(
-        fontSize: isMobile ? 18 : null,
-        fontWeight: isMobile
-            ? null
-            : Theme.of(context).brightness == Brightness.light
-                ? null
-                : FontWeight.w300,
-      ),
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        hintText: isMobile ? 'Message' : ' Type a message',
-        border: InputBorder.none,
-      ),
-      cursorColor: isMobile
-          ? CustomColors.of(context).primary
-          : CustomColors.of(context).onBackground,
-      cursorWidth: isMobile ? 2 : 1,
     );
   }
 }
