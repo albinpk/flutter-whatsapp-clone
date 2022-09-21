@@ -77,24 +77,48 @@ class _NestedScrollViewState extends State<_NestedScrollView>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
 
+  /// TabBarView swipe value. From `-1.0` to `1.0`.
+  double get _swipeValue {
+    return _tabController.animation!.value - _tabController.index;
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final state = context.read<ChatSearchBloc>().state;
     if (state is ChatSearchOpenState) {
-      _tabController.animation!.addListener(_tabAnimationListener);
+      // If search button pressed while TabBarView changing,
+      // then wait to finish animation and add listener.
+      if (_swipeValue != 0) {
+        _tabController.animation!.addListener(_tempListener);
+      } else {
+        _tabController.animation!.addListener(_tabAnimationListener);
+      }
     } else if (state is ChatSearchCloseState) {
+      _tabController.animation!.removeListener(_tempListener);
       _tabController.animation!.removeListener(_tabAnimationListener);
     }
   }
 
+  /// Add real listener when animation stops
+  void _tempListener() {
+    if (_swipeValue == 0) {
+      _tabController.animation!.removeListener(_tempListener);
+      _tabController.animation!.addListener(_tabAnimationListener);
+    }
+  }
+
+  /// Trigger search bar close event, when TabBarView swiped more than 10%
   void _tabAnimationListener() {
-    context.read<ChatSearchBloc>().add(const ChatSearchClose());
-    _tabController.animation!.removeListener(_tabAnimationListener);
+    if (_swipeValue.abs() > 0.1) {
+      context.read<ChatSearchBloc>().add(const ChatSearchClose());
+      _tabController.animation!.removeListener(_tabAnimationListener);
+    }
   }
 
   @override
   void dispose() {
+    _tabController.animation!.removeListener(_tempListener);
     _tabController.animation!.removeListener(_tabAnimationListener);
     _tabController.dispose();
     super.dispose();
