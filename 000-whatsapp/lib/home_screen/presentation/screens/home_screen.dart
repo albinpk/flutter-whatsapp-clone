@@ -8,8 +8,7 @@ import '../../../utils/extensions/platform_type.dart';
 import '../../../utils/themes/custom_colors.dart';
 import '../../../features/chat/chat.dart';
 import '../views/default_chat_view.dart';
-import '../widgets/app_bar_mobile.dart';
-import '../widgets/both_axis_scroll_view.dart';
+import '../widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -55,14 +54,7 @@ class _HomeScreenMobile extends StatelessWidget {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.message),
-            onPressed: () {
-              context
-                  .read<NewChatBloc>()
-                  .add(const NewChatSelectionScreenOpen());
-            },
-          ),
+          floatingActionButton: const FAB(),
         ),
       ),
     );
