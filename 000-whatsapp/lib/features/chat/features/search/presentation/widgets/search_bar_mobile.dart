@@ -18,14 +18,7 @@ class SearchBarMobile extends StatelessWidget {
         pinned: true,
         foregroundColor: CustomColors.of(context).onBackgroundMuted!,
         leading: const BackButton(),
-        title: TextField(
-          autofocus: true,
-          cursorColor: CustomColors.of(context).primary,
-          decoration: const InputDecoration(
-            hintText: 'Search...',
-            border: InputBorder.none,
-          ),
-        ),
+        title: const SearchTextField(),
       ),
     );
   }

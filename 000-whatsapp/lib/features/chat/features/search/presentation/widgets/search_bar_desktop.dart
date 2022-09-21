@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp/utils/themes/custom_colors.dart';
+
+import '../../../../../../utils/themes/custom_colors.dart';
+import 'widgets.dart';
 
 class SearchBarDesktop extends StatelessWidget with PreferredSizeWidget {
   const SearchBarDesktop({Key? key}) : super(key: key);
@@ -30,15 +32,7 @@ class SearchBarDesktop extends StatelessWidget with PreferredSizeWidget {
                           ),
                         ),
                         const Expanded(
-                          child: TextField(
-                            cursorColor: Colors.black,
-                            cursorWidth: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Search or start new chat',
-                              contentPadding: EdgeInsets.only(bottom: 10),
-                              border: InputBorder.none,
-                            ),
-                          ),
+                          child: SearchTextField(),
                         ),
                       ],
                     ),
