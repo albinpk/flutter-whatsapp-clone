@@ -35,27 +35,9 @@ class _HomeScreenMobile extends StatelessWidget {
           listener: _newChatBlocListener,
         ),
       ],
-      child: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          body: NestedScrollView(
-            headerSliverBuilder: (context, _) => [
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: const AppBarMobile(),
-              ),
-            ],
-            body: const TabBarView(
-              children: [
-                RecentChatsView(),
-                Center(child: Text('STATUS')),
-                Center(child: Text('CALLS')),
-              ],
-            ),
-          ),
-          floatingActionButton: const FAB(),
-        ),
+      child: const Scaffold(
+        body: _NestedScrollView(),
+        floatingActionButton: FAB(),
       ),
     );
   }
@@ -81,6 +63,63 @@ class _HomeScreenMobile extends StatelessWidget {
         ),
       );
     }
+  }
+}
+
+class _NestedScrollView extends StatefulWidget {
+  const _NestedScrollView({Key? key}) : super(key: key);
+
+  @override
+  State<_NestedScrollView> createState() => _NestedScrollViewState();
+}
+
+class _NestedScrollViewState extends State<_NestedScrollView>
+    with SingleTickerProviderStateMixin {
+  late final _tabController = TabController(length: 3, vsync: this);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final state = context.read<ChatSearchBloc>().state;
+    if (state is ChatSearchOpenState) {
+      _tabController.animation!.addListener(_tabAnimationListener);
+    } else if (state is ChatSearchCloseState) {
+      _tabController.animation!.removeListener(_tabAnimationListener);
+    }
+  }
+
+  void _tabAnimationListener() {
+    context.read<ChatSearchBloc>().add(const ChatSearchClose());
+    _tabController.animation!.removeListener(_tabAnimationListener);
+  }
+
+  @override
+  void dispose() {
+    _tabController.animation!.removeListener(_tabAnimationListener);
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    context.select((ChatSearchBloc bloc) => bloc.state is ChatSearchOpenState);
+
+    return NestedScrollView(
+      headerSliverBuilder: (context, _) => [
+        SliverOverlapAbsorber(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          sliver: AppBarMobile(tabController: _tabController),
+        ),
+      ],
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          RecentChatsView(),
+          Center(child: Text('STATUS')),
+          Center(child: Text('CALLS')),
+        ],
+      ),
+    );
   }
 }
 

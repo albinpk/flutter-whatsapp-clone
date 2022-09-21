@@ -34,6 +34,8 @@ class _RecentChatsViewMobileState extends State<_RecentChatsViewMobile> {
     final state = context.read<ChatSearchBloc>().state;
     if (state is ChatSearchOpenState) {
       _scrollController.addListener(_scrollListener);
+    } else if (state is ChatSearchCloseState) {
+      _scrollController.removeListener(_scrollListener);
     }
   }
 

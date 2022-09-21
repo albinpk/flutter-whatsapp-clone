@@ -6,7 +6,12 @@ import '../../../features/chat/chat.dart';
 import '../../../utils/themes/custom_colors.dart';
 
 class AppBarMobile extends StatelessWidget {
-  const AppBarMobile({super.key});
+  const AppBarMobile({
+    super.key,
+    required this.tabController,
+  });
+
+  final TabController tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +52,7 @@ class AppBarMobile extends StatelessWidget {
             ),
           ],
           bottom: TabBar(
+            controller: tabController,
             indicatorWeight: 3,
             labelColor: theme.indicatorColor,
             labelStyle: theme.textTheme.bodyLarge!.copyWith(
