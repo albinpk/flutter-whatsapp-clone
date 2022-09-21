@@ -8,6 +8,12 @@ class FAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isSearchOpen = context.select(
+      (ChatSearchBloc bloc) => bloc.state is ChatSearchOpenState,
+    );
+
+    if (isSearchOpen) return const SizedBox.shrink();
+
     return FloatingActionButton(
       child: const Icon(Icons.message),
       onPressed: () {
