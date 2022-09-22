@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../models/app_user_model.dart';
-import '../../../../../../utils/extensions/platform_type.dart';
+import '../../../../../../core/models/app_user_model.dart';
+import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../search/search.dart';
 import '../widgets/widgets.dart';
 

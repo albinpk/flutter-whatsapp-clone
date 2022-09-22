@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../models/models.dart';
-import '../../../../../../utils/themes/custom_colors.dart';
-import '../../../../../../widgets/widgets.dart';
+import '../../../../../../core/models/models.dart';
+import '../../../../../../core/utils/themes/custom_colors.dart';
+import '../../../../../../core/widgets/widgets.dart';
 
 class ContactTile extends StatelessWidget {
   const ContactTile({

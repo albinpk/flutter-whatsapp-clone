@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../search.dart';
 
 class SearchBarMobile extends StatelessWidget {

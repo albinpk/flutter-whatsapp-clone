@@ -1,4 +1,4 @@
-import '../models/whats_app_user_model.dart';
+import '../core/models/models.dart';
 import 'contacts.dart';
 
 /// WhatsApp users in contacts

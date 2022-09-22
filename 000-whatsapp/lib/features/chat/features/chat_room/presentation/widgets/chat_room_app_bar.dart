@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../models/whats_app_user_model.dart';
-import '../../../../../../utils/extensions/platform_type.dart';
-import '../../../../../../utils/themes/custom_colors.dart';
-import '../../../../../../widgets/widgets.dart';
+import '../../../../../../core/models/whats_app_user_model.dart';
+import '../../../../../../core/utils/extensions/platform_type.dart';
+import '../../../../../../core/utils/themes/custom_colors.dart';
+import '../../../../../../core/widgets/widgets.dart';
 import '../../../../chat.dart';
 
 class ChatRoomAppBar extends StatelessWidget with PreferredSizeWidget {

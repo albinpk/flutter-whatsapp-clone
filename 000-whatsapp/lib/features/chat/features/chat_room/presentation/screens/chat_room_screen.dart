@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../models/whats_app_user_model.dart';
+import '../../../../../../core/models/whats_app_user_model.dart';
 import '../../../../chat.dart';
 
 class ChatRoomScreen extends StatelessWidget {

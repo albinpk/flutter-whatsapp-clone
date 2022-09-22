@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../utils/extensions/platform_type.dart';
-import '../../../../../../utils/themes/custom_colors.dart';
+import '../../../../../../core/utils/extensions/platform_type.dart';
+import '../../../../../../core/utils/themes/custom_colors.dart';
 import 'widgets.dart';
 
 class ChatInputArea extends StatelessWidget {

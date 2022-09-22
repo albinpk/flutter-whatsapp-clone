@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../features/chat/chat.dart';
-import '../../../utils/themes/custom_colors.dart';
+import '../../../chat/chat.dart';
+import '../../../../core/utils/themes/custom_colors.dart';
 
 class AppBarMobile extends StatelessWidget {
   const AppBarMobile({

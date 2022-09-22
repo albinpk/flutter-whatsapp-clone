@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../utils/extensions/platform_type.dart';
+import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../new_chat.dart';
 
 class NewChatSelectionAppBar extends StatelessWidget {

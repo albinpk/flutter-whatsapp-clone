@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-import '../models/app_user_model.dart';
+import '../core/models/models.dart';
 import 'whats_app_users.dart';
 
 final user = User(

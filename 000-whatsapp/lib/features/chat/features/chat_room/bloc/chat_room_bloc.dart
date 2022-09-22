@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../models/models.dart';
+import '../../../../../core/models/models.dart';
 
 part 'chat_room_event.dart';
 part 'chat_room_state.dart';

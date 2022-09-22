@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../utils/themes/custom_colors.dart';
-import '../../../../../../widgets/widgets.dart';
+import '../../../../../../core/utils/themes/custom_colors.dart';
+import '../../../../../../core/widgets/widgets.dart';
 import '../../../new_chat/new_chat.dart';
 import '../../../search/search.dart';
 

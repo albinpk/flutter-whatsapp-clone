@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../models/contact_model.dart';
+import '../core/models/models.dart';
 
 final _random = Random();
 

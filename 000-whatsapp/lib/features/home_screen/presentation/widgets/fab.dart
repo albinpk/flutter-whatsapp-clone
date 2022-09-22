@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../features/chat/chat.dart';
+import '../../../chat/chat.dart';
 
 class FAB extends StatelessWidget {
   const FAB({Key? key}) : super(key: key);

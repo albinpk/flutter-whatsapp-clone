@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dummy_data/dummy_data.dart';
 import 'features/chat/chat.dart';
-import 'home_screen/domain/repository/user_repository.dart';
-import 'home_screen/home_screen.dart';
-import 'models/models.dart';
-import 'utils/themes/dark_theme.dart';
-import 'utils/themes/light_theme.dart';
+import 'features/home_screen/home_screen.dart';
+import 'core/models/models.dart';
+import 'core/utils/themes/dark_theme.dart';
+import 'core/utils/themes/light_theme.dart';
 
 class WhatsApp extends StatelessWidget {
   const WhatsApp({super.key});

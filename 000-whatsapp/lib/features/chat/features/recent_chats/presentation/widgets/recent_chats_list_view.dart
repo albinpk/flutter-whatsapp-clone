@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../models/models.dart';
-import '../../../../../../utils/extensions/platform_type.dart';
+import '../../../../../../core/models/models.dart';
+import '../../../../../../core/utils/extensions/platform_type.dart';
 import 'recent_chats_list_tile.dart';
 
 class RecentChatsListView extends StatelessWidget {
