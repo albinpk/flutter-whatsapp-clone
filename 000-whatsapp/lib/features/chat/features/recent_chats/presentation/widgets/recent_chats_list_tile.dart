@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/whats_app_user_model.dart';
+import '../../../../../../utils/extensions/platform_type.dart';
 import '../../../../../../utils/themes/custom_colors.dart';
 import '../../../../../../widgets/widgets.dart';
 import '../../../../chat.dart';
@@ -11,7 +12,20 @@ class RecentChatsListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isSelected = false;
+    if (Theme.of(context).platform.isDesktop) {
+      final user = context.watch<WhatsAppUser>();
+      isSelected = context.select(
+        (ChatRoomBloc bloc) {
+          return bloc.state is ChatRoomOpenState &&
+              (bloc.state as ChatRoomOpenState).user == user;
+        },
+      );
+    }
+
     return ListTile(
+      selected: isSelected,
+      selectedTileColor: CustomColors.of(context).secondary,
       leading: const UserDP(radius: 25),
       title: Row(
         children: [
@@ -62,7 +76,6 @@ class RecentChatsListTile extends StatelessWidget {
       ),
       onTap: () {
         final user = context.read<WhatsAppUser>();
-        // return context.read<ChatsBloc>().add(ChatsTilePressed(user: user));
         context.read<ChatRoomBloc>().add(ChatRoomOpen(user: user));
       },
     );
