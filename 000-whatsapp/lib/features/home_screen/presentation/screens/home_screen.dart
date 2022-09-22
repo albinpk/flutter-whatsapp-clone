@@ -29,7 +29,7 @@ class _HomeScreenMobile extends StatelessWidget {
     return MultiBlocListener(
       listeners: [
         BlocListener<ChatRoomBloc, ChatRoomState>(
-          listener: _chatBlocListener,
+          listener: _chatRoomBlocListener,
         ),
         BlocListener<NewChatBloc, NewChatState>(
           listener: _newChatBlocListener,
@@ -42,7 +42,7 @@ class _HomeScreenMobile extends StatelessWidget {
     );
   }
 
-  void _chatBlocListener(BuildContext context, ChatRoomState state) {
+  void _chatRoomBlocListener(BuildContext context, ChatRoomState state) {
     if (state is ChatRoomOpenState) {
       Navigator.of(context).push(
         MaterialPageRoute(
