@@ -26,6 +26,7 @@ class _RecentChatsViewMobile extends StatefulWidget {
 
 class _RecentChatsViewMobileState extends State<_RecentChatsViewMobile> {
   late ScrollController _scrollController;
+  double _scrollOffsetOnSearchOpen = 0;
 
   @override
   void didChangeDependencies() {
@@ -33,6 +34,12 @@ class _RecentChatsViewMobileState extends State<_RecentChatsViewMobile> {
     _scrollController = PrimaryScrollController.of(context)!;
     final state = context.read<ChatSearchBloc>().state;
     if (state is ChatSearchOpenState) {
+      // Check scrollController.hasClients,
+      // otherwise get "ScrollController not attached to any scroll views"
+      // error when scrolling on other TabBarViews
+      if (_scrollController.hasClients) {
+        _scrollOffsetOnSearchOpen = _scrollController.offset;
+      }
       _scrollController.addListener(_scrollListener);
     } else if (state is ChatSearchCloseState) {
       _scrollController.removeListener(_scrollListener);
@@ -40,8 +47,10 @@ class _RecentChatsViewMobileState extends State<_RecentChatsViewMobile> {
   }
 
   void _scrollListener() {
-    context.read<ChatSearchBloc>().add(const ChatSearchClose());
-    _scrollController.removeListener(_scrollListener);
+    if ((_scrollController.offset - _scrollOffsetOnSearchOpen).abs() > 20) {
+      context.read<ChatSearchBloc>().add(const ChatSearchClose());
+      _scrollController.removeListener(_scrollListener);
+    }
   }
 
   @override
