@@ -79,8 +79,10 @@ class _NestedScrollViewState extends State<_NestedScrollView>
 
   /// TabBarView swipe value. From `-1.0` to `1.0`.
   double get _swipeValue {
-    return _tabController.animation!.value - _tabController.index;
+    return _tabAnimation.value - _tabController.index;
   }
+
+  Animation<double> get _tabAnimation => _tabController.animation!;
 
   @override
   void didChangeDependencies() {
@@ -90,21 +92,22 @@ class _NestedScrollViewState extends State<_NestedScrollView>
       // If search button pressed while TabBarView changing,
       // then wait to finish animation and add listener.
       if (_swipeValue != 0) {
-        _tabController.animation!.addListener(_tempListener);
+        _tabAnimation.addListener(_tempListener);
       } else {
-        _tabController.animation!.addListener(_tabAnimationListener);
+        _tabAnimation.addListener(_tabAnimationListener);
       }
     } else if (state is ChatSearchCloseState) {
-      _tabController.animation!.removeListener(_tempListener);
-      _tabController.animation!.removeListener(_tabAnimationListener);
+      _tabAnimation.removeListener(_tempListener);
+      _tabAnimation.removeListener(_tabAnimationListener);
     }
   }
 
   /// Add real listener when animation stops
   void _tempListener() {
     if (_swipeValue == 0) {
-      _tabController.animation!.removeListener(_tempListener);
-      _tabController.animation!.addListener(_tabAnimationListener);
+      // TODO: recheck index
+      _tabAnimation.removeListener(_tempListener);
+      _tabAnimation.addListener(_tabAnimationListener);
     }
   }
 
@@ -112,14 +115,14 @@ class _NestedScrollViewState extends State<_NestedScrollView>
   void _tabAnimationListener() {
     if (_swipeValue.abs() > 0.1) {
       context.read<ChatSearchBloc>().add(const ChatSearchClose());
-      _tabController.animation!.removeListener(_tabAnimationListener);
+      _tabAnimation.removeListener(_tabAnimationListener);
     }
   }
 
   @override
   void dispose() {
-    _tabController.animation!.removeListener(_tempListener);
-    _tabController.animation!.removeListener(_tabAnimationListener);
+    _tabAnimation.removeListener(_tempListener);
+    _tabAnimation.removeListener(_tabAnimationListener);
     _tabController.dispose();
     super.dispose();
   }
