@@ -29,5 +29,5 @@ class WhatsAppUser extends Equatable {
   }
 
   @override
-  List<Object> get props => [name, phNumber, about];
+  List<Object> get props => [id];
 }
