@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../chat/chat.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
+import '../../home_screen.dart';
 
 class AppBarMobile extends StatelessWidget {
   const AppBarMobile({
@@ -42,7 +43,13 @@ class AppBarMobile extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                context.read<ChatSearchBloc>().add(const ChatSearchOpen());
+                switch (context.read<TabViewBloc>().state.tabView) {
+                  case TabView.chats:
+                    context.read<ChatSearchBloc>().add(const ChatSearchOpen());
+                    break;
+                  case TabView.status:
+                  case TabView.calls:
+                }
               },
               icon: const Icon(Icons.search),
             ),
