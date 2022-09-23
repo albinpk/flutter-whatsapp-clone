@@ -96,12 +96,12 @@ class _NestedScrollViewState extends State<_NestedScrollView>
       // If search button pressed while TabBarView changing,
       // then wait to finish animation and add listener.
       if (_swipeValue != 0) {
-        _tabAnimation.addListener(_tempListener);
+        _tabAnimation.addListener(_addListenerWhenAnimationEnd);
       } else {
         _tabAnimation.addListener(_tabAnimationListener);
       }
     } else if (state is ChatSearchCloseState) {
-      _tabAnimation.removeListener(_tempListener);
+      _tabAnimation.removeListener(_addListenerWhenAnimationEnd);
       _tabAnimation.removeListener(_tabAnimationListener);
     }
   }
@@ -114,10 +114,10 @@ class _NestedScrollViewState extends State<_NestedScrollView>
   Animation<double> get _tabAnimation => _tabController.animation!;
 
   /// Add real listener when animation stops
-  void _tempListener() {
+  void _addListenerWhenAnimationEnd() {
     if (_swipeValue == 0) {
       // TODO: recheck index
-      _tabAnimation.removeListener(_tempListener);
+      _tabAnimation.removeListener(_addListenerWhenAnimationEnd);
       _tabAnimation.addListener(_tabAnimationListener);
     }
   }
@@ -150,7 +150,7 @@ class _NestedScrollViewState extends State<_NestedScrollView>
   @override
   void dispose() {
     _tabAnimation.removeListener(_tabAnimationListenerForFAB);
-    _tabAnimation.removeListener(_tempListener);
+    _tabAnimation.removeListener(_addListenerWhenAnimationEnd);
     _tabAnimation.removeListener(_tabAnimationListener);
     _tabController.dispose();
     super.dispose();
