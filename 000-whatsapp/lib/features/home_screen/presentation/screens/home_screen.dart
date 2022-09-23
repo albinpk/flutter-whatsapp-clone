@@ -79,6 +79,9 @@ class _NestedScrollViewState extends State<_NestedScrollView>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
 
+  late final TabViewBloc _tabViewBloc = context.read<TabViewBloc>();
+  late final ChatSearchBloc _chatSearchBloc = context.read<ChatSearchBloc>();
+
   @override
   void initState() {
     super.initState();
@@ -88,7 +91,7 @@ class _NestedScrollViewState extends State<_NestedScrollView>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final state = context.read<ChatSearchBloc>().state;
+    final state = _chatSearchBloc.state;
     if (state is ChatSearchOpenState) {
       // If search button pressed while TabBarView changing,
       // then wait to finish animation and add listener.
@@ -126,8 +129,6 @@ class _NestedScrollViewState extends State<_NestedScrollView>
       _tabAnimation.removeListener(_tabAnimationListener);
     }
   }
-
-  late final TabViewBloc _tabViewBloc = context.read<TabViewBloc>();
 
   void _tabAnimationListenerForFAB() {
     final TabView tab = _tabViewBloc.state.tabView;
