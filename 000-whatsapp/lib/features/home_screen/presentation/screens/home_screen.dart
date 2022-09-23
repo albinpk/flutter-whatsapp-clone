@@ -7,8 +7,7 @@ import '../../../../core/models/whats_app_user_model.dart';
 import '../../../../core/utils/extensions/platform_type.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../chat/chat.dart';
-import '../views/default_chat_view.dart';
-import '../widgets/widgets.dart';
+import '../../home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -35,9 +34,12 @@ class _HomeScreenMobile extends StatelessWidget {
           listener: _newChatBlocListener,
         ),
       ],
+      child: BlocProvider(
+        create: (context) => TabViewBloc(),
       child: const Scaffold(
         body: _NestedScrollView(),
         floatingActionButton: FAB(),
+      ),
       ),
     );
   }
