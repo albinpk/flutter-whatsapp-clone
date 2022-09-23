@@ -36,10 +36,10 @@ class _HomeScreenMobile extends StatelessWidget {
       ],
       child: BlocProvider(
         create: (context) => TabViewBloc(),
-      child: const Scaffold(
-        body: _NestedScrollView(),
-        floatingActionButton: FAB(),
-      ),
+        child: const Scaffold(
+          body: _NestedScrollView(),
+          floatingActionButton: FAB(),
+        ),
       ),
     );
   }
@@ -78,6 +78,12 @@ class _NestedScrollView extends StatefulWidget {
 class _NestedScrollViewState extends State<_NestedScrollView>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
+
+  @override
+  void initState() {
+    super.initState();
+    _tabAnimation.addListener(_tabAnimationListenerForFAB);
+  }
 
   @override
   void didChangeDependencies() {
@@ -121,8 +127,28 @@ class _NestedScrollViewState extends State<_NestedScrollView>
     }
   }
 
+  late final TabViewBloc _tabViewBloc = context.read<TabViewBloc>();
+
+  void _tabAnimationListenerForFAB() {
+    final TabView tab = _tabViewBloc.state.tabView;
+    if (_tabAnimation.value < 0.5) {
+      if (tab != TabView.chats) {
+        _tabViewBloc.add(const TabViewChange(tabView: TabView.chats));
+      }
+    } else if (_tabAnimation.value < 1.5) {
+      if (tab != TabView.status) {
+        _tabViewBloc.add(const TabViewChange(tabView: TabView.status));
+      }
+    } else {
+      if (tab != TabView.calls) {
+        _tabViewBloc.add(const TabViewChange(tabView: TabView.calls));
+      }
+    }
+  }
+
   @override
   void dispose() {
+    _tabAnimation.removeListener(_tabAnimationListenerForFAB);
     _tabAnimation.removeListener(_tempListener);
     _tabAnimation.removeListener(_tabAnimationListener);
     _tabController.dispose();
