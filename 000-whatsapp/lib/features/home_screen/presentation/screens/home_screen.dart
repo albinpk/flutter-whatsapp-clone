@@ -79,13 +79,6 @@ class _NestedScrollViewState extends State<_NestedScrollView>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
 
-  /// TabBarView swipe value. From `-1.0` to `1.0`.
-  double get _swipeValue {
-    return _tabAnimation.value - _tabController.index;
-  }
-
-  Animation<double> get _tabAnimation => _tabController.animation!;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -103,6 +96,13 @@ class _NestedScrollViewState extends State<_NestedScrollView>
       _tabAnimation.removeListener(_tabAnimationListener);
     }
   }
+
+  /// TabBarView swipe value. From `-1.0` to `1.0`.
+  double get _swipeValue {
+    return _tabAnimation.value - _tabController.index;
+  }
+
+  Animation<double> get _tabAnimation => _tabController.animation!;
 
   /// Add real listener when animation stops
   void _tempListener() {
