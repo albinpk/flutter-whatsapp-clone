@@ -3,3 +3,4 @@ export 'features/recent_chats/recent_chats.dart';
 export 'features/new_chat/new_chat.dart';
 export 'features/search/search.dart';
 export 'models/models.dart';
+export 'bloc/chat_bloc.dart';
