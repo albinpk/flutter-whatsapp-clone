@@ -10,6 +10,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   ChatRoomBloc() : super(ChatRoomInitial()) {
     on<ChatRoomOpen>(_onChatRoomOpen);
     on<ChatRoomClose>(_onChatRoomClose);
+    on<ChatRoomTextInputValueChange>(_onChatRoomTextInputValueChange);
   }
 
   void _onChatRoomOpen(
@@ -24,5 +25,14 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     Emitter<ChatRoomState> emit,
   ) {
     emit(const ChatRoomCloseState());
+  }
+
+  void _onChatRoomTextInputValueChange(
+    ChatRoomTextInputValueChange event,
+    Emitter<ChatRoomState> emit,
+  ) {
+    emit(
+      ChatRoomTextInputValueChangeState(text: event.text),
+    );
   }
 }

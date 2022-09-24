@@ -19,3 +19,12 @@ class ChatRoomOpen extends ChatRoomEvent {
 class ChatRoomClose extends ChatRoomEvent {
   const ChatRoomClose();
 }
+
+class ChatRoomTextInputValueChange extends ChatRoomEvent {
+  const ChatRoomTextInputValueChange({required this.text});
+
+  final String text;
+
+  @override
+  List<Object> get props => [text];
+}
