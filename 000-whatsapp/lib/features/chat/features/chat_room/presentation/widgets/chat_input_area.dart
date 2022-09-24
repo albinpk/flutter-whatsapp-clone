@@ -64,6 +64,7 @@ class _ChatInputAreaMobile extends StatelessWidget {
                             onPressed: () {},
                             icon: const Icon(Icons.attach_file),
                           ),
+                          // TODO: hide on input
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.currency_rupee),
@@ -80,6 +81,8 @@ class _ChatInputAreaMobile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 4),
+
+            // Send/voice button
             AspectRatio(
               aspectRatio: 1 / 1,
               child: DecoratedBox(
@@ -125,8 +128,6 @@ class _ChatInputAreaMobile extends StatelessWidget {
                           },
                           child: icon,
                         );
-
-                        // ignore: dead_code
                       },
                     ),
                   ),
