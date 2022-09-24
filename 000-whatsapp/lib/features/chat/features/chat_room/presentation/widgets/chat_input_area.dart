@@ -96,13 +96,37 @@ class _ChatInputAreaMobile extends StatelessWidget {
                         return false;
                       },
                       builder: (context, state) {
-                        return Icon(
-                          state is! ChatRoomTextInputValueChangeState ||
-                                  state.isEmpty
-                              ? Icons.mic
-                              : Icons.send,
-                          color: customColors.onPrimary,
+                        final icon =
+                            state is! ChatRoomTextInputValueChangeState ||
+                                    state.isEmpty
+                                ? Icon(
+                                    Icons.mic,
+                                    key: const Key('mic_icon'),
+                                    color: customColors.onPrimary,
+                                  )
+                                : Icon(
+                                    Icons.send,
+                                    key: const Key('send_icon'),
+                                    color: customColors.onPrimary,
+                                  );
+
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 150),
+                          switchInCurve: Curves.easeInOut,
+                          switchOutCurve: Curves.easeInOut,
+                          transitionBuilder: (child, animation) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: ScaleTransition(
+                                scale: animation,
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: icon,
                         );
+
+                        // ignore: dead_code
                       },
                     ),
                   ),
