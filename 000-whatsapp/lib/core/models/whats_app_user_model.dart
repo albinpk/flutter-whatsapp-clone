@@ -10,13 +10,11 @@ class WhatsAppUser extends Equatable {
   final String name;
   final String phNumber;
   final String about;
-  final List<String> friends;
 
   const WhatsAppUser({
     required this.id,
     required this.name,
     required this.phNumber,
-    this.friends = const [],
     this.about = 'About',
   });
 

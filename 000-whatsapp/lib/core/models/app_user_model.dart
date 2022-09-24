@@ -7,7 +7,6 @@ class User extends WhatsAppUser {
     required super.id,
     required super.name,
     required super.phNumber,
-    super.friends,
     super.about,
   });
 }
