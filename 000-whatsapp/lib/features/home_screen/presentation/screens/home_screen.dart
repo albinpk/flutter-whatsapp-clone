@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/models/whats_app_user_model.dart';
 import '../../../../core/utils/extensions/platform_type.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../chat/chat.dart';
@@ -202,6 +201,8 @@ class _HomeScreenDesktop extends StatelessWidget {
             child: LayoutBuilder(
               builder: (context, constrains) => Row(
                 children: [
+                  // Left side of screen
+                  // for recent chats, new chat
                   SizedBox(
                     width: _calculateWidth(constrains.maxWidth),
                     child: BlocBuilder<NewChatBloc, NewChatState>(
@@ -213,21 +214,20 @@ class _HomeScreenDesktop extends StatelessWidget {
                       },
                     ),
                   ),
+
+                  // Right side of screen
+                  // for chat room
                   Expanded(
                     child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
-                      // buildWhen: (previous, current) {
-                      //   return (current is ChatsRoomOpened ||
-                      //           current is ChatsRoomClosed) &&
-                      //       current != previous;
-                      // },
+                      buildWhen: (previous, current) {
+                        return (current is ChatRoomOpenState ||
+                                current is ChatRoomCloseState) &&
+                            current != previous;
+                      },
                       builder: (context, state) {
                         if (state is ChatRoomOpenState) {
-                          final user =
-                              context.read<List<WhatsAppUser>>().singleWhere(
-                                    (user) => user == state.user,
-                                  );
                           return RepositoryProvider.value(
-                            value: user,
+                            value: state.user,
                             child: const ChatRoomScreen(),
                           );
                         }
