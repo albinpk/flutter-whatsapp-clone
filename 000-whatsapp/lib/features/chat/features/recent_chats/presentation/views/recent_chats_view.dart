@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../core/models/app_user_model.dart';
 import '../../../../../../core/utils/extensions/platform_type.dart';
-import '../../../search/search.dart';
-import '../widgets/widgets.dart';
+import '../../../../chat.dart';
 
 class RecentChatsView extends StatelessWidget {
   const RecentChatsView({super.key});
@@ -73,7 +71,7 @@ class _RecentChatsViewMobileState extends State<_RecentChatsViewMobile> {
           SliverOverlapInjector(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          if (context.select((User user) => user.friends.isEmpty))
+          if (context.select((ChatBloc bloc) => bloc.state.recentChats.isEmpty))
             const SliverFillRemaining(
               hasScrollBody: false,
               child: NoRecentChatsFound(),
@@ -96,7 +94,7 @@ class _RecentChatsViewDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const RecentChatsAppBarDesktop(),
-      body: context.select((User user) => user.friends.isEmpty)
+      body: context.select((ChatBloc bloc) => bloc.state.recentChats.isEmpty)
           ? const NoRecentChatsFound()
           : const RecentChatsListView(),
     );
