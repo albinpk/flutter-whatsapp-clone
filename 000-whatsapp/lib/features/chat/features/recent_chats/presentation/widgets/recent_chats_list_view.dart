@@ -4,8 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../chat.dart';
 
-class RecentChatsListView extends StatelessWidget {
+class RecentChatsListView extends StatefulWidget {
   const RecentChatsListView({Key? key}) : super(key: key);
+
+  @override
+  State<RecentChatsListView> createState() => _RecentChatsListViewState();
+}
+
+class _RecentChatsListViewState extends State<RecentChatsListView> {
+  late final _recentChats = context.read<ChatBloc>().state.recentChats;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,6 @@ class RecentChatsListView extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    final chat = context.read<ChatBloc>().state.recentChats[index];
-    return RecentChatsListTile(chat: chat);
+    return RecentChatsListTile(chat: _recentChats[index]);
   }
 }
