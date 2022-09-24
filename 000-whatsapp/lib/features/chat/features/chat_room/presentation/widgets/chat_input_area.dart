@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
-import 'widgets.dart';
+import '../../../../chat.dart';
 
 class ChatInputArea extends StatelessWidget {
   const ChatInputArea({super.key});
@@ -86,9 +87,23 @@ class _ChatInputAreaMobile extends StatelessWidget {
                 child: ClipOval(
                   child: ColoredBox(
                     color: customColors.primary!,
-                    child: Icon(
-                      Icons.mic,
-                      color: customColors.onPrimary,
+                    child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
+                      buildWhen: (previous, current) {
+                        if (previous is ChatRoomTextInputValueChangeState &&
+                            current is ChatRoomTextInputValueChangeState) {
+                          return previous.isEmpty != current.isEmpty;
+                        }
+                        return false;
+                      },
+                      builder: (context, state) {
+                        return Icon(
+                          state is! ChatRoomTextInputValueChangeState ||
+                                  state.isEmpty
+                              ? Icons.mic
+                              : Icons.send,
+                          color: customColors.onPrimary,
+                        );
+                      },
                     ),
                   ),
                 ),
