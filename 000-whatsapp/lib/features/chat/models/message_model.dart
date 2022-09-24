@@ -1,12 +1,15 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../core/models/models.dart';
 
-class Message {
+class Message extends Equatable {
+  /// Uuid of the message
   final String id;
 
   /// Content of the message
   final MessageContent content;
 
-  /// Time of message
+  /// Time of the message
   final DateTime time;
 
   /// User who sent the message
@@ -18,6 +21,9 @@ class Message {
     required this.time,
     required this.author,
   });
+
+  @override
+  List<Object> get props => [id];
 }
 
 class MessageContent {
