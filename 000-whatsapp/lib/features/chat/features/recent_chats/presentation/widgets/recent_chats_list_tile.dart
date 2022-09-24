@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../core/models/whats_app_user_model.dart';
 import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../chat.dart';
 
 class RecentChatsListTile extends StatelessWidget {
-  const RecentChatsListTile({super.key});
+  const RecentChatsListTile({
+    Key? key,
+    required this.chat,
+  }) : super(key: key);
+
+  final RecentChat chat;
 
   @override
   Widget build(BuildContext context) {
     bool isSelected = false;
     if (Theme.of(context).platform.isDesktop) {
-      final user = context.watch<WhatsAppUser>();
+      // To highlight selected chat on desktop
       isSelected = context.select(
         (ChatRoomBloc bloc) {
           return bloc.state is ChatRoomOpenState &&
-              (bloc.state as ChatRoomOpenState).user == user;
+              (bloc.state as ChatRoomOpenState).user == chat.user;
         },
       );
     }
@@ -31,7 +35,7 @@ class RecentChatsListTile extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              context.select((WhatsAppUser user) => user.name),
+              chat.user.name,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w500,
                     color: CustomColors.of(context).onBackground,
@@ -39,7 +43,7 @@ class RecentChatsListTile extends StatelessWidget {
             ),
           ),
           Text(
-            '8/8/22',
+            chat.lastMessage.time.toString().substring(0, 10),
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
@@ -50,7 +54,7 @@ class RecentChatsListTile extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'Hi there!',
+                chat.lastMessage.content.text,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: CustomColors.of(context).onBackgroundMuted,
                     ),
@@ -75,8 +79,7 @@ class RecentChatsListTile extends StatelessWidget {
         ),
       ),
       onTap: () {
-        final user = context.read<WhatsAppUser>();
-        context.read<ChatRoomBloc>().add(ChatRoomOpen(user: user));
+        context.read<ChatRoomBloc>().add(ChatRoomOpen(user: chat.user));
       },
     );
   }
