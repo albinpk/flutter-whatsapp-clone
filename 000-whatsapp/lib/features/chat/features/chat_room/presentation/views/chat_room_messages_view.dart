@@ -17,7 +17,7 @@ class ChatRoomMessagesView extends StatelessWidget {
     return ListView.builder(
       itemCount: messages.length,
       itemBuilder: (context, index) {
-        return Text(messages[index].content.text);
+        return MessageBox(message: messages[index]);
       },
     );
   }
