@@ -92,38 +92,56 @@ class _ChatInputAreaMobile extends StatelessWidget {
               child: DecoratedBox(
                 decoration: boxDecoration,
                 child: ClipOval(
-                  child: ColoredBox(
-                    color: customColors.primary!,
-                    child:
-                        BlocSelector<MessageInputBloc, MessageInputState, bool>(
-                      selector: (state) => state.isEmpty,
-                      builder: (context, isMessageTextEmpty) {
-                        return AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 150),
-                          switchInCurve: Curves.easeInOut,
-                          switchOutCurve: Curves.easeInOut,
-                          transitionBuilder: (child, animation) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: ScaleTransition(
-                                scale: animation,
-                                child: child,
+                  child: GestureDetector(
+                    onTap: () {
+                      final messageInputBloc = context.read<MessageInputBloc>();
+                      if (messageInputBloc.state.isEmpty) {
+                        // voice record
+                        return;
+                      }
+                      context.read<ChatBloc>().add(
+                            ChatMessageSend(
+                              to: context.read<WhatsAppUser>(),
+                              message: Message.fromText(
+                                messageInputBloc.state.text,
+                                author: context.read<User>(),
                               ),
-                            );
-                          },
-                          child: isMessageTextEmpty
-                              ? Icon(
-                                  Icons.mic,
-                                  key: const Key('mic_icon'),
-                                  color: customColors.onPrimary,
-                                )
-                              : Icon(
-                                  Icons.send,
-                                  key: const Key('send_icon'),
-                                  color: customColors.onPrimary,
+                            ),
+                          );
+                    },
+                    child: ColoredBox(
+                      color: customColors.primary!,
+                      child: BlocSelector<MessageInputBloc, MessageInputState,
+                          bool>(
+                        selector: (state) => state.isEmpty,
+                        builder: (context, isMessageTextEmpty) {
+                          return AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 150),
+                            switchInCurve: Curves.easeInOut,
+                            switchOutCurve: Curves.easeInOut,
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: ScaleTransition(
+                                  scale: animation,
+                                  child: child,
                                 ),
-                        );
-                      },
+                              );
+                            },
+                            child: isMessageTextEmpty
+                                ? Icon(
+                                    Icons.mic,
+                                    key: const Key('mic_icon'),
+                                    color: customColors.onPrimary,
+                                  )
+                                : Icon(
+                                    Icons.send,
+                                    key: const Key('send_icon'),
+                                    color: customColors.onPrimary,
+                                  ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
