@@ -94,29 +94,10 @@ class _ChatInputAreaMobile extends StatelessWidget {
                 child: ClipOval(
                   child: ColoredBox(
                     color: customColors.primary!,
-                    child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
-                      buildWhen: (previous, current) {
-                        if (previous is ChatRoomTextInputValueChangeState &&
-                            current is ChatRoomTextInputValueChangeState) {
-                          return previous.isEmpty != current.isEmpty;
-                        }
-                        return false;
-                      },
-                      builder: (context, state) {
-                        final icon =
-                            state is! ChatRoomTextInputValueChangeState ||
-                                    state.isEmpty
-                                ? Icon(
-                                    Icons.mic,
-                                    key: const Key('mic_icon'),
-                                    color: customColors.onPrimary,
-                                  )
-                                : Icon(
-                                    Icons.send,
-                                    key: const Key('send_icon'),
-                                    color: customColors.onPrimary,
-                                  );
-
+                    child:
+                        BlocSelector<MessageInputBloc, MessageInputState, bool>(
+                      selector: (state) => state.isEmpty,
+                      builder: (context, isMessageTextEmpty) {
                         return AnimatedSwitcher(
                           duration: const Duration(milliseconds: 150),
                           switchInCurve: Curves.easeInOut,
@@ -130,7 +111,17 @@ class _ChatInputAreaMobile extends StatelessWidget {
                               ),
                             );
                           },
-                          child: icon,
+                          child: isMessageTextEmpty
+                              ? Icon(
+                                  Icons.mic,
+                                  key: const Key('mic_icon'),
+                                  color: customColors.onPrimary,
+                                )
+                              : Icon(
+                                  Icons.send,
+                                  key: const Key('send_icon'),
+                                  color: customColors.onPrimary,
+                                ),
                         );
                       },
                     ),

@@ -21,15 +21,3 @@ class ChatRoomOpenState extends ChatRoomState {
 class ChatRoomCloseState extends ChatRoomState {
   const ChatRoomCloseState();
 }
-
-class ChatRoomTextInputValueChangeState extends ChatRoomState {
-  const ChatRoomTextInputValueChangeState({required this.text});
-
-  final String text;
-
-  /// Returns `text.trim().isEmpty`
-  bool get isEmpty => text.trim().isEmpty;
-
-  @override
-  List<Object> get props => [text];
-}
