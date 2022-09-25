@@ -172,6 +172,8 @@ class _ChatInputAreaDesktop extends StatelessWidget {
                   icon: const Icon(Icons.attach_file),
                 ),
                 const SizedBox(width: 10),
+
+                // input box
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
@@ -187,6 +189,8 @@ class _ChatInputAreaDesktop extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
+
+                // send/voice button
                 IconButton(
                   onPressed: () {
                     final messageInputBloc = context.read<MessageInputBloc>();
