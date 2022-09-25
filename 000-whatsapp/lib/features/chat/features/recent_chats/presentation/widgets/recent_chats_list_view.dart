@@ -12,13 +12,14 @@ class RecentChatsListView extends StatefulWidget {
 }
 
 class _RecentChatsListViewState extends State<RecentChatsListView> {
-  late final _recentChats = context.read<ChatBloc>().state.recentChats;
+  late final _chatBloc = context.read<ChatBloc>();
 
   @override
   Widget build(BuildContext context) {
     final List<RecentChat> recentChats = context.select(
       (ChatBloc bloc) => bloc.state.recentChats,
     );
+
     return Theme.of(context).platform.isMobile
         ? SliverFixedExtentList(
             itemExtent: 76,
@@ -35,6 +36,6 @@ class _RecentChatsListViewState extends State<RecentChatsListView> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    return RecentChatsListTile(chat: _recentChats[index]);
+    return RecentChatsListTile(chat: _chatBloc.state.recentChats[index]);
   }
 }
