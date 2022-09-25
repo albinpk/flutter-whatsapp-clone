@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../core/models/whats_app_user_model.dart';
 import '../../../../chat.dart';
 
 class ChatRoomScreen extends StatelessWidget {
@@ -17,15 +16,11 @@ class ChatRoomScreen extends StatelessWidget {
       child: Scaffold(
         appBar: const ChatRoomAppBar(),
         body: Column(
-          children: [
+          children: const [
             Expanded(
-              child: Center(
-                child: Text(
-                  'Messages with ${context.select((WhatsAppUser user) => user.name)}',
-                ),
-              ),
+              child: ChatRoomMessagesView(),
             ),
-            const ChatInputArea(),
+            ChatInputArea(),
           ],
         ),
       ),
