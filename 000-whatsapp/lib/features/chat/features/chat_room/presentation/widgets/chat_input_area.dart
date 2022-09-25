@@ -14,14 +14,37 @@ class ChatInputArea extends StatelessWidget {
     return BlocProvider(
       create: (context) => MessageInputBloc(),
       child: Theme.of(context).platform.isMobile
-          ? const _ChatInputAreaMobile()
-          : const _ChatInputAreaDesktop(),
+          ? _ChatInputAreaMobile(onSendPressed: _onSendPressed)
+          : _ChatInputAreaDesktop(onSendPressed: _onSendPressed),
     );
+  }
+
+  void _onSendPressed(BuildContext context) {
+    final messageInputBloc = context.read<MessageInputBloc>();
+    if (messageInputBloc.state.isEmpty) {
+      // voice record
+      return;
+    }
+    context.read<ChatBloc>().add(
+          ChatMessageSend(
+            to: context.read<WhatsAppUser>(),
+            message: Message.fromText(
+              messageInputBloc.state.text,
+              author: context.read<User>(),
+            ),
+          ),
+        );
+    messageInputBloc.add(const MessageInputSendButtonPressed());
   }
 }
 
 class _ChatInputAreaMobile extends StatelessWidget {
-  const _ChatInputAreaMobile({Key? key}) : super(key: key);
+  const _ChatInputAreaMobile({
+    Key? key,
+    required this.onSendPressed,
+  }) : super(key: key);
+
+  final void Function(BuildContext context) onSendPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -93,25 +116,7 @@ class _ChatInputAreaMobile extends StatelessWidget {
                 decoration: boxDecoration,
                 child: ClipOval(
                   child: GestureDetector(
-                    onTap: () {
-                      final messageInputBloc = context.read<MessageInputBloc>();
-                      if (messageInputBloc.state.isEmpty) {
-                        // voice record
-                        return;
-                      }
-                      context.read<ChatBloc>().add(
-                            ChatMessageSend(
-                              to: context.read<WhatsAppUser>(),
-                              message: Message.fromText(
-                                messageInputBloc.state.text,
-                                author: context.read<User>(),
-                              ),
-                            ),
-                          );
-                      messageInputBloc.add(
-                        const MessageInputSendButtonPressed(),
-                      );
-                    },
+                    onTap: () => onSendPressed(context),
                     child: ColoredBox(
                       color: customColors.primary!,
                       child: BlocSelector<MessageInputBloc, MessageInputState,
@@ -158,7 +163,12 @@ class _ChatInputAreaMobile extends StatelessWidget {
 }
 
 class _ChatInputAreaDesktop extends StatelessWidget {
-  const _ChatInputAreaDesktop({Key? key}) : super(key: key);
+  const _ChatInputAreaDesktop({
+    Key? key,
+    required this.onSendPressed,
+  }) : super(key: key);
+
+  final void Function(BuildContext context) onSendPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -204,22 +214,7 @@ class _ChatInputAreaDesktop extends StatelessWidget {
 
                 // send/voice button
                 IconButton(
-                  onPressed: () {
-                    final messageInputBloc = context.read<MessageInputBloc>();
-                    if (messageInputBloc.state.isEmpty) {
-                      // voice record
-                      return;
-                    }
-                    context.read<ChatBloc>().add(
-                          ChatMessageSend(
-                            to: context.read<WhatsAppUser>(),
-                            message: Message.fromText(
-                              messageInputBloc.state.text,
-                              author: context.read<User>(),
-                            ),
-                          ),
-                        );
-                  },
+                  onPressed: () => onSendPressed(context),
                   icon: BlocSelector<MessageInputBloc, MessageInputState, bool>(
                     selector: (state) => state.isEmpty,
                     builder: (context, isMessageTextEmpty) {
