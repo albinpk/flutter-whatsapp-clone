@@ -23,6 +23,11 @@ class ChatState extends Equatable {
       );
   }
 
+  /// Return list of messages with given `user`
+  List<Message> getMessages(WhatsAppUser user) {
+    return _messageStore[user.id] ?? [];
+  }
+
   @override
   List<Object> get props => [_messageStore];
 
