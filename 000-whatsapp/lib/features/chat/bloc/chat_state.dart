@@ -19,7 +19,7 @@ class ChatState extends Equatable {
         )
         .toList()
       ..sort(
-        (a, b) => a.lastMessage.time.compareTo(b.lastMessage.time),
+        (a, b) => b.lastMessage.time.compareTo(a.lastMessage.time),
       );
   }
 
