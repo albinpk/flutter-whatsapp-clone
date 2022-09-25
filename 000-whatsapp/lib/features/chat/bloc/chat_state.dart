@@ -1,10 +1,12 @@
 part of 'chat_bloc.dart';
 
 class ChatState extends Equatable {
+  const ChatState({
+    required MessageStore messageStore,
+  }) : _messageStore = messageStore;
+
   /// A Map for store one-to-one chat messages
   final MessageStore _messageStore;
-
-  const ChatState.initial(this._messageStore);
 
   /// List of chats sorted by last message date
   List<RecentChat> get recentChats {
@@ -23,4 +25,12 @@ class ChatState extends Equatable {
 
   @override
   List<Object> get props => [_messageStore];
+
+  ChatState copyWith({
+    MessageStore? messageStore,
+  }) {
+    return ChatState(
+      messageStore: messageStore ?? _messageStore,
+    );
+  }
 }
