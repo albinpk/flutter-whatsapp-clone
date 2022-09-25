@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
@@ -13,7 +14,7 @@ class ChatInputArea extends StatelessWidget {
     return BlocProvider(
       create: (context) => MessageInputBloc(),
       child: Theme.of(context).platform.isMobile
-        ? const _ChatInputAreaMobile()
+          ? const _ChatInputAreaMobile()
           : const _ChatInputAreaDesktop(),
     );
   }
@@ -187,8 +188,29 @@ class _ChatInputAreaDesktop extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.mic),
+                  onPressed: () {
+                    final messageInputBloc = context.read<MessageInputBloc>();
+                    if (messageInputBloc.state.isEmpty) {
+                      // voice record
+                      return;
+                    }
+                    context.read<ChatBloc>().add(
+                          ChatMessageSend(
+                            to: context.read<WhatsAppUser>(),
+                            message: Message.fromText(
+                              messageInputBloc.state.text,
+                              author: context.read<User>(),
+                            ),
+                          ),
+                        );
+                  },
+                  icon: BlocSelector<MessageInputBloc, MessageInputState, bool>(
+                    selector: (state) => state.isEmpty,
+                    builder: (context, isMessageTextEmpty) {
+                      if (isMessageTextEmpty) return const Icon(Icons.mic);
+                      return const Icon(Icons.send);
+                    },
+                  ),
                 ),
               ],
             ),
