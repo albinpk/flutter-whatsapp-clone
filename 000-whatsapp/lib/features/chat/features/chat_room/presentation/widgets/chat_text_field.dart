@@ -14,7 +14,7 @@ class ChatTextField extends StatefulWidget {
 
 class _ChatTextFieldState extends State<ChatTextField> {
   final _textEditingController = TextEditingController();
-  late final _chatRoomBloc = context.read<ChatRoomBloc>();
+  late final _messageInputBloc = context.read<MessageInputBloc>();
 
   @override
   void initState() {
@@ -23,8 +23,8 @@ class _ChatTextFieldState extends State<ChatTextField> {
   }
 
   void _chatTextFieldListener() {
-    _chatRoomBloc.add(
-      ChatRoomTextInputValueChange(text: _textEditingController.text),
+    _messageInputBloc.add(
+      MessageInputTextChange(text: _textEditingController.text),
     );
   }
 
