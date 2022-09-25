@@ -15,3 +15,7 @@ class MessageInputTextChange extends MessageInputEvent {
   @override
   List<Object> get props => [text];
 }
+
+class MessageInputSendButtonPressed extends MessageInputEvent {
+  const MessageInputSendButtonPressed();
+}

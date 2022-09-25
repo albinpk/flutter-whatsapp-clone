@@ -7,6 +7,7 @@ part 'message_input_state.dart';
 class MessageInputBloc extends Bloc<MessageInputEvent, MessageInputState> {
   MessageInputBloc() : super(const MessageInputState()) {
     on<MessageInputTextChange>(_onTextChange);
+    on<MessageInputSendButtonPressed>(_onSendButtonPressed);
   }
 
   void _onTextChange(
@@ -14,5 +15,12 @@ class MessageInputBloc extends Bloc<MessageInputEvent, MessageInputState> {
     Emitter<MessageInputState> emit,
   ) {
     emit(state.copyWith(text: event.text));
+  }
+
+  void _onSendButtonPressed(
+    MessageInputSendButtonPressed event,
+    Emitter<MessageInputState> emit,
+  ) {
+    emit(state.copyWith(isSendPressed: true));
   }
 }
