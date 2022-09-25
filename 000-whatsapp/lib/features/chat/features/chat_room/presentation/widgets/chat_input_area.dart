@@ -10,9 +10,12 @@ class ChatInputArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme.of(context).platform.isMobile
+    return BlocProvider(
+      create: (context) => MessageInputBloc(),
+      child: Theme.of(context).platform.isMobile
         ? const _ChatInputAreaMobile()
-        : const _ChatInputAreaDesktop();
+          : const _ChatInputAreaDesktop(),
+    );
   }
 }
 
