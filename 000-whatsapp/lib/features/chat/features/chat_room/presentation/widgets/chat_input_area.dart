@@ -108,6 +108,9 @@ class _ChatInputAreaMobile extends StatelessWidget {
                               ),
                             ),
                           );
+                      messageInputBloc.add(
+                        const MessageInputSendButtonPressed(),
+                      );
                     },
                     child: ColoredBox(
                       color: customColors.primary!,

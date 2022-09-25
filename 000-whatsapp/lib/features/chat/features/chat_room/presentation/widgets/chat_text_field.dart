@@ -29,6 +29,14 @@ class _ChatTextFieldState extends State<ChatTextField> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_messageInputBloc.state.isSendPressed) {
+      _textEditingController.clear();
+    }
+  }
+
+  @override
   void dispose() {
     _textEditingController.removeListener(_chatTextFieldListener);
     _textEditingController.dispose();
@@ -39,6 +47,10 @@ class _ChatTextFieldState extends State<ChatTextField> {
   Widget build(BuildContext context) {
     final isMobile = Theme.of(context).platform.isMobile;
     final textTheme = Theme.of(context).textTheme;
+
+    // To clear TextField after send button
+    // pressed (in didChangeDependencies)
+    context.select((MessageInputBloc bloc) => bloc.state.isSendPressed);
 
     return TextField(
       controller: _textEditingController,
