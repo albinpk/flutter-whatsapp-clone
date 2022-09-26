@@ -19,6 +19,8 @@ final lightThemeColors = CustomColors(
   onBackground: const Color(0xFF111B21),
   onBackgroundMuted: const Color(0xFF667781),
   iconMuted: const Color(0xFF8696A0),
+  sendMessageBubbleBackground: const Color(0xFFE7FFDB),
+  receiveMessageBubbleBackground: Colors.white,
 );
 
 final darkThemeColors = CustomColors(
@@ -32,4 +34,6 @@ final darkThemeColors = CustomColors(
   onBackground: const Color(0xFFE9EDEF),
   onBackgroundMuted: const Color(0xFF8696A0),
   iconMuted: const Color(0xFF8696A0),
+  sendMessageBubbleBackground: const Color(0xFF005C4B),
+  receiveMessageBubbleBackground: const Color(0xFF202C33),
 );
