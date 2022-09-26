@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
+import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -20,11 +21,14 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isUserMessage = message.author == context.watch<User>();
+    final customColors = CustomColors.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 1.2),
       child: CustomPaint(
         painter: _MessageBubblePainter(
-          color: isUserMessage ? Colors.green : Colors.grey,
+          color: isUserMessage
+              ? customColors.sendMessageBubbleBackground!
+              : customColors.receiveMessageBubbleBackground!,
           bubbleArrow: showArrow
               ? isUserMessage
                   ? _MessageBubbleArrow.right
