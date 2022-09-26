@@ -17,7 +17,13 @@ class ChatRoomMessagesView extends StatelessWidget {
     return ListView.builder(
       itemCount: messages.length,
       itemBuilder: (context, index) {
-        return MessageBox(message: messages[index]);
+        final message = messages[index];
+        final isFirstInSection =
+            index == 0 ? true : messages[--index].author != message.author;
+        return MessageBox(
+          message: message,
+          isFirstInSection: isFirstInSection,
+        );
       },
     );
   }

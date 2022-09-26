@@ -8,17 +8,24 @@ class MessageBox extends StatelessWidget {
   const MessageBox({
     super.key,
     required this.message,
+    this.isFirstInSection = false,
   });
 
   final Message message;
 
+  /// Whether the message is first in a section of messages by same user.
+  final bool isFirstInSection;
+
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<User>();
     return Align(
-      alignment:
-          message.author == user ? Alignment.centerRight : Alignment.centerLeft,
-      child: MessageBubble(message: message),
+      alignment: message.author == context.watch<User>()
+          ? Alignment.centerRight
+          : Alignment.centerLeft,
+      child: MessageBubble(
+        message: message,
+        showArrow: isFirstInSection,
+      ),
     );
   }
 }
