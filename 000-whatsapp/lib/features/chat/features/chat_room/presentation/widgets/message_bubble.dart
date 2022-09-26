@@ -60,44 +60,49 @@ class _MessageBubblePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final w = size.width;
     final h = size.height;
-    const curve = 10.0; // Bubble curve
-    const arrowCurve = 5.0;
+    const bubbleCurve = 15.0;
+    const arrowSize = 11.0;
+    const arrowCurve = 6.0;
 
     final paint = Paint()..color = color;
-    final path = Path()..moveTo(0, curve);
+    final path = Path();
 
     // Top part of message bubble
     switch (bubbleArrow) {
       case _MessageBubbleArrow.left:
         path
-          ..lineTo((0 - curve) + arrowCurve, arrowCurve)
+          ..moveTo(0, arrowSize)
+          ..lineTo((0 - arrowSize) + arrowCurve, arrowCurve)
           // Arrow to left
-          ..conicTo(0 - curve, 0, (0 - curve) + arrowCurve, 0, 0.5)
-          ..lineTo(w - curve, 0)
-          ..quadraticBezierTo(w, 0, w, curve); // Top right curve
+          ..conicTo(0 - arrowSize, 0, (0 - arrowSize) + arrowCurve, 0, 0.5)
+          ..lineTo(w - bubbleCurve, 0)
+          ..quadraticBezierTo(w, 0, w, bubbleCurve); // Top right curve
         break;
       case _MessageBubbleArrow.right:
         path
-          ..quadraticBezierTo(0, 0, curve, 0) // Top left curve
-          ..lineTo((w + curve) - arrowCurve, 0)
+          ..moveTo(0, bubbleCurve)
+          ..quadraticBezierTo(0, 0, bubbleCurve, 0) // Top left curve
+          ..lineTo((w + arrowSize) - arrowCurve, 0)
           // Arrow to right
-          ..conicTo(w + curve, 0, (w + curve) - arrowCurve, arrowCurve, 0.5)
-          ..lineTo(w, curve);
+          ..conicTo(
+              w + arrowSize, 0, (w + arrowSize) - arrowCurve, arrowCurve, 0.5)
+          ..lineTo(w, arrowSize);
         break;
       case null:
         path
-          ..quadraticBezierTo(0, 0, curve, 0) // Top left curve
-          ..lineTo(w - curve, 0)
-          ..quadraticBezierTo(w, 0, w, curve); // Top right curve
+          ..moveTo(0, bubbleCurve)
+          ..quadraticBezierTo(0, 0, bubbleCurve, 0) // Top left curve
+          ..lineTo(w - bubbleCurve, 0)
+          ..quadraticBezierTo(w, 0, w, bubbleCurve); // Top right curve
         break;
     }
 
     // Bottom part of message bubble
     path
-      ..lineTo(w, h - curve)
-      ..quadraticBezierTo(w, h, w - curve, h) // Bottom right curve
-      ..lineTo(curve, h)
-      ..quadraticBezierTo(0, h, 0, h - curve); // Bottom left curve
+      ..lineTo(w, h - bubbleCurve)
+      ..quadraticBezierTo(w, h, w - bubbleCurve, h) // Bottom right curve
+      ..lineTo(bubbleCurve, h)
+      ..quadraticBezierTo(0, h, 0, h - bubbleCurve); // Bottom left curve
 
     canvas.drawPath(path, paint);
   }
