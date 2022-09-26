@@ -108,6 +108,12 @@ class _MessageBubblePainter extends CustomPainter {
       ..lineTo(bubbleCurve, h)
       ..quadraticBezierTo(0, h, 0, h - bubbleCurve); // Bottom left curve
 
+    canvas.drawShadow(
+      path.shift(const Offset(0, -0.5)),
+      Colors.black,
+      1,
+      true,
+    );
     canvas.drawPath(path, paint);
   }
 
