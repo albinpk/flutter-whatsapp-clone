@@ -15,6 +15,7 @@ class ChatRoomMessagesView extends StatelessWidget {
     );
 
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: 5),
       itemCount: messages.length,
       itemBuilder: (context, index) {
         final message = messages[index];

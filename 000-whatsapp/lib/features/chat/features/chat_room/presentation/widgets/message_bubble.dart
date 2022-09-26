@@ -37,7 +37,12 @@ class MessageBubble extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(message.content.text),
+          child: Text(
+            message.content.text,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: 16,
+                ),
+          ),
         ),
       ),
     );
