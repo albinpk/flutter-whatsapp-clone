@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
+import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
 
@@ -20,15 +21,22 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final isMobile = theme.platform.isMobile;
+    final messageTextStyle = textTheme.bodyMedium!.copyWith(
+      fontSize: isMobile ? 16 : null,
+    );
+    final timeTextStyle = textTheme.bodySmall!.copyWith(
+      fontSize: isMobile ? null : 10,
+    );
     final messageText = message.content.text;
-    final textStyle = textTheme.bodyMedium!.copyWith(fontSize: 16);
     // Adding extra white spaces at the end of text to
     // wrap the line before overlapping the time text.
     // And the unicode character is for prevent text trimming.
     const extraSpace = '             \u202f';
-    final messageTextWidth = textWidth(messageText, textStyle);
-    final extraSpaceWidth = textWidth(extraSpace, textStyle);
+    final messageTextWidth = textWidth(messageText, messageTextStyle);
+    final extraSpaceWidth = textWidth(extraSpace, messageTextStyle);
     const padding = 8.0; // Padding for the message text
     final isUserMessage = message.author == context.watch<User>();
     final customColors = CustomColors.of(context);
@@ -89,7 +97,7 @@ class MessageBubble extends StatelessWidget {
                   child: Text(
                     '$messageText'
                     '${isTimeInSameLine ? extraSpace : ''}',
-                    style: textStyle,
+                    style: messageTextStyle,
                   ),
                 ),
 
@@ -99,7 +107,7 @@ class MessageBubble extends StatelessWidget {
                   right: 10,
                   child: Text(
                     message.time.toString().substring(0, 7),
-                    style: textTheme.bodySmall,
+                    style: timeTextStyle,
                   ),
                 ),
               ],
