@@ -23,6 +23,8 @@ class MessageBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
+    final customColors = CustomColors.of(context);
+    const padding = 8.0; // Padding for the message text
     final isMobile = theme.platform.isMobile;
     final messageTextStyle = textTheme.bodyMedium!.copyWith(
       fontSize: isMobile ? 16 : null,
@@ -30,16 +32,27 @@ class MessageBubble extends StatelessWidget {
     final timeTextStyle = textTheme.bodySmall!.copyWith(
       fontSize: isMobile ? null : 10,
     );
+
+    final isUserMessage = message.author == context.watch<User>();
     final messageText = message.content.text;
+    final timeText = message.time.toString().substring(0, 7);
+
     // Adding extra white spaces at the end of text to
     // wrap the line before overlapping the time text.
-    // And the unicode character is for prevent text trimming.
-    const extraSpace = '             \u202f';
+    // And the unicode character at the end is for prevent text trimming.
+
+    // Calculate timeText width
+    // eg: width of "1:11" and "12:44" is different or
+    // width of "4:44" and "1:11" is different in non-monospace fonts
+    final timeTextWidth = textWidth(timeText, timeTextStyle);
     final messageTextWidth = textWidth(messageText, messageTextStyle);
+    final whiteSpaceWidth = textWidth(' ', messageTextStyle);
+    // More space on desktop (+8)
+    final extraSpaceCount =
+        ((timeTextWidth / whiteSpaceWidth).round()) + (isMobile ? 2 : 8);
+    final extraSpace = '${' ' * extraSpaceCount}\u202f';
     final extraSpaceWidth = textWidth(extraSpace, messageTextStyle);
-    const padding = 8.0; // Padding for the message text
-    final isUserMessage = message.author == context.watch<User>();
-    final customColors = CustomColors.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 1.2),
       child: CustomPaint(
@@ -93,6 +106,7 @@ class MessageBubble extends StatelessWidget {
                   padding: const EdgeInsets.all(padding).copyWith(
                     bottom: isTimeInSameLine ? padding : 25,
                   ),
+
                   // Message text
                   child: Text(
                     '$messageText'
@@ -106,7 +120,7 @@ class MessageBubble extends StatelessWidget {
                   bottom: 5,
                   right: 10,
                   child: Text(
-                    message.time.toString().substring(0, 7),
+                    timeText,
                     style: timeTextStyle,
                   ),
                 ),
