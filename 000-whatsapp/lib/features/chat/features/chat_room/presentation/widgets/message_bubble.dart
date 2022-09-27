@@ -20,6 +20,16 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final messageText = message.content.text;
+    final textStyle = textTheme.bodyMedium!.copyWith(fontSize: 16);
+    // Adding extra white spaces at the end of text to
+    // wrap the line before overlapping the time text.
+    // And the unicode character is for prevent text trimming.
+    const extraSpace = '             \u202f';
+    final messageTextWidth = textWidth(messageText, textStyle);
+    final extraSpaceWidth = textWidth(extraSpace, textStyle);
+    const padding = 8.0; // Padding for the message text
     final isUserMessage = message.author == context.watch<User>();
     final customColors = CustomColors.of(context);
     return Padding(
@@ -35,17 +45,78 @@ class MessageBubble extends StatelessWidget {
                   : _MessageBubbleArrow.left
               : null,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            message.content.text,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 16,
+        child: LayoutBuilder(
+          builder: (context, constrains) {
+            final maxWidth = constrains.maxWidth - (padding * 2);
+
+            // Deciding the placement of time text.
+
+            //                                      maxWidth
+            //                                         |
+            // Short message                           v
+            // |---------------|
+            // | MESSAGE  time |
+            // |---------------|
+
+            // text + extraSpace < maxWidth
+            // |---------------------------------------|
+            // | MESSAGE.MESSAGE.MESSAGE.MESSAGE  time |
+            // |---------------------------------------|
+
+            // text < maxWidth
+            // |---------------------------------------|
+            // | MESSAGE.MESSAGE.MSGS..MESSAGE.MESSAGE |
+            // |                                  time |
+            // |---------------------------------------|
+
+            // text > maxWidth
+            // |---------------------------------------|
+            // | MESSAGE.MESSAGE.MSGS..MESSAGE.MESSAGE |
+            // | MESSAGE.MESSAGE.MESSAGE          time |
+            // |---------------------------------------|
+            final isTimeInSameLine =
+                messageTextWidth + extraSpaceWidth < maxWidth ||
+                    messageTextWidth > maxWidth;
+
+            // Using Stack to show message time in bottom right corner.
+            return Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(padding).copyWith(
+                    bottom: isTimeInSameLine ? padding : 25,
+                  ),
+                  // Message text
+                  child: Text(
+                    '$messageText'
+                    '${isTimeInSameLine ? extraSpace : ''}',
+                    style: textStyle,
+                  ),
                 ),
-          ),
+
+                // Message time
+                Positioned(
+                  bottom: 5,
+                  right: 10,
+                  child: Text(
+                    message.time.toString().substring(0, 7),
+                    style: textTheme.bodySmall,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
+  }
+
+  /// Returns the width of given `text` using TextPainter
+  double textWidth(String text, TextStyle style) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    return textPainter.width;
   }
 }
 
