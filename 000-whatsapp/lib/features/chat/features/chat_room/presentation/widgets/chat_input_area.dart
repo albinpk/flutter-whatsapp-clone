@@ -29,7 +29,7 @@ class ChatInputArea extends StatelessWidget {
           ChatMessageSend(
             to: context.read<WhatsAppUser>(),
             message: Message.fromText(
-              messageInputBloc.state.text,
+              messageInputBloc.state.text.trim(),
               author: context.read<User>(),
             ),
           ),
