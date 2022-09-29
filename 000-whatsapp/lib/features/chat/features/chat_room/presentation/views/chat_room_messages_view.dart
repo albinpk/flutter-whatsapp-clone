@@ -10,17 +10,21 @@ class ChatRoomMessagesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedUser = context.select((WhatsAppUser user) => user);
-    final messages = context.select(
-      (ChatBloc bloc) => bloc.state.getMessages(selectedUser),
-    );
+    final messages = context
+        .select((ChatBloc bloc) => bloc.state.getMessages(selectedUser))
+        .reversed
+        .toList();
+    final length = messages.length;
 
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 5),
       itemCount: messages.length,
+      reverse: true,
       itemBuilder: (context, index) {
         final message = messages[index];
-        final isFirstInSection =
-            index == 0 ? true : messages[--index].author != message.author;
+        final isFirstInSection = index == length - 1
+            ? true
+            : messages[++index].author != message.author;
         return MessageBox(
           message: message,
           isFirstInSection: isFirstInSection,
