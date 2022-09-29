@@ -24,7 +24,6 @@ class MessageBubble extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final customColors = CustomColors.of(context);
-    const padding = 8.0; // Padding for the message text
     final isMobile = theme.platform.isMobile;
     final messageTextStyle = textTheme.bodyMedium!.copyWith(
       fontSize: isMobile ? 16 : null,
@@ -68,6 +67,7 @@ class MessageBubble extends StatelessWidget {
         ),
         child: LayoutBuilder(
           builder: (context, constrains) {
+            const padding = 8.0; // Padding for the message text
             final maxWidth = constrains.maxWidth - (padding * 2);
 
             // Deciding the placement of time text.
@@ -160,11 +160,18 @@ class _MessageBubblePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final w = size.width;
-    final h = size.height;
-    const bubbleCurve = 15.0;
+    // Message bubble coordinates, for more readability
+    const left = 0.0;
+    const top = 0.0;
+    final right = size.width;
+    final bottom = size.height;
+
+    // Message bubble border radius
+    const borderRadius = 15.0;
+    // Width of bubble arrow
     const arrowSize = 11.0;
-    const arrowCurve = 6.0;
+    // Bubble arrow border radius
+    const arrowBorderRadius = 6.0;
 
     final paint = Paint()..color = color;
     final path = Path();
@@ -173,44 +180,64 @@ class _MessageBubblePainter extends CustomPainter {
     switch (bubbleArrow) {
       case _MessageBubbleArrow.left:
         path
-          ..moveTo(0, arrowSize)
-          ..lineTo((0 - arrowSize) + arrowCurve, arrowCurve)
+          ..moveTo(left, arrowSize)
+          ..lineTo((left - arrowSize) + arrowBorderRadius, arrowBorderRadius)
           // Arrow to left
-          ..conicTo(0 - arrowSize, 0, (0 - arrowSize) + arrowCurve, 0, 0.5)
-          ..lineTo(w - bubbleCurve, 0)
-          ..quadraticBezierTo(w, 0, w, bubbleCurve); // Top right curve
+          ..conicTo(
+            left - arrowSize,
+            top,
+            (left - arrowSize) + arrowBorderRadius,
+            top,
+            0.5,
+          )
+          ..lineTo(right - borderRadius, top)
+          // Top right curve
+          ..quadraticBezierTo(right, top, right, borderRadius);
         break;
+
       case _MessageBubbleArrow.right:
         path
-          ..moveTo(0, bubbleCurve)
-          ..quadraticBezierTo(0, 0, bubbleCurve, 0) // Top left curve
-          ..lineTo((w + arrowSize) - arrowCurve, 0)
+          ..moveTo(left, borderRadius)
+          // Top left curve
+          ..quadraticBezierTo(left, top, borderRadius, top)
+          ..lineTo((right + arrowSize) - arrowBorderRadius, top)
           // Arrow to right
           ..conicTo(
-              w + arrowSize, 0, (w + arrowSize) - arrowCurve, arrowCurve, 0.5)
-          ..lineTo(w, arrowSize);
+            right + arrowSize,
+            top,
+            (right + arrowSize) - arrowBorderRadius,
+            arrowBorderRadius,
+            0.5,
+          )
+          ..lineTo(right, arrowSize);
         break;
+
       case null:
         path
-          ..moveTo(0, bubbleCurve)
-          ..quadraticBezierTo(0, 0, bubbleCurve, 0) // Top left curve
-          ..lineTo(w - bubbleCurve, 0)
-          ..quadraticBezierTo(w, 0, w, bubbleCurve); // Top right curve
+          ..moveTo(left, borderRadius)
+          // Top left curve
+          ..quadraticBezierTo(left, top, borderRadius, top)
+          ..lineTo(right - borderRadius, top)
+          // Top right curve
+          ..quadraticBezierTo(right, top, right, borderRadius);
         break;
     }
 
     // Bottom part of message bubble
     path
-      ..lineTo(w, h - bubbleCurve)
-      ..quadraticBezierTo(w, h, w - bubbleCurve, h) // Bottom right curve
-      ..lineTo(bubbleCurve, h)
-      ..quadraticBezierTo(0, h, 0, h - bubbleCurve); // Bottom left curve
+      ..lineTo(right, bottom - borderRadius)
+      // Bottom right curve
+      ..quadraticBezierTo(right, bottom, right - borderRadius, bottom)
+      ..lineTo(borderRadius, bottom)
+      // Bottom left curve
+      ..quadraticBezierTo(left, bottom, left, bottom - borderRadius);
 
+    // Drawing shadow for message bubble
     canvas.drawShadow(
       path.shift(const Offset(0, -0.5)),
       Colors.black,
       1,
-      true,
+      false, // false, because message bubble is not transparent
     );
     canvas.drawPath(path, paint);
   }
