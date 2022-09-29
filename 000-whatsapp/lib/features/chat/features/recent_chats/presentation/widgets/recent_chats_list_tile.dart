@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
@@ -33,6 +34,7 @@ class RecentChatsListTile extends StatelessWidget {
       leading: const UserDP(radius: 25),
       title: Row(
         children: [
+          // User name
           Expanded(
             child: Text(
               chat.user.name,
@@ -42,8 +44,10 @@ class RecentChatsListTile extends StatelessWidget {
                   ),
             ),
           ),
+
+          // Last message time
           Text(
-            chat.lastMessage.time.toString().substring(0, 10),
+            DateFormat(DateFormat.HOUR_MINUTE).format(chat.lastMessage.time),
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
@@ -52,6 +56,7 @@ class RecentChatsListTile extends StatelessWidget {
         padding: const EdgeInsets.only(top: 5),
         child: Row(
           children: [
+            // Last message
             Expanded(
               child: Text(
                 chat.lastMessage.content.text,
@@ -61,6 +66,7 @@ class RecentChatsListTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
+
             IconTheme(
               data: IconTheme.of(context).copyWith(
                 size: 20,
