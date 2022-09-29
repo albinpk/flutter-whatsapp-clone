@@ -16,16 +16,66 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<ChatMessageSend>(_onMessageSend);
   }
 
-  void _onMessageSend(
+  Future<void> _onMessageSend(
     ChatMessageSend event,
     Emitter<ChatState> emit,
-  ) {
-    final MessageStore store = Map.from(state._messageStore);
+  ) async {
+    final message = event.message;
+
+    // Add the message to messageStore
+    final MessageStore store = _store;
     store.update(
       event.to.id,
-      (messages) => [...messages, event.message],
-      ifAbsent: () => [event.message],
+      (messages) => [...messages, message],
+      ifAbsent: () => [message],
     );
     emit(state.copyWith(messageStore: store));
+
+    /// Update the status of sended message and emit
+    void updateStatusAndEmit(MessageStatus status) {
+      final MessageStore store = _store;
+      store.update(
+        event.to.id,
+        (messages) {
+          final i = messages.indexWhere((m) => m.id == message.id);
+          final updatedMsg = messages[i].changeStatus(status);
+          return [...messages]..replaceRange(i, i + 1, [updatedMsg]);
+        },
+      );
+      emit(state.copyWith(messageStore: store));
+    }
+
+    // Mock message status changes and reply the same message
+
+    // Set status to sended
+    await Future.delayed(const Duration(milliseconds: 500), () {
+      updateStatusAndEmit(MessageStatus.sended);
+    });
+
+    // Set status to delivered
+    await Future.delayed(const Duration(milliseconds: 500), () {
+      updateStatusAndEmit(MessageStatus.delivered);
+    });
+
+    // Set status to read
+    await Future.delayed(const Duration(seconds: 1), () {
+      updateStatusAndEmit(MessageStatus.read);
+    });
+
+    // Reply the same message
+    await Future.delayed(const Duration(seconds: 2), () {
+      final MessageStore store = _store;
+      store.update(
+        event.to.id,
+        (messages) => [
+          ...messages,
+          Message.fromText(message.content.text, author: event.to),
+        ],
+      );
+      emit(state.copyWith(messageStore: store));
+    });
   }
+
+  /// Return a fresh copy of _messageStore
+  Map<String, List<Message>> get _store => Map.from(state._messageStore);
 }
