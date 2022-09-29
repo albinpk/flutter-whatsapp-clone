@@ -39,6 +39,8 @@ class MessageBubble extends StatelessWidget {
 
     final messageText = message.content.text;
     final timeText = DateFormat(DateFormat.HOUR_MINUTE).format(message.time);
+    // Read message check mark icon
+    const iconSize = 18.0;
 
     // Adding extra white spaces at the end of text to
     // wrap the line before overlapping the time text.
@@ -47,7 +49,8 @@ class MessageBubble extends StatelessWidget {
     // Calculate timeText width
     // eg: width of "1:11" and "12:44" is different or
     // width of "4:44" and "1:11" is different in non-monospace fonts
-    final timeTextWidth = textWidth(timeText, timeTextStyle);
+    final timeTextWidth =
+        textWidth(timeText, timeTextStyle) + (isUserMessage ? iconSize : 0);
     final messageTextWidth = textWidth(messageText, messageTextStyle);
     final whiteSpaceWidth = textWidth(' ', messageTextStyle);
     // More space on desktop (+8)
@@ -124,9 +127,21 @@ class MessageBubble extends StatelessWidget {
                 Positioned(
                   bottom: 5,
                   right: 10,
-                  child: Text(
-                    timeText,
-                    style: timeTextStyle,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        timeText,
+                        style: timeTextStyle,
+                      ),
+                      if (isUserMessage)
+                        // Message read check mark
+                        const Icon(
+                          Icons.done,
+                          size: iconSize,
+                          color: Colors.blue,
+                        ),
+                    ],
                   ),
                 ),
               ],
