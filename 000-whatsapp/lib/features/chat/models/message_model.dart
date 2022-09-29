@@ -16,11 +16,15 @@ class Message extends Equatable {
   /// User who sent the message
   final WhatsAppUser author;
 
+  /// Status of the message
+  final MessageStatus status;
+
   const Message({
     required this.id,
     required this.content,
     required this.time,
     required this.author,
+    this.status = MessageStatus.pending,
   });
 
   /// Create [Message] from [MessageContent.text]
@@ -29,10 +33,26 @@ class Message extends Equatable {
     required this.author,
   })  : id = const Uuid().v4(),
         content = MessageContent(text: text),
-        time = DateTime.now();
+        time = DateTime.now(),
+        status = MessageStatus.pending;
 
   @override
   List<Object> get props => [id];
+}
+
+/// Status of a [Message]
+enum MessageStatus {
+  /// Message not sended to server.
+  pending,
+
+  /// Message sended to server.
+  sended,
+
+  /// Message delivered to user.
+  delivered,
+
+  /// Messaged read by user.
+  read,
 }
 
 class MessageContent {
