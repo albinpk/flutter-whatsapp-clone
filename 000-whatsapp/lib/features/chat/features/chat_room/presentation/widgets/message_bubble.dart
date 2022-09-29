@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/extensions/platform_type.dart';
@@ -34,7 +35,7 @@ class MessageBubble extends StatelessWidget {
 
     final isUserMessage = message.author == context.watch<User>();
     final messageText = message.content.text;
-    final timeText = message.time.toString().substring(0, 7);
+    final timeText = DateFormat(DateFormat.HOUR_MINUTE).format(message.time);
 
     // Adding extra white spaces at the end of text to
     // wrap the line before overlapping the time text.
