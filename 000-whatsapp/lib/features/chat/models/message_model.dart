@@ -38,6 +38,17 @@ class Message extends Equatable {
 
   @override
   List<Object> get props => [id];
+
+  /// Return Message with given `status`
+  Message changeStatus(MessageStatus status) {
+    return Message(
+      id: id,
+      content: content,
+      time: time,
+      author: author,
+      status: status,
+    );
+  }
 }
 
 /// Status of a [Message]
