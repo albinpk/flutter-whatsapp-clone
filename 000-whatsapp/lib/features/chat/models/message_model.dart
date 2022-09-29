@@ -37,7 +37,7 @@ class Message extends Equatable {
         status = MessageStatus.pending;
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [id, content, time, author, status];
 
   /// Return Message with given `status`
   Message changeStatus(MessageStatus status) {
@@ -69,11 +69,14 @@ enum MessageStatus {
   bool get isPending => this == pending;
 }
 
-class MessageContent {
+class MessageContent extends Equatable {
   /// The actual message
   final String text;
 
   const MessageContent({
     required this.text,
   });
+
+  @override
+  List<Object> get props => [text];
 }

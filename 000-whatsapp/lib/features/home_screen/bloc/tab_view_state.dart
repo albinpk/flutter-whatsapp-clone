@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'tab_view_bloc.dart';
 
 enum TabView { chats, status, calls }
