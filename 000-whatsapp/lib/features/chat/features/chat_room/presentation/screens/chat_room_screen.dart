@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
 
 class ChatRoomScreen extends StatelessWidget {
@@ -14,6 +15,7 @@ class ChatRoomScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        backgroundColor: CustomColors.of(context).chatRoomBackground,
         appBar: const ChatRoomAppBar(),
         body: Column(
           children: const [

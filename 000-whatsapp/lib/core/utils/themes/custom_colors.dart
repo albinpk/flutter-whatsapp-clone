@@ -19,6 +19,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
   /// Icon color
   final Color? iconMuted;
 
+  final Color? chatRoomBackground;
+
+  // Message bubble colors
   final Color? sendMessageBubbleBackground;
   final Color? receiveMessageBubbleBackground;
 
@@ -32,6 +35,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.onBackground,
     required this.onBackgroundMuted,
     required this.iconMuted,
+    required this.chatRoomBackground,
     required this.sendMessageBubbleBackground,
     required this.receiveMessageBubbleBackground,
   });
@@ -53,6 +57,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
       onBackgroundMuted:
           Color.lerp(onBackgroundMuted, other.onBackgroundMuted, t),
       iconMuted: Color.lerp(iconMuted, other.iconMuted, t),
+      chatRoomBackground:
+          Color.lerp(chatRoomBackground, other.chatRoomBackground, t),
       sendMessageBubbleBackground: Color.lerp(
           sendMessageBubbleBackground, other.sendMessageBubbleBackground, t),
       receiveMessageBubbleBackground: Color.lerp(receiveMessageBubbleBackground,
@@ -75,6 +81,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? onBackground,
     Color? onBackgroundMuted,
     Color? iconMuted,
+    Color? chatRoomBackground,
     Color? sendMessageBubbleBackground,
     Color? receiveMessageBubbleBackground,
   }) {
@@ -88,6 +95,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       onBackground: onBackground ?? this.onBackground,
       onBackgroundMuted: onBackgroundMuted ?? this.onBackgroundMuted,
       iconMuted: iconMuted ?? this.iconMuted,
+      chatRoomBackground: chatRoomBackground ?? this.chatRoomBackground,
       sendMessageBubbleBackground:
           sendMessageBubbleBackground ?? this.sendMessageBubbleBackground,
       receiveMessageBubbleBackground:
