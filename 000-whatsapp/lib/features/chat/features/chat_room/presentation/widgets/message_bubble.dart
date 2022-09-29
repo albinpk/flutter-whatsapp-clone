@@ -29,11 +29,14 @@ class MessageBubble extends StatelessWidget {
     final messageTextStyle = textTheme.bodyMedium!.copyWith(
       fontSize: isMobile ? 16 : null,
     );
+    final isUserMessage = message.author == context.watch<User>();
     final timeTextStyle = textTheme.bodySmall!.copyWith(
       fontSize: isMobile ? null : 10,
+      color: isUserMessage && theme.brightness == Brightness.dark
+          ? const Color(0xFF99BEB7)
+          : customColors.onBackgroundMuted,
     );
 
-    final isUserMessage = message.author == context.watch<User>();
     final messageText = message.content.text;
     final timeText = DateFormat(DateFormat.HOUR_MINUTE).format(message.time);
 
@@ -53,6 +56,7 @@ class MessageBubble extends StatelessWidget {
     final extraSpace = '${' ' * extraSpaceCount}\u202f';
     final extraSpaceWidth = textWidth(extraSpace, messageTextStyle);
 
+    // Padding outside message bubble
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 1.2),
       child: CustomPaint(
@@ -145,6 +149,7 @@ class MessageBubble extends StatelessWidget {
 
 enum _MessageBubbleArrow { left, right }
 
+/// CustomPainter for draw message bubble
 class _MessageBubblePainter extends CustomPainter {
   const _MessageBubblePainter({
     this.bubbleArrow,
