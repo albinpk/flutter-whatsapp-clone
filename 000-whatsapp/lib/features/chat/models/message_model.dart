@@ -52,7 +52,10 @@ enum MessageStatus {
   delivered,
 
   /// Messaged read by user.
-  read,
+  read;
+
+  /// Return `true` if status is [MessageStatus.pending].
+  bool get isPending => this == pending;
 }
 
 class MessageContent {

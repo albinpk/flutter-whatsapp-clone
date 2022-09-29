@@ -39,6 +39,7 @@ class MessageBubble extends StatelessWidget {
 
     final messageText = message.content.text;
     final timeText = DateFormat(DateFormat.HOUR_MINUTE).format(message.time);
+    final status = message.status;
     // Read message check mark icon
     const iconSize = 18.0;
 
@@ -134,13 +135,20 @@ class MessageBubble extends StatelessWidget {
                         timeText,
                         style: timeTextStyle,
                       ),
-                      if (isUserMessage)
-                        // Message read check mark
-                        const Icon(
-                          Icons.done,
-                          size: iconSize,
-                          color: Colors.blue,
+                      // Message status icon
+                      if (isUserMessage) ...[
+                        // Adding space (4) here and
+                        // subtract from iconSize below if status is pending.
+                        // Because the access_time icon is larger than other status icons.
+                        if (status.isPending) const SizedBox(width: 4),
+                        Icon(
+                          _getStatusIcon(status),
+                          size: status.isPending ? iconSize - 4 : iconSize,
+                          color: status == MessageStatus.read
+                              ? Colors.blue
+                              : timeTextStyle.color,
                         ),
+                      ],
                     ],
                   ),
                 ),
@@ -159,6 +167,19 @@ class MessageBubble extends StatelessWidget {
       textDirection: TextDirection.ltr,
     )..layout();
     return textPainter.width;
+  }
+
+  /// Return appropriate icon for message status
+  IconData _getStatusIcon(MessageStatus status) {
+    switch (status) {
+      case MessageStatus.pending:
+        return Icons.access_time;
+      case MessageStatus.sended:
+        return Icons.done;
+      case MessageStatus.delivered:
+      case MessageStatus.read:
+        return Icons.done_all;
+    }
   }
 }
 
