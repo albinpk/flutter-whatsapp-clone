@@ -15,6 +15,7 @@ final MessageStore messages = {
       id: const Uuid().v4(),
       content: const MessageContent(text: 'Hello'),
       time: DateTime.now(),
+      status: MessageStatus.delivered,
       author: _friend,
     ),
   ],
