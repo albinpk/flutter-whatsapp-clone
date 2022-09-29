@@ -91,15 +91,30 @@ class _ChatInputAreaMobile extends StatelessWidget {
                             onPressed: () {},
                             icon: const Icon(Icons.attach_file),
                           ),
-                          // TODO: hide on input
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.currency_rupee),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.camera_alt),
-                          ),
+                          BlocSelector<MessageInputBloc, MessageInputState,
+                              bool>(
+                            selector: (state) => state.isEmpty,
+                            builder: (context, isEmpty) {
+                              return AnimatedAlign(
+                                alignment: Alignment.centerLeft,
+                                widthFactor: isEmpty ? 1 : 0,
+                                duration: const Duration(milliseconds: 150),
+                                curve: Curves.easeInOut,
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.currency_rupee),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.camera_alt),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          )
                         ],
                       ),
                     ),
