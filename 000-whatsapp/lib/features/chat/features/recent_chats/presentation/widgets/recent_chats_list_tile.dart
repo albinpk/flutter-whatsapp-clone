@@ -95,10 +95,11 @@ class RecentChatsListTile extends StatelessWidget {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.volume_off),
-                  Icon(Icons.push_pin),
-                  _UnreadMessageBadge(),
+                children: [
+                  const Icon(Icons.volume_off),
+                  const Icon(Icons.push_pin),
+                  if (chat.unReadMessageCount > 0)
+                    _UnreadMessageBadge(count: chat.unReadMessageCount),
                 ],
               ),
             ),
@@ -113,7 +114,12 @@ class RecentChatsListTile extends StatelessWidget {
 }
 
 class _UnreadMessageBadge extends StatelessWidget {
-  const _UnreadMessageBadge({Key? key}) : super(key: key);
+  const _UnreadMessageBadge({
+    Key? key,
+    required this.count,
+  }) : super(key: key);
+
+  final int count;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +133,7 @@ class _UnreadMessageBadge extends StatelessWidget {
               : CustomColors.of(context).primary!,
           child: Center(
             child: Text(
-              '2',
+              '$count',
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: Colors.white,
                     fontSize: 10,

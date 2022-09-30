@@ -15,6 +15,10 @@ class ChatState extends Equatable {
           (e) => RecentChat(
             user: whatsappUsers.singleWhere((u) => u.id == e.key),
             lastMessage: e.value.last,
+            unReadMessageCount: e.value
+                .where((m) => m.author != user)
+                .where((m) => m.status == MessageStatus.delivered)
+                .length,
           ),
         )
         .toList()
