@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../../core/constants.dart';
+import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
@@ -17,8 +19,11 @@ class RecentChatsListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final customColors = CustomColors.of(context);
+
     bool isSelected = false;
-    if (Theme.of(context).platform.isDesktop) {
+    if (theme.platform.isDesktop) {
       // To highlight selected chat on desktop
       isSelected = context.select(
         (ChatRoomBloc bloc) {
@@ -28,9 +33,13 @@ class RecentChatsListTile extends StatelessWidget {
       );
     }
 
+    final lastMessageTextStyle = theme.textTheme.bodyMedium!.copyWith(
+      color: customColors.onBackgroundMuted,
+    );
+
     return ListTile(
       selected: isSelected,
-      selectedTileColor: CustomColors.of(context).secondary,
+      selectedTileColor: customColors.secondary,
       leading: const UserDP(radius: 25),
       title: Row(
         children: [
@@ -38,17 +47,17 @@ class RecentChatsListTile extends StatelessWidget {
           Expanded(
             child: Text(
               chat.user.name,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: CustomColors.of(context).onBackground,
-                  ),
+              style: theme.textTheme.titleMedium!.copyWith(
+                fontWeight: FontWeight.w500,
+                color: customColors.onBackground,
+              ),
             ),
           ),
 
           // Last message time
           Text(
             DateFormat(DateFormat.HOUR_MINUTE).format(chat.lastMessage.time),
-            style: Theme.of(context).textTheme.bodySmall,
+            style: theme.textTheme.bodySmall,
           ),
         ],
       ),
@@ -58,19 +67,31 @@ class RecentChatsListTile extends StatelessWidget {
           children: [
             // Last message
             Expanded(
-              child: Text(
-                chat.lastMessage.content.text,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: CustomColors.of(context).onBackgroundMuted,
+              child: Row(
+                children: [
+                  // Message status
+                  if (chat.lastMessage.author == context.watch<User>()) ...[
+                    MessageStatusIcon(
+                      status: chat.lastMessage.status,
+                      color: lastMessageTextStyle.color!,
                     ),
-                overflow: TextOverflow.ellipsis,
+                    if (chat.lastMessage.status.isPending)
+                      const SizedBox(width: cMessageIconSizeDifference),
+                    const SizedBox(width: 5),
+                  ],
+                  Text(
+                    chat.lastMessage.content.text,
+                    style: lastMessageTextStyle,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ),
 
             IconTheme(
               data: IconTheme.of(context).copyWith(
                 size: 20,
-                color: CustomColors.of(context).iconMuted,
+                color: customColors.iconMuted,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
