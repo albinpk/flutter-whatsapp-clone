@@ -31,10 +31,10 @@ class Message extends Equatable {
   Message.fromText(
     String text, {
     required this.author,
+    this.status = MessageStatus.pending,
   })  : id = const Uuid().v4(),
         content = MessageContent(text: text),
-        time = DateTime.now(),
-        status = MessageStatus.pending;
+        time = DateTime.now();
 
   @override
   List<Object> get props => [id, content, time, author, status];
