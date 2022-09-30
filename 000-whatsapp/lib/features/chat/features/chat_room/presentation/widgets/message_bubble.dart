@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
+import '../../../../../../core/constants.dart';
 import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
@@ -41,7 +42,6 @@ class MessageBubble extends StatelessWidget {
     final timeText = DateFormat(DateFormat.HOUR_MINUTE).format(message.time);
     final status = message.status;
     // Read message check mark icon
-    const iconSize = 18.0;
 
     // Adding extra white spaces at the end of text to
     // wrap the line before overlapping the time text.
@@ -50,8 +50,8 @@ class MessageBubble extends StatelessWidget {
     // Calculate timeText width
     // eg: width of "1:11" and "12:44" is different or
     // width of "4:44" and "1:11" is different in non-monospace fonts
-    final timeTextWidth =
-        textWidth(timeText, timeTextStyle) + (isUserMessage ? iconSize : 0);
+    final timeTextWidth = textWidth(timeText, timeTextStyle) +
+        (isUserMessage ? cMessageStatusIconSize : 0);
     final messageTextWidth = textWidth(messageText, messageTextStyle);
     final whiteSpaceWidth = textWidth(' ', messageTextStyle);
     // More space on desktop (+8)
@@ -140,13 +140,11 @@ class MessageBubble extends StatelessWidget {
                         // Adding space (4) here and
                         // subtract from iconSize below if status is pending.
                         // Because the access_time icon is larger than other status icons.
-                        if (status.isPending) const SizedBox(width: 4),
-                        Icon(
-                          _getStatusIcon(status),
-                          size: status.isPending ? iconSize - 4 : iconSize,
-                          color: status == MessageStatus.read
-                              ? Colors.blue
-                              : timeTextStyle.color,
+                        if (status.isPending)
+                          const SizedBox(width: cMessageIconSizeDifference),
+                        MessageStatusIcon(
+                          status: message.status,
+                          color: timeTextStyle.color!,
                         ),
                       ],
                     ],
@@ -167,19 +165,6 @@ class MessageBubble extends StatelessWidget {
       textDirection: TextDirection.ltr,
     )..layout();
     return textPainter.width;
-  }
-
-  /// Return appropriate icon for message status
-  IconData _getStatusIcon(MessageStatus status) {
-    switch (status) {
-      case MessageStatus.pending:
-        return Icons.access_time;
-      case MessageStatus.sended:
-        return Icons.done;
-      case MessageStatus.delivered:
-      case MessageStatus.read:
-        return Icons.done_all;
-    }
   }
 }
 
