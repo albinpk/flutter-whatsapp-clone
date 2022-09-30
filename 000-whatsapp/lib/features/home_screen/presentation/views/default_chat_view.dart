@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/themes/custom_colors.dart';
 
+/// Initial view on desktop (in ChatRoom side).
+/// Also shows when ChatRoom closed.
 class DefaultChatView extends StatelessWidget {
   const DefaultChatView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.of(context).secondary,
       body: Center(
         child: Column(
           children: [
