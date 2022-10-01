@@ -64,25 +64,23 @@ class RecentChatsListTile extends StatelessWidget {
         padding: const EdgeInsets.only(top: 5),
         child: Row(
           children: [
+            // Message status
+            if (chat.lastMessage.author == context.watch<User>())
+              MessageStatusIcon(
+                status: chat.lastMessage.status,
+                color: lastMessageTextStyle.color!,
+              ),
+
             // Last message
             Expanded(
-              child: Row(
-                children: [
-                  // Message status
-                  if (chat.lastMessage.author == context.watch<User>())
-                    MessageStatusIcon(
-                      status: chat.lastMessage.status,
-                      color: lastMessageTextStyle.color!,
-                    ),
-                  Text(
-                    chat.lastMessage.content.text,
-                    style: lastMessageTextStyle,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              child: Text(
+                chat.lastMessage.content.text,
+                style: lastMessageTextStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
 
+            // Icons (muted, pinned, unread message)
             IconTheme(
               data: IconTheme.of(context).copyWith(
                 size: 20,
