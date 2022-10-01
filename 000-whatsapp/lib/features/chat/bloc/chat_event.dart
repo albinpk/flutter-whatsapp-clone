@@ -19,3 +19,16 @@ class ChatMessageSend extends ChatEvent {
   @override
   List<Object> get props => [message, to];
 }
+
+class ChatMarkMessageAsRead extends ChatEvent {
+  const ChatMarkMessageAsRead({
+    required this.user,
+    required this.message,
+  });
+
+  final WhatsAppUser user;
+  final Message message;
+
+  @override
+  List<Object> get props => [user, message];
+}

@@ -14,6 +14,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     MessageStore messageStore = const {},
   }) : super(ChatState(messageStore: messageStore)) {
     on<ChatMessageSend>(_onMessageSend);
+    on<ChatMarkMessageAsRead>(_onMarkMessageAsRead);
   }
 
   Future<void> _onMessageSend(
@@ -82,4 +83,23 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   /// Return a fresh copy of _messageStore
   Map<String, List<Message>> get _store => Map.from(state._messageStore);
+
+  void _onMarkMessageAsRead(
+    ChatMarkMessageAsRead event,
+    Emitter<ChatState> emit,
+  ) {
+    final store = _store;
+    store.update(
+      event.user.id,
+      (msgs) {
+        final i = msgs.indexOf(event.message);
+        return [...msgs]..replaceRange(
+            i,
+            i + 1,
+            [event.message.changeStatus(MessageStatus.read)],
+          );
+      },
+    );
+    emit(state.copyWith(messageStore: store));
+  }
 }
