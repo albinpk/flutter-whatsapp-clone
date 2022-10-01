@@ -22,6 +22,7 @@ final lightThemeColors = CustomColors(
   chatRoomBackground: const Color(0xFFEFE7DE),
   sendMessageBubbleBackground: const Color(0xFFE7FFDB),
   receiveMessageBubbleBackground: Colors.white,
+  readMessageCheckIcon: const Color(0xFF009DE2),
 );
 
 final darkThemeColors = CustomColors(
@@ -38,4 +39,5 @@ final darkThemeColors = CustomColors(
   chatRoomBackground: const Color(0xFF081419),
   sendMessageBubbleBackground: const Color(0xFF005C4B),
   receiveMessageBubbleBackground: const Color(0xFF202C33),
+  readMessageCheckIcon: const Color(0xFF53BDEB),
 );

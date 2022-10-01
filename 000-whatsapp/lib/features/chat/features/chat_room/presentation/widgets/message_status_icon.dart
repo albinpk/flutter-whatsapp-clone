@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/core/constants.dart';
 
+import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
 
 /// Show icon based on [Message.status]
@@ -31,7 +32,9 @@ class MessageStatusIcon extends StatelessWidget {
         size: status.isPending
             ? cMessageStatusIconSize - iconSizeDifference
             : cMessageStatusIconSize,
-        color: status == MessageStatus.read ? Colors.blue : color,
+        color: status == MessageStatus.read
+            ? CustomColors.of(context).readMessageCheckIcon
+            : color,
       ),
     );
   }
