@@ -69,7 +69,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         event.to.id,
         (messages) => [
           ...messages,
-          Message.fromText(message.content.text, author: event.to),
+          Message.fromText(
+            '${message.content.text} ${message.content.text}',
+            author: event.to,
+            status: MessageStatus.delivered,
+          ),
         ],
       );
       emit(state.copyWith(messageStore: store));
