@@ -16,12 +16,23 @@ class MessageStatusIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      _getStatusIcon(status),
-      size: status.isPending
-          ? cMessageStatusIconSize - cMessageIconSizeDifference
-          : cMessageStatusIconSize,
-      color: status == MessageStatus.read ? Colors.blue : color,
+    const padding = 2.0;
+    // Size difference between done icon and access_time icon.
+    const iconSizeDifference = 4.0;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: status.isPending
+            ? padding + 2 // 2 -> iconSizeDifference / 2
+            : padding,
+      ),
+      child: Icon(
+        _getStatusIcon(status),
+        size: status.isPending
+            ? cMessageStatusIconSize - iconSizeDifference
+            : cMessageStatusIconSize,
+        color: status == MessageStatus.read ? Colors.blue : color,
+      ),
     );
   }
 

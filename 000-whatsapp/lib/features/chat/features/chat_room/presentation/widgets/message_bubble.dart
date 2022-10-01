@@ -40,7 +40,6 @@ class MessageBubble extends StatelessWidget {
 
     final messageText = message.content.text;
     final timeText = DateFormat(DateFormat.HOUR_MINUTE).format(message.time);
-    final status = message.status;
     // Read message check mark icon
 
     // Adding extra white spaces at the end of text to
@@ -126,7 +125,7 @@ class MessageBubble extends StatelessWidget {
                 // Message time
                 Positioned(
                   bottom: 5,
-                  right: 10,
+                  right: 7,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -135,17 +134,11 @@ class MessageBubble extends StatelessWidget {
                         style: timeTextStyle,
                       ),
                       // Message status icon
-                      if (isUserMessage) ...[
-                        // Adding space (4) here and
-                        // subtract from iconSize below if status is pending.
-                        // Because the access_time icon is larger than other status icons.
-                        if (status.isPending)
-                          const SizedBox(width: cMessageIconSizeDifference),
+                      if (isUserMessage)
                         MessageStatusIcon(
                           status: message.status,
                           color: timeTextStyle.color!,
                         ),
-                      ],
                     ],
                   ),
                 ),

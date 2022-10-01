@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../../core/constants.dart';
 import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/extensions/platform_type.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
@@ -70,15 +69,11 @@ class RecentChatsListTile extends StatelessWidget {
               child: Row(
                 children: [
                   // Message status
-                  if (chat.lastMessage.author == context.watch<User>()) ...[
+                  if (chat.lastMessage.author == context.watch<User>())
                     MessageStatusIcon(
                       status: chat.lastMessage.status,
                       color: lastMessageTextStyle.color!,
                     ),
-                    if (chat.lastMessage.status.isPending)
-                      const SizedBox(width: cMessageIconSizeDifference),
-                    const SizedBox(width: 5),
-                  ],
                   Text(
                     chat.lastMessage.content.text,
                     style: lastMessageTextStyle,
