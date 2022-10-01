@@ -111,12 +111,11 @@ class MessageBubble extends StatelessWidget {
             // Using Stack to show message time in bottom right corner.
             return Stack(
               children: [
+                // Message text
                 Padding(
                   padding: const EdgeInsets.all(padding).copyWith(
                     bottom: isTimeInSameLine ? padding : 25,
                   ),
-
-                  // Message text
                   child: Text(
                     '$messageText'
                     '${isTimeInSameLine ? extraSpace : ''}',

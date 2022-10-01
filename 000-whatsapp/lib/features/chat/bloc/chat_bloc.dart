@@ -17,6 +17,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<ChatMarkMessageAsRead>(_onMarkMessageAsRead);
   }
 
+  /// Return a fresh copy of _messageStore
+  Map<String, List<Message>> get _store => Map.from(state._messageStore);
+
   Future<void> _onMessageSend(
     ChatMessageSend event,
     Emitter<ChatState> emit,
@@ -80,9 +83,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(state.copyWith(messageStore: store));
     });
   }
-
-  /// Return a fresh copy of _messageStore
-  Map<String, List<Message>> get _store => Map.from(state._messageStore);
 
   void _onMarkMessageAsRead(
     ChatMarkMessageAsRead event,
