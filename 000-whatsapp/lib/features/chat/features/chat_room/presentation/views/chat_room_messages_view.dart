@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../../core/models/models.dart';
+import '../../../../../../core/utils/extensions/is_same_date.dart';
+import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
 
 class ChatRoomMessagesView extends StatefulWidget {
@@ -94,15 +97,24 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
             itemCount: messages.length,
             reverse: true,
             itemBuilder: (context, index) {
-              final Message message = messages[index];
-              final bool isFirstInSection = index == length - 1
+              final message = messages[index];
+              final isFirstInSection = index == length - 1
                   ? true
-                  : messages[++index].author != message.author;
+                  : message.author != messages[index + 1].author;
+              final isFirstInDate = index == length - 1
+                  ? true
+                  : !message.time.isSameDate(messages[index + 1].time);
 
               // The message box
-              final messageBox = MessageBox(
-                message: message,
-                isFirstInSection: isFirstInSection,
+              final messageBox = Column(
+                children: [
+                  // Message date
+                  if (isFirstInDate) _DateTimeItem(date: message.time),
+                  MessageBox(
+                    message: message,
+                    isFirstInSection: isFirstInSection || isFirstInDate,
+                  ),
+                ],
               );
 
               // Wrap the message box with VisibilityDetector if the message
@@ -133,5 +145,52 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
         },
       ),
     );
+  }
+}
+
+class _DateTimeItem extends StatelessWidget {
+  const _DateTimeItem({
+    Key? key,
+    required this.date,
+  }) : super(key: key);
+
+  final DateTime date;
+
+  @override
+  Widget build(BuildContext context) {
+    final customColors = CustomColors.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        child: ColoredBox(
+          color: customColors.receiveMessageBubbleBackground!.withOpacity(0.5),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            child: Text(
+              _formatDate(date),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: customColors.onBackgroundMuted,
+                  ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Format DateTime to readable text.
+  /// eg: `Today`, `Friday`, `June 1, 2022`.
+  String _formatDate(DateTime date) {
+    final difference = DateTime.now().difference(date).inDays;
+    if (difference < 1) {
+      return 'Today';
+    } else if (difference < 2) {
+      return 'Yesterday';
+    } else if (difference < 7) {
+      return DateFormat(DateFormat.WEEKDAY).format(date);
+    } else {
+      return DateFormat(DateFormat.YEAR_MONTH_DAY).format(date);
+    }
   }
 }
