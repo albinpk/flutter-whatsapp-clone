@@ -164,13 +164,14 @@ class _DateTimeItem extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         child: ColoredBox(
-          color: customColors.receiveMessageBubbleBackground!.withOpacity(0.5),
+          color: customColors.receiveMessageBubbleBackground!.withOpacity(0.8),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: Text(
               _formatDate(date),
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: customColors.onBackgroundMuted,
+                    fontWeight: FontWeight.w500,
                   ),
             ),
           ),
