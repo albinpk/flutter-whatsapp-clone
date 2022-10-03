@@ -17,12 +17,24 @@ class ChatRoomScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: CustomColors.of(context).chatRoomBackground,
         appBar: const ChatRoomAppBar(),
-        body: Column(
-          children: const [
-            Expanded(
-              child: ChatRoomMessagesView(),
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                Theme.of(context).brightness == Brightness.dark
+                    ? 'assets/chat_room_background_image_dark.png'
+                    : 'assets/chat_room_background_image_light.jpg',
+                repeat: ImageRepeat.repeat,
+              ),
             ),
-            ChatInputArea(),
+            Column(
+              children: const [
+                Expanded(
+                  child: ChatRoomMessagesView(),
+                ),
+                ChatInputArea(),
+              ],
+            ),
           ],
         ),
       ),
