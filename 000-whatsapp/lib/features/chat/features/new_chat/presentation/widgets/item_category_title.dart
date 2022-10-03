@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/utils/extensions/platform_type.dart';
+import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 
 class ItemCategoryTitle extends StatelessWidget {

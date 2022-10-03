@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../../core/models/models.dart';
-import '../../../../../../core/utils/extensions/is_same_date.dart';
+import '../../../../../../core/utils/extensions/date_time.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
 

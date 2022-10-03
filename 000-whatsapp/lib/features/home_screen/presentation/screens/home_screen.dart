@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/extensions/platform_type.dart';
+import '../../../../core/utils/extensions/target_platform.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../chat/chat.dart';
 import '../../home_screen.dart';

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../../../../../core/constants.dart';
 import '../../../../../../core/models/models.dart';
-import '../../../../../../core/utils/extensions/platform_type.dart';
+import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
 
