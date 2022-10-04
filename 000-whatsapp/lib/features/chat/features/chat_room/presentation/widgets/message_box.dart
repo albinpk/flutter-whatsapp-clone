@@ -26,15 +26,19 @@ class MessageBox extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constrains) {
           final isMobile = Theme.of(context).platform.isMobile;
+          final maxWidth = constrains.maxWidth;
           return ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: isMobile
-                  ? constrains.maxWidth - 50
-                  : constrains.maxWidth * 0.75,
+              maxWidth: isMobile ? maxWidth - 50 : maxWidth * 0.75,
             ),
-            child: MessageBubble(
-              message: message,
-              showArrow: isFirstInSection,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: maxWidth > 600 ? maxWidth * 0.1 : 0,
+              ),
+              child: MessageBubble(
+                message: message,
+                showArrow: isFirstInSection,
+              ),
             ),
           );
         },
