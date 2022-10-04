@@ -55,7 +55,7 @@ class RecentChatsListTile extends StatelessWidget {
 
           // Last message time
           Text(
-            DateFormat(DateFormat.HOUR_MINUTE).format(chat.lastMessage.time),
+            _formatDate(chat.lastMessage.time),
             style: theme.textTheme.bodySmall,
           ),
         ],
@@ -103,6 +103,16 @@ class RecentChatsListTile extends StatelessWidget {
         context.read<ChatRoomBloc>().add(ChatRoomOpen(user: chat.user));
       },
     );
+  }
+
+  /// Format DateTime to readable text.
+  /// eg: `10:10 AM`, `Friday`, `7/22/2022`.
+  String _formatDate(DateTime date) {
+    final difference = DateTime.now().difference(date).inDays;
+    if (difference < 1) return DateFormat(DateFormat.HOUR_MINUTE).format(date);
+    if (difference < 2) return 'Yesterday';
+    if (difference < 7) return DateFormat(DateFormat.WEEKDAY).format(date);
+    return DateFormat(DateFormat.YEAR_NUM_MONTH_DAY).format(date);
   }
 }
 

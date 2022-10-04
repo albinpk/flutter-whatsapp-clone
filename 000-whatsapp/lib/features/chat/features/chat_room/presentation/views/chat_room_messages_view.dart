@@ -184,14 +184,9 @@ class _DateTimeItem extends StatelessWidget {
   /// eg: `Today`, `Friday`, `June 1, 2022`.
   String _formatDate(DateTime date) {
     final difference = DateTime.now().difference(date).inDays;
-    if (difference < 1) {
-      return 'Today';
-    } else if (difference < 2) {
-      return 'Yesterday';
-    } else if (difference < 7) {
-      return DateFormat(DateFormat.WEEKDAY).format(date);
-    } else {
-      return DateFormat(DateFormat.YEAR_MONTH_DAY).format(date);
-    }
+    if (difference < 1) return 'Today';
+    if (difference < 2) return 'Yesterday';
+    if (difference < 7) return DateFormat(DateFormat.WEEKDAY).format(date);
+    return DateFormat(DateFormat.YEAR_MONTH_DAY).format(date);
   }
 }
