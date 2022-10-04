@@ -160,13 +160,13 @@ class _DateTimeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.only(top: 5),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         child: ColoredBox(
           color: customColors.receiveMessageBubbleBackground!.withOpacity(0.8),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
             child: Text(
               _formatDate(date),
               style: Theme.of(context).textTheme.bodySmall!.copyWith(

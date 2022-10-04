@@ -34,7 +34,7 @@ class MessageBox extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: maxWidth > 600 ? maxWidth * 0.1 : 0,
-              ),
+              ).copyWith(top: isFirstInSection ? 5 : 0),
               child: MessageBubble(
                 message: message,
                 showArrow: isFirstInSection,
