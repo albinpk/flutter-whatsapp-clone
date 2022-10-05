@@ -11,6 +11,9 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? const Color(0xFF0B141A)
+          : const Color(0xFFF7F8FA),
       body: IconTheme(
         data: IconThemeData(color: CustomColors.of(context).iconMuted),
         child: CustomScrollView(
@@ -23,18 +26,15 @@ class UserProfileScreen extends StatelessWidget {
               ),
             ),
             const _ProfileHead(),
-            const _Divider(),
             const _About(),
-            const _Divider(),
             const _Options(),
-            const _Divider(),
             const _Options2(),
-            const _Divider(),
             const _GroupsInCommon(),
-            const _Divider(),
             const _BlockAndReport(),
-            const _Divider(),
-            const _Divider(),
+            // Bottom padding
+            const SliverPadding(
+              padding: EdgeInsets.only(bottom: 20),
+            ),
           ],
         ),
       ),
@@ -47,7 +47,7 @@ class _ProfileHead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+    return _Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15),
         child: Column(
@@ -123,7 +123,7 @@ class _About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+    return _Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -152,7 +152,7 @@ class _Options extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+    return _Card(
       child: Column(
         children: [
           SwitchListTile(
@@ -184,7 +184,7 @@ class _Options2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+    return _Card(
       child: Column(
         children: const [
           ListTile(
@@ -212,7 +212,7 @@ class _GroupsInCommon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
-    return SliverToBoxAdapter(
+    return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -253,7 +253,7 @@ class _BlockAndReport extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = context.select((WhatsAppUser user) => user.name);
     final color = Theme.of(context).colorScheme.error;
-    return SliverToBoxAdapter(
+    return _Card(
       child: Column(
         children: [
           ListTile(
@@ -274,18 +274,22 @@ class _BlockAndReport extends StatelessWidget {
   }
 }
 
-class _Divider extends StatelessWidget {
-  const _Divider({Key? key}) : super(key: key);
+class _Card extends StatelessWidget {
+  const _Card({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
 
+  final Widget child;
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Divider(
-        height: 15,
-        thickness: 15,
-        color: Theme.of(context).brightness == Brightness.dark
-            ? const Color(0xFF0B141A)
-            : const Color(0xFFF7F8FA),
+      child: Card(
+        // To remove default border radius
+        shape: const RoundedRectangleBorder(),
+        color: CustomColors.of(context).background,
+        margin: const EdgeInsets.only(bottom: 15),
+        child: child,
       ),
     );
   }
