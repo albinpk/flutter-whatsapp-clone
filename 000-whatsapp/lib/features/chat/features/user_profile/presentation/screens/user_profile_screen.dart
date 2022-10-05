@@ -283,7 +283,9 @@ class _Divider extends StatelessWidget {
       child: Divider(
         height: 15,
         thickness: 15,
-        color: CustomColors.of(context).chatRoomBackground,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF0B141A)
+            : const Color(0xFFF7F8FA),
       ),
     );
   }
