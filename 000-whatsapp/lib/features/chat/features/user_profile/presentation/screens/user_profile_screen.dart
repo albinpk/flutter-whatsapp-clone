@@ -28,6 +28,8 @@ class UserProfileScreen extends StatelessWidget {
             const _Divider(),
             const _Options(),
             const _Divider(),
+            const _Options2(),
+            const _Divider(),
             const _Divider(),
           ],
         ),
@@ -166,6 +168,33 @@ class _Options extends StatelessWidget {
           const ListTile(
             leading: Icon(Icons.currency_rupee),
             title: Text('Payments'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Options2 extends StatelessWidget {
+  const _Options2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: const [
+          ListTile(
+            leading: Icon(Icons.lock),
+            title: Text('Encryption'),
+            isThreeLine: true,
+            subtitle: Text(
+              'Messages and calls are end-to-end encrypted. Tap to verify.',
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.av_timer_outlined),
+            title: Text('Disappearing messages'),
+            subtitle: Text('Off'),
           ),
         ],
       ),
