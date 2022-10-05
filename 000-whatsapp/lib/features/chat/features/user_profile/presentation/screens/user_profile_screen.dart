@@ -30,6 +30,10 @@ class UserProfileScreen extends StatelessWidget {
             const _Divider(),
             const _Options2(),
             const _Divider(),
+            const _GroupsInCommon(),
+            const _Divider(),
+            const _BlockAndReport(),
+            const _Divider(),
             const _Divider(),
           ],
         ),
@@ -195,6 +199,73 @@ class _Options2 extends StatelessWidget {
             leading: Icon(Icons.av_timer_outlined),
             title: Text('Disappearing messages'),
             subtitle: Text('Off'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GroupsInCommon extends StatelessWidget {
+  const _GroupsInCommon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final customColors = CustomColors.of(context);
+    return SliverToBoxAdapter(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Text(
+              'No groups in common',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: customColors.onBackgroundMuted,
+                  ),
+            ),
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: customColors.primary,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.group),
+            ),
+            title: Builder(
+              builder: (context) {
+                return Text(
+                  'Create group with '
+                  '${context.select((WhatsAppUser user) => user.name)}',
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _BlockAndReport extends StatelessWidget {
+  const _BlockAndReport({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final name = context.select((WhatsAppUser user) => user.name);
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.block),
+            title: Text('Block $name'),
+            iconColor: Colors.redAccent,
+            textColor: Colors.redAccent,
+          ),
+          ListTile(
+            leading: const Icon(Icons.thumb_down),
+            title: Text('Report $name'),
+            iconColor: Colors.redAccent,
+            textColor: Colors.redAccent,
           ),
         ],
       ),
