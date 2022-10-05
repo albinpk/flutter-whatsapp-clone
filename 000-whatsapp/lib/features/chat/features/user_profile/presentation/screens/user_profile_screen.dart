@@ -3,10 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
-import '../../../../../../core/widgets/widgets.dart';
+import '../widgets/widgets.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
+
+  @override
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +30,9 @@ class UserProfileScreen extends StatelessWidget {
       body: IconTheme(
         data: IconThemeData(color: CustomColors.of(context).iconMuted),
         child: CustomScrollView(
+          controller: _scrollController,
           slivers: [
-            const _AppBar(),
+            UserProfileAppBar(scrollController: _scrollController),
             const _ProfileHead(),
             const _About(),
             const _Options(),
@@ -36,21 +50,6 @@ class UserProfileScreen extends StatelessWidget {
   }
 }
 
-class _AppBar extends StatelessWidget {
-  const _AppBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverAppBar(
-      title: Builder(
-        builder: (context) => Text(
-          context.select((WhatsAppUser user) => user.name),
-        ),
-      ),
-    );
-  }
-}
-
 class _ProfileHead extends StatelessWidget {
   const _ProfileHead({Key? key}) : super(key: key);
 
@@ -61,8 +60,6 @@ class _ProfileHead extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 15),
         child: Column(
           children: [
-            const UserDP(radius: 55),
-            const SizedBox(height: 10),
             Text(
               context.select((WhatsAppUser user) => user.name),
               style: Theme.of(context).textTheme.headlineSmall,
