@@ -11,21 +11,26 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Builder(
-              builder: (context) => Text(
-                context.select((WhatsAppUser user) => user.name),
+      body: IconTheme(
+        data: IconThemeData(color: CustomColors.of(context).iconMuted),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: Builder(
+                builder: (context) => Text(
+                  context.select((WhatsAppUser user) => user.name),
+                ),
               ),
             ),
-          ),
-          const _ProfileHead(),
-          const _Divider(),
-          const _About(),
-          const _Divider(),
-          const _Divider(),
-        ],
+            const _ProfileHead(),
+            const _Divider(),
+            const _About(),
+            const _Divider(),
+            const _Options(),
+            const _Divider(),
+            const _Divider(),
+          ],
+        ),
       ),
     );
   }
@@ -131,6 +136,38 @@ class _About extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _Options extends StatelessWidget {
+  const _Options({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          SwitchListTile(
+            value: false,
+            onChanged: (v) {},
+            secondary: const Icon(Icons.notifications),
+            title: const Text('Mute notifications'),
+          ),
+          const ListTile(
+            leading: Icon(Icons.music_note),
+            title: Text('Custom notification'),
+          ),
+          const ListTile(
+            leading: Icon(Icons.image),
+            title: Text('Media visibility'),
+          ),
+          const ListTile(
+            leading: Icon(Icons.currency_rupee),
+            title: Text('Payments'),
+          ),
+        ],
       ),
     );
   }
