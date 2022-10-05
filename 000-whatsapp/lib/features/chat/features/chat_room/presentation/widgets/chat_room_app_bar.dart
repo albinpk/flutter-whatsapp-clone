@@ -6,6 +6,7 @@ import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../chat.dart';
+import '../../../user_profile/user_profile.dart';
 
 class ChatRoomAppBar extends StatelessWidget with PreferredSizeWidget {
   const ChatRoomAppBar({Key? key}) : super(key: key);
@@ -88,31 +89,48 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (Theme.of(context).platform.isDesktop)
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: UserDP(),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) {
+              return RepositoryProvider.value(
+                value: context.read<WhatsAppUser>(),
+                child: const UserProfileScreen(),
+              );
+            },
           ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: Row(
           children: [
-            Text(
-              context.select((WhatsAppUser user) => user.name),
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: CustomColors.of(context).onSecondary,
-                  ),
-            ),
-            Text(
-              'Last seen..',
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: CustomColors.of(context).onSecondaryMuted,
-                  ),
+            if (Theme.of(context).platform.isDesktop)
+              const Padding(
+                padding: EdgeInsets.all(10),
+                child: UserDP(),
+              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.select((WhatsAppUser user) => user.name),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: CustomColors.of(context).onSecondary,
+                      ),
+                ),
+                Text(
+                  'Last seen..',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: CustomColors.of(context).onSecondaryMuted,
+                      ),
+                ),
+              ],
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
