@@ -18,13 +18,7 @@ class UserProfileScreen extends StatelessWidget {
         data: IconThemeData(color: CustomColors.of(context).iconMuted),
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              title: Builder(
-                builder: (context) => Text(
-                  context.select((WhatsAppUser user) => user.name),
-                ),
-              ),
-            ),
+            const _AppBar(),
             const _ProfileHead(),
             const _About(),
             const _Options(),
@@ -36,6 +30,21 @@ class UserProfileScreen extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 20),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AppBar extends StatelessWidget {
+  const _AppBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      title: Builder(
+        builder: (context) => Text(
+          context.select((WhatsAppUser user) => user.name),
         ),
       ),
     );
