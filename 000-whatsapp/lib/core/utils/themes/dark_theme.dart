@@ -24,7 +24,7 @@ final _darkColorScheme = ColorScheme(
   // Others (not using)
   primary: Colors.black,
   onPrimary: Colors.white,
-  error: Colors.red,
+  error: const Color(0xFFF15C6D),
   onError: Colors.white,
   background: Colors.black,
   onBackground: Colors.white,

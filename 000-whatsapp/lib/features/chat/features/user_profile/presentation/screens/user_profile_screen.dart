@@ -252,20 +252,21 @@ class _BlockAndReport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = context.select((WhatsAppUser user) => user.name);
+    final color = Theme.of(context).colorScheme.error;
     return SliverToBoxAdapter(
       child: Column(
         children: [
           ListTile(
             leading: const Icon(Icons.block),
             title: Text('Block $name'),
-            iconColor: Colors.redAccent,
-            textColor: Colors.redAccent,
+            iconColor: color,
+            textColor: color,
           ),
           ListTile(
             leading: const Icon(Icons.thumb_down),
             title: Text('Report $name'),
-            iconColor: Colors.redAccent,
-            textColor: Colors.redAccent,
+            iconColor: color,
+            textColor: color,
           ),
         ],
       ),

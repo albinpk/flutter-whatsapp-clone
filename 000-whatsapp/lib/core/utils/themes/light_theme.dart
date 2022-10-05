@@ -22,7 +22,7 @@ final _lightColorScheme = ColorScheme(
   secondary: lightThemeColors.primary!,
   onSecondary: lightThemeColors.onPrimary!,
   // Others (not using)
-  error: Colors.red,
+  error: const Color(0xFFEA0038),
   onError: Colors.white,
   background: Colors.white,
   onBackground: Colors.black,
