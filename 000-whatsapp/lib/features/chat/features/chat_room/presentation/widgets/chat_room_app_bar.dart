@@ -97,11 +97,17 @@ class _Title extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) {
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) {
               return RepositoryProvider.value(
                 value: context.read<WhatsAppUser>(),
                 child: const UserProfileScreen(),
+              );
+            },
+            transitionsBuilder: (_, animation, __, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
               );
             },
           ),
