@@ -29,5 +29,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/chat_room_background_image_dark.png
-    - assets/chat_room_background_image_light.jpg
+    - assets/images/

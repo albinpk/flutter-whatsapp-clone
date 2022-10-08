@@ -32,8 +32,8 @@ class ChatRoomScreen extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Image.asset(
                   theme.brightness == Brightness.dark
-                      ? 'assets/chat_room_background_image_dark.png'
-                      : 'assets/chat_room_background_image_light.jpg',
+                      ? 'assets/images/chat_room_background_image_dark.png'
+                      : 'assets/images/chat_room_background_image_light.jpg',
                   repeat: ImageRepeat.repeat,
                   alignment: Alignment.topLeft,
                 ),
