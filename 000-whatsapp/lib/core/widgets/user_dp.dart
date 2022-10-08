@@ -14,17 +14,12 @@ class UserDP extends StatelessWidget {
     return ClipOval(
       child: SizedBox.square(
         dimension: radius * 2,
-        child: ColoredBox(
-          color: isLight ? Colors.white : const Color(0xFFCED8DE),
-          child: FractionalTranslation(
-            translation: const Offset(-0.11, -0.11),
-            child: Icon(
-              Icons.account_circle,
-              color:
-                  isLight ? const Color(0xFFCED8DE) : const Color(0xFF627884),
-              size: radius * 2.45,
-            ),
-          ),
+        child: Image(
+          image: Image.asset(
+            isLight
+                ? 'assets/images/default-user-avatar-light.png'
+                : 'assets/images/default-user-avatar-dark.png',
+          ).image,
         ),
       ),
     );
