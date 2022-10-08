@@ -144,7 +144,10 @@ class _UserProfileAppBarState extends State<UserProfileAppBar>
                     ),
 
                     // User DP
-                    UserDP(radius: _dpRadiusAnimation.value),
+                    Hero(
+                      tag: context.select((WhatsAppUser user) => user.id),
+                      child: UserDP(radius: _dpRadiusAnimation.value),
+                    ),
                   ],
                 ),
               ),

@@ -64,8 +64,8 @@ class _Leading extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(4).copyWith(left: 0),
             child: Row(
-              children: const [
-                Flexible(
+              children: [
+                const Flexible(
                   flex: 3,
                   child: FittedBox(
                     child: Icon(Icons.arrow_back),
@@ -73,7 +73,12 @@ class _Leading extends StatelessWidget {
                 ),
                 Flexible(
                   flex: 5,
-                  child: FittedBox(child: UserDP()),
+                  child: FittedBox(
+                    child: Hero(
+                      tag: context.select((WhatsAppUser user) => user.id),
+                      child: const UserDP(),
+                    ),
+                  ),
                 ),
               ],
             ),
