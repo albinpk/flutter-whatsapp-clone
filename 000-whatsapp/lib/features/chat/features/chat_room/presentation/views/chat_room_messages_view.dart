@@ -80,69 +80,118 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
     // This Align widget make our ListView stay top if it have only few items.
     // This only work when shrinkWrap in true.
     // Otherwise the ListView take the entire space in height.
-    return Align(
-      alignment: Alignment.topCenter,
-      // Using LayoutBuilder to get the maxHeight for ListView.
-      child: LayoutBuilder(
-        builder: (context, constrains) {
-          final isShrinkWrap =
-              _singleMessageHeight! * length > constrains.maxHeight
-                  ? false
-                  : true;
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          // Using LayoutBuilder to get the maxHeight for ListView.
+          child: LayoutBuilder(
+            builder: (context, constrains) {
+              final isShrinkWrap =
+                  _singleMessageHeight! * length > constrains.maxHeight
+                      ? false
+                      : true;
 
-          return ListView.builder(
-            shrinkWrap: isShrinkWrap,
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            physics: const ClampingScrollPhysics(),
-            itemCount: messages.length,
-            reverse: true,
-            itemBuilder: (context, index) {
-              final message = messages[index];
-              final isFirstInSection = index == length - 1
-                  ? true
-                  : message.author != messages[index + 1].author;
-              final isFirstInDate = index == length - 1
-                  ? true
-                  : !message.time.isSameDate(messages[index + 1].time);
+              return ListView.builder(
+                shrinkWrap: isShrinkWrap,
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                physics: const ClampingScrollPhysics(),
+                itemCount: messages.length,
+                reverse: true,
+                itemBuilder: (context, index) {
+                  final message = messages[index];
+                  final isFirstInSection = index == length - 1
+                      ? true
+                      : message.author != messages[index + 1].author;
+                  final isFirstInDate = index == length - 1
+                      ? true
+                      : !message.time.isSameDate(messages[index + 1].time);
 
-              // The message box
-              final messageBox = Column(
-                children: [
-                  // Message date
-                  if (isFirstInDate) _DateTimeItem(date: message.time),
-                  MessageBox(
-                    message: message,
-                    isFirstInSection: isFirstInSection || isFirstInDate,
-                  ),
-                ],
+                  // The message box
+                  final messageBox = Column(
+                    children: [
+                      // Message date
+                      if (isFirstInDate) _DateTimeItem(date: message.time),
+                      MessageBox(
+                        message: message,
+                        isFirstInSection: isFirstInSection || isFirstInDate,
+                      ),
+                    ],
+                  );
+
+                  // Wrap the message box with VisibilityDetector if the message
+                  // is incoming message and its status in delivered.
+                  // And trigger ChatMarkMessageAsRead event when the message box is fully visible.
+                  if (message.author == selectedUser &&
+                      message.status == MessageStatus.delivered) {
+                    return VisibilityDetector(
+                      key: Key(message.id),
+                      onVisibilityChanged: (info) {
+                        if (info.visibleFraction == 1) {
+                          context.read<ChatBloc>().add(
+                                ChatMarkMessageAsRead(
+                                  user: selectedUser,
+                                  message: message,
+                                ),
+                              );
+                        }
+                      },
+                      child: messageBox,
+                    );
+                  }
+
+                  // No VisibilityDetector if the message is already read.
+                  return messageBox;
+                },
               );
-
-              // Wrap the message box with VisibilityDetector if the message
-              // is incoming message and its status in delivered.
-              // And trigger ChatMarkMessageAsRead event when the message box is fully visible.
-              if (message.author == selectedUser &&
-                  message.status == MessageStatus.delivered) {
-                return VisibilityDetector(
-                  key: Key(message.id),
-                  onVisibilityChanged: (info) {
-                    if (info.visibleFraction == 1) {
-                      context.read<ChatBloc>().add(
-                            ChatMarkMessageAsRead(
-                              user: selectedUser,
-                              message: message,
-                            ),
-                          );
-                    }
-                  },
-                  child: messageBox,
-                );
-              }
-
-              // No VisibilityDetector if the message is already read.
-              return messageBox;
             },
-          );
-        },
+          ),
+        ),
+
+        // Goto bottom button. Placed in bottom right corner.
+        const _GotoBottomButton(),
+      ],
+    );
+  }
+}
+
+class _GotoBottomButton extends StatelessWidget {
+  const _GotoBottomButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final customColors = CustomColors.of(context);
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 10, bottom: 3),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 1,
+                offset: Offset(0, 0.5),
+              )
+            ],
+          ),
+          child: ClipOval(
+            child: ColoredBox(
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Colors.white
+                  : customColors.secondary!,
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Icon(
+                  Icons.keyboard_double_arrow_down,
+                  size: 22,
+                  color: customColors.iconMuted,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
