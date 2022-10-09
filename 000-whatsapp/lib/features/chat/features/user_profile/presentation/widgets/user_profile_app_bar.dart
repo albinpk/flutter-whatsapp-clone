@@ -2,25 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
+import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../user_profile.dart';
 
-const _expandedHeight = 130.0;
-
-class UserProfileAppBar extends StatefulWidget {
+class UserProfileAppBar extends StatelessWidget {
   const UserProfileAppBar({
     super.key,
     required this.scrollController,
   });
 
+  /// To animate UserDP on scroll. Only used in mobile.
   final ScrollController scrollController;
 
   @override
-  State<UserProfileAppBar> createState() => _UserProfileAppBarState();
+  Widget build(BuildContext context) {
+    return Theme.of(context).platform.isMobile
+        ? _UserProfileAppBarMobile(scrollController: scrollController)
+        : const _UserProfileAppBarDesktop();
+  }
 }
 
-class _UserProfileAppBarState extends State<UserProfileAppBar>
+class _UserProfileAppBarMobile extends StatefulWidget {
+  const _UserProfileAppBarMobile({
+    Key? key,
+    required this.scrollController,
+  }) : super(key: key);
+
+  final ScrollController scrollController;
+
+  @override
+  State<_UserProfileAppBarMobile> createState() =>
+      _UserProfileAppBarMobileState();
+}
+
+class _UserProfileAppBarMobileState extends State<_UserProfileAppBarMobile>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
@@ -32,6 +49,9 @@ class _UserProfileAppBarState extends State<UserProfileAppBar>
 
   /// Animation to clip user name behind user DP (also slide to right)
   late final Animation<double> _nameWidthAnimation;
+
+  /// AppBar expanded height
+  static const _expandedHeight = 130.0;
 
   @override
   void initState() {
@@ -162,6 +182,22 @@ class _UserProfileAppBarState extends State<UserProfileAppBar>
           ),
         );
       },
+    );
+  }
+}
+
+class _UserProfileAppBarDesktop extends StatelessWidget {
+  const _UserProfileAppBarDesktop({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      pinned: true,
+      leading: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.close),
+      ),
+      title: const Text('Contact info'),
     );
   }
 }

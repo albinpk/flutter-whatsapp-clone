@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
+import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
+import '../../../../../../core/widgets/widgets.dart';
 import '../../user_profile.dart';
 import '../widgets/widgets.dart';
 
@@ -62,16 +64,27 @@ class _ProfileHead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = Theme.of(context).platform.isDesktop;
     return _Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15),
         child: Column(
           children: [
+            // Show UserDP on desktop.
+            // On mobile, UserDP is part on AppBar
+            if (isDesktop) ...const [
+              UserDP(radius: 80),
+              SizedBox(height: 10),
+            ],
+
+            // User name
             Text(
               context.select((WhatsAppUser user) => user.name),
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 10),
+
+            // User phone number
             Text(
               context.select((WhatsAppUser user) => user.phNumber),
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -80,50 +93,54 @@ class _ProfileHead extends StatelessWidget {
                   ),
             ),
             const SizedBox(height: 20),
-            IconTheme(
-              data: IconThemeData(
-                color: CustomColors.of(context).primary,
-                size: 30,
-              ),
-              child: DefaultTextStyle(
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: CustomColors.of(context).primary,
-                    ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: const [
-                        Icon(Icons.call),
-                        SizedBox(height: 15),
-                        Text('Audio'),
-                      ],
-                    ),
-                    Column(
-                      children: const [
-                        Icon(Icons.videocam),
-                        SizedBox(height: 15),
-                        Text('Video'),
-                      ],
-                    ),
-                    Column(
-                      children: const [
-                        Icon(Icons.currency_rupee),
-                        SizedBox(height: 15),
-                        Text('Pay'),
-                      ],
-                    ),
-                    Column(
-                      children: const [
-                        Icon(Icons.search),
-                        SizedBox(height: 15),
-                        Text('Search'),
-                      ],
-                    ),
-                  ],
+
+            // Buttons for audio call, video call, payment and search.
+            // Only shows in mobile
+            if (!isDesktop)
+              IconTheme(
+                data: IconThemeData(
+                  color: CustomColors.of(context).primary,
+                  size: 30,
+                ),
+                child: DefaultTextStyle(
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        color: CustomColors.of(context).primary,
+                      ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: const [
+                          Icon(Icons.call),
+                          SizedBox(height: 15),
+                          Text('Audio'),
+                        ],
+                      ),
+                      Column(
+                        children: const [
+                          Icon(Icons.videocam),
+                          SizedBox(height: 15),
+                          Text('Video'),
+                        ],
+                      ),
+                      Column(
+                        children: const [
+                          Icon(Icons.currency_rupee),
+                          SizedBox(height: 15),
+                          Text('Pay'),
+                        ],
+                      ),
+                      Column(
+                        children: const [
+                          Icon(Icons.search),
+                          SizedBox(height: 15),
+                          Text('Search'),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),
@@ -165,6 +182,7 @@ class _Options extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = Theme.of(context).platform.isMobile;
     return _Card(
       child: Column(
         children: [
@@ -174,18 +192,23 @@ class _Options extends StatelessWidget {
             secondary: const Icon(Icons.notifications),
             title: const Text('Mute notifications'),
           ),
-          const ListTile(
-            leading: Icon(Icons.music_note),
-            title: Text('Custom notification'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.image),
-            title: Text('Media visibility'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.currency_rupee),
-            title: Text('Payments'),
-          ),
+
+          // Options only available on mobile
+          if (isMobile) ...[
+            const ListTile(
+              leading: Icon(Icons.music_note),
+              title: Text('Custom notification'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.image),
+              title: Text('Media visibility'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.currency_rupee),
+              title: Text('Payments'),
+            ),
+          ],
+
           const ListTile(
             leading: Icon(Icons.star),
             title: Text('Starred messages'),
