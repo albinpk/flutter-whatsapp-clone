@@ -6,7 +6,6 @@ import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../chat.dart';
-import '../../../user_profile/user_profile.dart';
 
 class ChatRoomAppBar extends StatelessWidget with PreferredSizeWidget {
   const ChatRoomAppBar({Key? key}) : super(key: key);
@@ -96,22 +95,11 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) {
-              return RepositoryProvider.value(
-                value: context.read<WhatsAppUser>(),
-                child: const UserProfileScreen(),
-              );
-            },
-            transitionsBuilder: (_, animation, __, child) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            },
-          ),
-        );
+        context.read<UserProfileBloc>().add(
+              UserProfileOpen(
+                user: context.read<WhatsAppUser>(),
+              ),
+            );
       },
       child: Padding(
         padding: const EdgeInsets.all(5),

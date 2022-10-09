@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
+import '../../user_profile.dart';
 import '../widgets/widgets.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -23,27 +24,33 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.dark
-          ? const Color(0xFF0B141A)
-          : const Color(0xFFF7F8FA),
-      body: IconTheme(
-        data: IconThemeData(color: CustomColors.of(context).iconMuted),
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            UserProfileAppBar(scrollController: _scrollController),
-            const _ProfileHead(),
-            const _About(),
-            const _Options(),
-            const _Options2(),
-            const _GroupsInCommon(),
-            const _BlockAndReport(),
-            // Bottom padding
-            const SliverPadding(
-              padding: EdgeInsets.only(bottom: 20),
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        context.read<UserProfileBloc>().add(const UserProfileClose());
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF0B141A)
+            : const Color(0xFFF7F8FA),
+        body: IconTheme(
+          data: IconThemeData(color: CustomColors.of(context).iconMuted),
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              UserProfileAppBar(scrollController: _scrollController),
+              const _ProfileHead(),
+              const _About(),
+              const _Options(),
+              const _Options2(),
+              const _GroupsInCommon(),
+              const _BlockAndReport(),
+              // Bottom padding
+              const SliverPadding(
+                padding: EdgeInsets.only(bottom: 20),
+              ),
+            ],
+          ),
         ),
       ),
     );

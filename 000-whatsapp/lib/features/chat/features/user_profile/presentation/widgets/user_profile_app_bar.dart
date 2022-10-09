@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
+import '../../user_profile.dart';
 
 const _expandedHeight = 130.0;
 
@@ -98,6 +99,12 @@ class _UserProfileAppBarState extends State<UserProfileAppBar>
       animation: _controller,
       builder: (context, _) {
         return SliverAppBar(
+          leading: BackButton(
+            onPressed: () {
+              context.read<UserProfileBloc>().add(const UserProfileClose());
+              Navigator.of(context).pop();
+            },
+          ),
           backgroundColor: ColorTween(
             begin: CustomColors.of(context).background!,
             end: CustomColors.of(context).secondary,

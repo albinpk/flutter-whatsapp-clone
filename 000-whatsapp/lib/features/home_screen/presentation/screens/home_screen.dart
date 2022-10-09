@@ -32,6 +32,9 @@ class _HomeScreenMobile extends StatelessWidget {
         BlocListener<NewChatBloc, NewChatState>(
           listener: _newChatBlocListener,
         ),
+        BlocListener<UserProfileBloc, UserProfileState>(
+          listener: _userProfileBlocListener,
+        )
       ],
       child: BlocProvider(
         create: (context) => TabViewBloc(),
@@ -61,6 +64,27 @@ class _HomeScreenMobile extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => const NewChatSelectionScreen(),
+        ),
+      );
+    }
+  }
+
+  void _userProfileBlocListener(BuildContext context, UserProfileState state) {
+    if (state is UserProfileOpenState) {
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) {
+            return RepositoryProvider.value(
+              value: state.user,
+              child: const UserProfileScreen(),
+            );
+          },
+          transitionsBuilder: (_, animation, __, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
         ),
       );
     }
@@ -115,7 +139,6 @@ class _NestedScrollViewState extends State<_NestedScrollView>
   /// Add real listener when animation stops
   void _addListenerWhenAnimationEnd() {
     if (_swipeValue == 0) {
-      // TODO: recheck index
       _tabAnimation.removeListener(_addListenerWhenAnimationEnd);
       _tabAnimation.addListener(_tabAnimationListener);
     }
@@ -235,6 +258,7 @@ class _HomeScreenDesktop extends StatelessWidget {
                       },
                     ),
                   ),
+                  // Expanded(child: UserProfileScreen()),
                 ],
               ),
             ),
