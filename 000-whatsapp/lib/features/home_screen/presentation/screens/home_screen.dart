@@ -298,6 +298,7 @@ class _HomeScreenDesktop extends StatelessWidget {
     }
   }
 
+  /// Calculate width for recent chats view on desktop based on constrains
   double _calculateWidth(double maxWidth) {
     final double widthFactor;
     if (maxWidth > 1200) {
