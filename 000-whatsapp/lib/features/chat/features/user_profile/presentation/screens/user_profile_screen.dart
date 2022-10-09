@@ -186,6 +186,11 @@ class _Options extends StatelessWidget {
             leading: Icon(Icons.currency_rupee),
             title: Text('Payments'),
           ),
+          const ListTile(
+            leading: Icon(Icons.star),
+            title: Text('Starred messages'),
+            // trailing: Text('1'), // Show count
+          ),
         ],
       ),
     );
