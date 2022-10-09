@@ -194,7 +194,9 @@ class _UserProfileAppBarDesktop extends StatelessWidget {
     return SliverAppBar(
       pinned: true,
       leading: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          context.read<UserProfileBloc>().add(const UserProfileClose());
+        },
         icon: const Icon(Icons.close),
       ),
       title: const Text('Contact info'),

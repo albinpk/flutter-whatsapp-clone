@@ -239,9 +239,22 @@ class _HomeScreenDesktop extends StatelessWidget {
                   ),
 
                   // Right side of screen
-                  // for chat room
+                  // for chat room and user profile
                   Expanded(
-                    child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
+                    flex: 3,
+                    child: BlocConsumer<ChatRoomBloc, ChatRoomState>(
+                      listenWhen: (previous, current) {
+                        return current is ChatRoomOpenState;
+                      },
+
+                      // Close previous user's profile screen (if open)
+                      // when another chat room is open.
+                      listener: (context, state) {
+                        final userProfileBloc = context.read<UserProfileBloc>();
+                        if (userProfileBloc.state is UserProfileOpenState) {
+                          userProfileBloc.add(const UserProfileClose());
+                        }
+                      },
                       buildWhen: (previous, current) {
                         return (current is ChatRoomOpenState ||
                                 current is ChatRoomCloseState) &&
@@ -251,14 +264,35 @@ class _HomeScreenDesktop extends StatelessWidget {
                         if (state is ChatRoomOpenState) {
                           return RepositoryProvider.value(
                             value: state.user,
-                            child: const ChatRoomScreen(),
+                            child:
+                                BlocBuilder<UserProfileBloc, UserProfileState>(
+                              builder: (context, userProfileState) {
+                                if (userProfileState is UserProfileOpenState) {
+                                  if (constrains.maxWidth > 1000) {
+                                    return Row(
+                                      children: const [
+                                        Expanded(
+                                          flex: 6,
+                                          child: ChatRoomScreen(),
+                                        ),
+                                        Expanded(
+                                          flex: 5,
+                                          child: UserProfileScreen(),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                  return const UserProfileScreen();
+                                }
+                                return const ChatRoomScreen();
+                              },
+                            ),
                           );
                         }
                         return const DefaultChatView();
                       },
                     ),
                   ),
-                  // Expanded(child: UserProfileScreen()),
                 ],
               ),
             ),
