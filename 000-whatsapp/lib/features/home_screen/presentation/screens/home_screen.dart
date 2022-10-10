@@ -256,36 +256,36 @@ class _HomeScreenDesktop extends StatelessWidget {
                         }
                       },
                       buildWhen: (previous, current) {
-                        return (current is ChatRoomOpenState ||
-                                current is ChatRoomCloseState) &&
-                            current != previous;
+                        return current is ChatRoomOpenState ||
+                            current is ChatRoomCloseState;
                       },
                       builder: (context, state) {
                         if (state is ChatRoomOpenState) {
+                          // Whether current user profile is open or not
+                          final isProfileOpen = context.select(
+                            (UserProfileBloc bloc) =>
+                                bloc.state is UserProfileOpenState,
+                          );
+
                           return RepositoryProvider.value(
                             value: state.user,
-                            child:
-                                BlocBuilder<UserProfileBloc, UserProfileState>(
-                              builder: (context, userProfileState) {
-                                if (userProfileState is UserProfileOpenState) {
-                                  if (constrains.maxWidth > 1000) {
-                                    return Row(
-                                      children: const [
-                                        Expanded(
-                                          flex: 6,
-                                          child: ChatRoomScreen(),
-                                        ),
-                                        Expanded(
-                                          flex: 5,
-                                          child: UserProfileScreen(),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  return const UserProfileScreen();
-                                }
-                                return const ChatRoomScreen();
-                              },
+                            child: Row(
+                              children: [
+                                // If maxWidth <= 1000, then only show
+                                // chat room or profile screen, not both.
+                                // Otherwise show both screen in Row.
+                                if (constrains.maxWidth > 1000 ||
+                                    !isProfileOpen)
+                                  const Expanded(
+                                    flex: 6,
+                                    child: ChatRoomScreen(),
+                                  ),
+                                if (isProfileOpen)
+                                  const Expanded(
+                                    flex: 5,
+                                    child: UserProfileScreen(),
+                                  ),
+                              ],
                             ),
                           );
                         }
