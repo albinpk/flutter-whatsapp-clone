@@ -6,6 +6,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/extensions/date_time.dart';
+import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../chat.dart';
 
@@ -199,10 +200,14 @@ class _GotoBottomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
+    final isMobile = Theme.of(context).platform.isMobile;
+
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: const EdgeInsets.only(right: 10, bottom: 3),
+        padding: isMobile
+            ? const EdgeInsets.only(right: 10, bottom: 3)
+            : const EdgeInsets.all(15),
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
@@ -211,7 +216,7 @@ class _GotoBottomButton extends StatelessWidget {
                 color: Colors.black12,
                 blurRadius: 1,
                 offset: Offset(0, 0.5),
-              )
+              ),
             ],
           ),
           child: ClipOval(
@@ -224,8 +229,10 @@ class _GotoBottomButton extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(6),
                   child: Icon(
-                    Icons.keyboard_double_arrow_down,
-                    size: 22,
+                    isMobile
+                        ? Icons.keyboard_double_arrow_down
+                        : Icons.keyboard_arrow_down,
+                    size: isMobile ? 22 : 30,
                     color: customColors.iconMuted,
                   ),
                 ),
