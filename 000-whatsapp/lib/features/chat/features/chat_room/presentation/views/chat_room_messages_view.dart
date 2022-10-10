@@ -22,6 +22,11 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
   // The minimum height a MessageBox
   double? _singleMessageHeight;
 
+  final _scrollController = ScrollController();
+
+  // Whether to show the goto bottom button.
+  final _gotoBottomButtonNotifier = ValueNotifier<bool>(false);
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +35,25 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
         _singleMessageHeight = _demoBoxKey.currentContext!.size!.height;
       });
     });
+    _scrollController.addListener(_scrollListener);
+  }
+
+  // Show goto bottom button if scroll offset > message box height.
+  void _scrollListener() {
+    // + 5 is ListView vertical padding
+    if (_scrollController.offset > _singleMessageHeight! + 5) {
+      _gotoBottomButtonNotifier.value = true;
+    } else {
+      _gotoBottomButtonNotifier.value = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    _gotoBottomButtonNotifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,7 +69,7 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
     // if that value is > the maxHeight (that means the ListView have item to scroll)
     // the set the shrinkWrap to false, otherwise true.
     // We can't use a constant value as message box height, because
-    // the it is depends on the device.
+    // it is depends on the device.
 
     // Initially build a demo MessageBox widget with GlobalKey,
     // to calculate the height in postFrameCallback.
@@ -67,7 +91,7 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
           ],
         ),
       );
-    }
+    } // Demo message box widget end
 
     final selectedUser = context.watch<WhatsAppUser>();
     // Messages with currently selected user
@@ -93,6 +117,7 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
                       : true;
 
               return ListView.builder(
+                controller: _scrollController,
                 shrinkWrap: isShrinkWrap,
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 physics: const ClampingScrollPhysics(),
@@ -107,41 +132,41 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
                       ? true
                       : !message.time.isSameDate(messages[index + 1].time);
 
-                  // The message box
-                  final messageBox = Column(
-                    children: [
-                      // Message date
-                      if (isFirstInDate) _DateTimeItem(date: message.time),
-                      MessageBox(
-                        message: message,
-                        isFirstInSection: isFirstInSection || isFirstInDate,
-                      ),
-                    ],
+                  // Wrap the message box with VisibilityDetector and enable
+                  // it (by passing callback function to onVisibilityChanged)
+                  // if the message is incoming message and its status in delivered.
+                  // And trigger ChatMarkMessageAsRead event when
+                  // the message box is fully visible.
+
+                  final detectVisibilityChange =
+                      (message.author == selectedUser &&
+                          message.status == MessageStatus.delivered);
+
+                  return VisibilityDetector(
+                    key: Key(message.id),
+                    onVisibilityChanged: detectVisibilityChange
+                        ? (info) {
+                            if (info.visibleFraction == 1) {
+                              context.read<ChatBloc>().add(
+                                    ChatMarkMessageAsRead(
+                                      user: selectedUser,
+                                      message: message,
+                                    ),
+                                  );
+                            }
+                          }
+                        : null,
+                    child: Column(
+                      children: [
+                        // Message date
+                        if (isFirstInDate) _DateTimeItem(date: message.time),
+                        MessageBox(
+                          message: message,
+                          isFirstInSection: isFirstInSection || isFirstInDate,
+                        ),
+                      ],
+                    ),
                   );
-
-                  // Wrap the message box with VisibilityDetector if the message
-                  // is incoming message and its status in delivered.
-                  // And trigger ChatMarkMessageAsRead event when the message box is fully visible.
-                  if (message.author == selectedUser &&
-                      message.status == MessageStatus.delivered) {
-                    return VisibilityDetector(
-                      key: Key(message.id),
-                      onVisibilityChanged: (info) {
-                        if (info.visibleFraction == 1) {
-                          context.read<ChatBloc>().add(
-                                ChatMarkMessageAsRead(
-                                  user: selectedUser,
-                                  message: message,
-                                ),
-                              );
-                        }
-                      },
-                      child: messageBox,
-                    );
-                  }
-
-                  // No VisibilityDetector if the message is already read.
-                  return messageBox;
                 },
               );
             },
@@ -149,7 +174,13 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
         ),
 
         // Goto bottom button. Placed in bottom right corner.
-        const _GotoBottomButton(),
+        ValueListenableBuilder<bool>(
+          valueListenable: _gotoBottomButtonNotifier,
+          builder: (context, value, child) {
+            return value ? child! : const SizedBox.shrink();
+          },
+          child: const _GotoBottomButton(),
+        ),
       ],
     );
   }
