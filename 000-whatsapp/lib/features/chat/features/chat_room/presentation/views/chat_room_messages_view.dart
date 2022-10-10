@@ -179,7 +179,9 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
           builder: (context, value, child) {
             return value ? child! : const SizedBox.shrink();
           },
-          child: const _GotoBottomButton(),
+          child: _GotoBottomButton(
+            onTap: () => _scrollController.jumpTo(0),
+          ),
         ),
       ],
     );
@@ -187,7 +189,12 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
 }
 
 class _GotoBottomButton extends StatelessWidget {
-  const _GotoBottomButton({Key? key}) : super(key: key);
+  const _GotoBottomButton({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -208,16 +215,19 @@ class _GotoBottomButton extends StatelessWidget {
             ],
           ),
           child: ClipOval(
-            child: ColoredBox(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.white
-                  : customColors.secondary!,
-              child: Padding(
-                padding: const EdgeInsets.all(6),
-                child: Icon(
-                  Icons.keyboard_double_arrow_down,
-                  size: 22,
-                  color: customColors.iconMuted,
+            child: GestureDetector(
+              onTap: onTap,
+              child: ColoredBox(
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.white
+                    : customColors.secondary!,
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Icon(
+                    Icons.keyboard_double_arrow_down,
+                    size: 22,
+                    color: customColors.iconMuted,
+                  ),
                 ),
               ),
             ),
