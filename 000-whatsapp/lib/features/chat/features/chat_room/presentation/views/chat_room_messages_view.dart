@@ -175,10 +175,30 @@ class _ChatRoomMessagesViewState extends State<ChatRoomMessagesView> {
         ),
 
         // Goto bottom button. Placed in bottom right corner.
+        // show/hide button using AnimatedSwitcher.
         ValueListenableBuilder<bool>(
           valueListenable: _gotoBottomButtonNotifier,
-          builder: (context, value, child) {
-            return value ? child! : const SizedBox.shrink();
+          builder: (context, showButton, button) {
+            return Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: Theme.of(context).platform.isMobile
+                    ? const EdgeInsets.only(right: 10, bottom: 3)
+                    : const EdgeInsets.all(15),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 150),
+                  switchInCurve: Curves.easeInOut,
+                  switchOutCurve: Curves.easeInOut,
+                  transitionBuilder: (child, animation) {
+                    return ScaleTransition(
+                      scale: animation,
+                      child: child,
+                    );
+                  },
+                  child: showButton ? button! : null,
+                ),
+              ),
+            );
           },
           child: _GotoBottomButton(
             onTap: () => _scrollController.jumpTo(0),
@@ -202,40 +222,32 @@ class _GotoBottomButton extends StatelessWidget {
     final customColors = CustomColors.of(context);
     final isMobile = Theme.of(context).platform.isMobile;
 
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: Padding(
-        padding: isMobile
-            ? const EdgeInsets.only(right: 10, bottom: 3)
-            : const EdgeInsets.all(15),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 1,
-                offset: Offset(0, 0.5),
-              ),
-            ],
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 1,
+            offset: Offset(0, 0.5),
           ),
-          child: ClipOval(
-            child: GestureDetector(
-              onTap: onTap,
-              child: ColoredBox(
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.white
-                    : customColors.secondary!,
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Icon(
-                    isMobile
-                        ? Icons.keyboard_double_arrow_down
-                        : Icons.keyboard_arrow_down,
-                    size: isMobile ? 22 : 30,
-                    color: customColors.iconMuted,
-                  ),
-                ),
+        ],
+      ),
+      child: ClipOval(
+        child: GestureDetector(
+          onTap: onTap,
+          child: ColoredBox(
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : customColors.secondary!,
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Icon(
+                isMobile
+                    ? Icons.keyboard_double_arrow_down
+                    : Icons.keyboard_arrow_down,
+                size: isMobile ? 22 : 30,
+                color: customColors.iconMuted,
               ),
             ),
           ),
