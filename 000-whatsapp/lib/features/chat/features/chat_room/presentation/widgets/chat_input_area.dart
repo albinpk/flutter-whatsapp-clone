@@ -19,12 +19,15 @@ class ChatInputArea extends StatelessWidget {
     );
   }
 
+  /// Handle send button press
   void _onSendPressed(BuildContext context) {
     final messageInputBloc = context.read<MessageInputBloc>();
     if (messageInputBloc.state.isEmpty) {
       // voice record
       return;
     }
+
+    // Add new message to Bloc
     context.read<ChatBloc>().add(
           ChatMessageSend(
             to: context.read<WhatsAppUser>(),
@@ -49,6 +52,7 @@ class _ChatInputAreaMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
+    // Decoration (shadow) for TextInput and send button
     final boxDecoration = BoxDecoration(
       borderRadius: BorderRadius.circular(100),
       boxShadow: const [
@@ -67,9 +71,10 @@ class _ChatInputAreaMobile extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Text input
             Expanded(
               child: DecoratedBox(
-                decoration: boxDecoration,
+                decoration: boxDecoration, // Shadow
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: ColoredBox(
@@ -82,15 +87,24 @@ class _ChatInputAreaMobile extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
+                          // Emoji button
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.emoji_emotions_rounded),
                           ),
+
+                          // TextField
                           const Expanded(child: ChatTextField()),
+
+                          // File attach button
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.attach_file),
                           ),
+
+                          // Payment and camera buttons.
+                          // Using BlocSelector and AnimatedAlign
+                          // to hide these buttons when typing.
                           BlocSelector<MessageInputBloc, MessageInputState,
                               bool>(
                             selector: (state) => state.isEmpty,
@@ -102,10 +116,13 @@ class _ChatInputAreaMobile extends StatelessWidget {
                                 curve: Curves.easeInOut,
                                 child: Row(
                                   children: [
+                                    // Payment button
                                     IconButton(
                                       onPressed: () {},
                                       icon: const Icon(Icons.currency_rupee),
                                     ),
+
+                                    // Camera button
                                     IconButton(
                                       onPressed: () {},
                                       icon: const Icon(Icons.camera_alt),
@@ -128,12 +145,15 @@ class _ChatInputAreaMobile extends StatelessWidget {
             AspectRatio(
               aspectRatio: 1 / 1,
               child: DecoratedBox(
-                decoration: boxDecoration,
+                decoration: boxDecoration, // Shadow
                 child: ClipOval(
                   child: GestureDetector(
                     onTap: () => onSendPressed(context),
                     child: ColoredBox(
                       color: customColors.primary!,
+
+                      // Using BlocSelector and AnimatedSwitcher
+                      // to switch icons (send/mic) when typing.
                       child: BlocSelector<MessageInputBloc, MessageInputState,
                           bool>(
                         selector: (state) => state.isEmpty,
@@ -200,17 +220,20 @@ class _ChatInputAreaDesktop extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                // Emoji button
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.emoji_emotions_rounded),
                 ),
+
+                // File attach button
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.attach_file),
                 ),
                 const SizedBox(width: 10),
 
-                // input box
+                // Text input
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
@@ -230,6 +253,7 @@ class _ChatInputAreaDesktop extends StatelessWidget {
                 // send/voice button
                 IconButton(
                   onPressed: () => onSendPressed(context),
+                  // Using BlocSelector to switch icons when typing
                   icon: BlocSelector<MessageInputBloc, MessageInputState, bool>(
                     selector: (state) => state.isEmpty,
                     builder: (context, isMessageTextEmpty) {
