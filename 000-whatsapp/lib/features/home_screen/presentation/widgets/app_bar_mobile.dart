@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../chat/chat.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
+import '../../../settings/settings.dart';
 import '../../home_screen.dart';
 
 class AppBarMobile extends StatelessWidget {
@@ -53,7 +54,20 @@ class AppBarMobile extends StatelessWidget {
               },
               icon: const Icon(Icons.search),
             ),
-            PopupMenuButton(itemBuilder: _buildPopupMenuItems),
+            PopupMenuButton<_PopupMenu>(
+              onSelected: (menu) {
+                switch (menu) {
+                  case _PopupMenu.settings:
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsScreen(),
+                      ),
+                    );
+                    break;
+                }
+              },
+              itemBuilder: _buildPopupMenuItems,
+            ),
           ],
           bottom: TabBar(
             controller: tabController,
@@ -76,20 +90,27 @@ class AppBarMobile extends StatelessWidget {
     );
   }
 
-  List<PopupMenuEntry<dynamic>> _buildPopupMenuItems(BuildContext context) {
+  List<PopupMenuEntry<_PopupMenu>> _buildPopupMenuItems(BuildContext context) {
     return [
       'New group',
       'New broadcast',
       'Linked devices',
       'Starred messages',
       'Payments',
-    ].map((e) => PopupMenuItem(enabled: false, child: Text(e))).followedBy(
-      [
-        PopupMenuItem(
-          onTap: () {},
-          child: const Text('Settings'),
+    ]
+        .map((e) => PopupMenuItem<_PopupMenu>(enabled: false, child: Text(e)))
+        .followedBy(
+      const [
+        PopupMenuItem<_PopupMenu>(
+          value: _PopupMenu.settings,
+          child: Text('Settings'),
         ),
       ],
     ).toList();
   }
+}
+
+/// Popup menu items.
+enum _PopupMenu {
+  settings,
 }
