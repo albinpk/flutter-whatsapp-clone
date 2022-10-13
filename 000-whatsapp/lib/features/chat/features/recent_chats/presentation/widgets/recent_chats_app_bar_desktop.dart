@@ -24,11 +24,14 @@ class RecentChatsAppBarDesktop extends StatelessWidget
             : CustomColors.of(context).iconMuted,
       ),
       actions: [
+        // Search icon
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.circle_outlined),
           padding: actionsIconPadding,
         ),
+
+        // New chat icon
         IconButton(
           onPressed: () {
             context.read<NewChatBloc>().add(const NewChatSelectionScreenOpen());
@@ -36,16 +39,50 @@ class RecentChatsAppBarDesktop extends StatelessWidget
           icon: const Icon(Icons.message),
           padding: actionsIconPadding,
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.more_vert),
+
+        // More icon
+        PopupMenuButton<_PopupMenu>(
+          itemBuilder: (context) => _popupMenuItems,
+          offset: const Offset(-135, 40),
           padding: actionsIconPadding,
-        ),
+        )
       ],
       bottom: const SearchBarDesktop(),
     );
   }
 
+  /// Popup menu items.
+  static const _popupMenuItems = [
+    PopupMenuItem(
+      enabled: false,
+      value: _PopupMenu.newGroup,
+      child: Text('New group'),
+    ),
+    PopupMenuItem(
+      enabled: false,
+      value: _PopupMenu.starredMessages,
+      child: Text('Starred messages'),
+    ),
+    PopupMenuItem(
+      enabled: false,
+      value: _PopupMenu.settings,
+      child: Text('Settings'),
+    ),
+    PopupMenuItem(
+      enabled: false,
+      value: _PopupMenu.logout,
+      child: Text('Log out'),
+    ),
+  ];
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight * 2);
+}
+
+/// Values for PopupMenuItem.
+enum _PopupMenu {
+  newGroup,
+  starredMessages,
+  settings,
+  logout,
 }
