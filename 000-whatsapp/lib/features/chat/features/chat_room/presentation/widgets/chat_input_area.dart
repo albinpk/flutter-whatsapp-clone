@@ -64,19 +64,33 @@ class _ChatInputAreaMobile extends StatelessWidget {
       ],
     );
 
+    // Total number on lines in message text.
+    // Change input area height when number of lines change.
+    final lineCount = context.select(
+      (MessageInputBloc bloc) =>
+          bloc.state.lineCount.clamp(1, 6), // maximum 6 line
+    );
+
     return SizedBox(
-      height: kBottomNavigationBarHeight,
+      height: lineCount == 1
+          ? kBottomNavigationBarHeight // Default height
+          // 20 => TextField fontSize + 2,
+          // 6 => TextField contentPadding * 2,
+          // 10 => padding below.
+          : (20 * lineCount) + 6 + 10,
       child: Padding(
-        padding: const EdgeInsets.all(5).copyWith(top: 4, bottom: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 5)
+            .copyWith(top: 4, bottom: 6),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             // Text input
             Expanded(
               child: DecoratedBox(
                 decoration: boxDecoration, // Shadow
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius:
+                      BorderRadius.circular(kBottomNavigationBarHeight / 2),
                   child: ColoredBox(
                     color: Theme.of(context).brightness == Brightness.light
                         ? Colors.white
@@ -86,6 +100,7 @@ class _ChatInputAreaMobile extends StatelessWidget {
                         color: customColors.iconMuted,
                       ),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           // Emoji button
                           IconButton(
@@ -110,7 +125,7 @@ class _ChatInputAreaMobile extends StatelessWidget {
                             selector: (state) => state.isEmpty,
                             builder: (context, isEmpty) {
                               return AnimatedAlign(
-                                alignment: Alignment.centerLeft,
+                                alignment: Alignment.bottomLeft,
                                 widthFactor: isEmpty ? 1 : 0,
                                 duration: const Duration(milliseconds: 150),
                                 curve: Curves.easeInOut,
@@ -142,48 +157,51 @@ class _ChatInputAreaMobile extends StatelessWidget {
             const SizedBox(width: 4),
 
             // Send/voice button
-            AspectRatio(
-              aspectRatio: 1 / 1,
-              child: DecoratedBox(
-                decoration: boxDecoration, // Shadow
-                child: ClipOval(
-                  child: GestureDetector(
-                    onTap: () => onSendPressed(context),
-                    child: ColoredBox(
-                      color: customColors.primary!,
+            SizedBox(
+              height: kBottomNavigationBarHeight - 10, // 10 => padding 5 + 5
+              child: AspectRatio(
+                aspectRatio: 1 / 1,
+                child: DecoratedBox(
+                  decoration: boxDecoration, // Shadow
+                  child: ClipOval(
+                    child: GestureDetector(
+                      onTap: () => onSendPressed(context),
+                      child: ColoredBox(
+                        color: customColors.primary!,
 
-                      // Using BlocSelector and AnimatedSwitcher
-                      // to switch icons (send/mic) when typing.
-                      child: BlocSelector<MessageInputBloc, MessageInputState,
-                          bool>(
-                        selector: (state) => state.isEmpty,
-                        builder: (context, isMessageTextEmpty) {
-                          return AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 150),
-                            switchInCurve: Curves.easeInOut,
-                            switchOutCurve: Curves.easeInOut,
-                            transitionBuilder: (child, animation) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: ScaleTransition(
-                                  scale: animation,
-                                  child: child,
-                                ),
-                              );
-                            },
-                            child: isMessageTextEmpty
-                                ? Icon(
-                                    Icons.mic,
-                                    key: const Key('mic_icon'),
-                                    color: customColors.onPrimary,
-                                  )
-                                : Icon(
-                                    Icons.send,
-                                    key: const Key('send_icon'),
-                                    color: customColors.onPrimary,
+                        // Using BlocSelector and AnimatedSwitcher
+                        // to switch icons (send/mic) when typing.
+                        child: BlocSelector<MessageInputBloc, MessageInputState,
+                            bool>(
+                          selector: (state) => state.isEmpty,
+                          builder: (context, isMessageTextEmpty) {
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 150),
+                              switchInCurve: Curves.easeInOut,
+                              switchOutCurve: Curves.easeInOut,
+                              transitionBuilder: (child, animation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: ScaleTransition(
+                                    scale: animation,
+                                    child: child,
                                   ),
-                          );
-                        },
+                                );
+                              },
+                              child: isMessageTextEmpty
+                                  ? Icon(
+                                      Icons.mic,
+                                      key: const Key('mic_icon'),
+                                      color: customColors.onPrimary,
+                                    )
+                                  : Icon(
+                                      Icons.send,
+                                      key: const Key('send_icon'),
+                                      color: customColors.onPrimary,
+                                    ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

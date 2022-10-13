@@ -52,8 +52,15 @@ class _ChatTextFieldState extends State<ChatTextField> {
     // pressed (in didChangeDependencies)
     context.select((MessageInputBloc bloc) => bloc.state.isSendPressed);
 
+    // Whether the message text is single line or not.
+    // Decrease contentPadding of TextField if text is not single line.
+    final isSingleLine = context.select(
+      (MessageInputBloc bloc) => bloc.state.lineCount == 1,
+    );
+
     return TextField(
       controller: _textEditingController,
+      maxLines: 6,
       style: textTheme.titleMedium!.copyWith(
         fontSize: isMobile ? 18 : null,
         fontWeight: isMobile
@@ -64,6 +71,9 @@ class _ChatTextFieldState extends State<ChatTextField> {
       ),
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
+        contentPadding: isSingleLine
+            ? null // Default padding
+            : const EdgeInsets.symmetric(vertical: 3),
         hintText: isMobile ? 'Message' : ' Type a message',
         border: InputBorder.none,
       ),
