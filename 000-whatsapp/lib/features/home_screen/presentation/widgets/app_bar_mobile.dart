@@ -70,11 +70,9 @@ class AppBarMobile extends StatelessWidget {
                   case _PopupMenu.payments:
                     break;
                   case _PopupMenu.settings:
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const SettingsScreen(),
-                      ),
-                    );
+                    context
+                        .read<SettingsBloc>()
+                        .add(const SettingsScreenOpen());
                     break;
                 }
               },

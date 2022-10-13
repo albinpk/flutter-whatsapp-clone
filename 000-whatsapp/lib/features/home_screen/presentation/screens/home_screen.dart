@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/extensions/target_platform.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../chat/chat.dart';
+import '../../../settings/settings.dart';
 import '../../home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,7 +35,10 @@ class _HomeScreenMobile extends StatelessWidget {
         ),
         BlocListener<UserProfileBloc, UserProfileState>(
           listener: _userProfileBlocListener,
-        )
+        ),
+        BlocListener<SettingsBloc, SettingsState>(
+          listener: _settingsBlocListener,
+        ),
       ],
       child: BlocProvider(
         create: (context) => TabViewBloc(),
@@ -85,6 +89,16 @@ class _HomeScreenMobile extends StatelessWidget {
               child: child,
             );
           },
+        ),
+      );
+    }
+  }
+
+  void _settingsBlocListener(BuildContext context, SettingsState state) {
+    if (state is SettingsScreenOpenState) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const SettingsScreen(),
         ),
       );
     }
