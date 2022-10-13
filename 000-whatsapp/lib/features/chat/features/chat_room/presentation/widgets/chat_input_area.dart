@@ -75,8 +75,8 @@ class _ChatInputAreaMobile extends StatelessWidget {
       height: lineCount == 1
           ? kBottomNavigationBarHeight // Default height
           // 20 => TextField fontSize + 2,
-          // 6 => TextField contentPadding * 2,
-          // 10 => padding below.
+          // 6 => TextField contentPadding (3+3),
+          // 10 => padding below (4+6).
           : (20 * lineCount) + 6 + 10,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5)
@@ -225,8 +225,20 @@ class _ChatInputAreaDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Total number on lines in message text.
+    // Change input area height when number of lines change.
+    final lineCount = context.select(
+      (MessageInputBloc bloc) =>
+          bloc.state.lineCount.clamp(1, 6), // maximum 6 line
+    );
+
     return SizedBox(
-      height: kBottomNavigationBarHeight + 5,
+      height: lineCount == 1
+          ? kBottomNavigationBarHeight + 5 // 5 => extra for desktop
+          // 18 => TextField fontSize + 2,
+          // 16 => padding below (8+8),
+          // 20 => TextField contentPadding (10+10).
+          : (18 * lineCount) + 16 + 20,
       child: ColoredBox(
         color: CustomColors.of(context).secondary!,
         child: Padding(

@@ -73,7 +73,9 @@ class _ChatTextFieldState extends State<ChatTextField> {
       decoration: InputDecoration(
         contentPadding: isSingleLine
             ? null // Default padding
-            : const EdgeInsets.symmetric(vertical: 3),
+            : isMobile
+                ? const EdgeInsets.symmetric(vertical: 3)
+                : const EdgeInsets.symmetric(vertical: 10),
         hintText: isMobile ? 'Message' : ' Type a message',
         border: InputBorder.none,
       ),
