@@ -15,6 +15,9 @@ class MessageInputState extends Equatable {
   /// Returns `text.trim().isEmpty`
   bool get isEmpty => text.trim().isEmpty;
 
+  /// Return total number of lines (`\n`) in message text.
+  int get lineCount => text.split('\n').length;
+
   @override
   List<Object> get props => [text, isSendPressed];
 
