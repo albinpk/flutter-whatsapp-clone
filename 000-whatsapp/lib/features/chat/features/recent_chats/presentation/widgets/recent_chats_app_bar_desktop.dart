@@ -43,7 +43,8 @@ class RecentChatsAppBarDesktop extends StatelessWidget
         // More icon
         PopupMenuButton<_PopupMenu>(
           itemBuilder: (context) => _popupMenuItems,
-          offset: const Offset(-135, 40),
+          offset: const Offset(-135, 0),
+          position: PopupMenuPosition.under,
           padding: actionsIconPadding,
         )
       ],
