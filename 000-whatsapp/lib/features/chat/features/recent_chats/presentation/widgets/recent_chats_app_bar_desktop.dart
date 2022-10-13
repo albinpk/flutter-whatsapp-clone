@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
+import '../../../../../settings/settings.dart';
 import '../../../new_chat/new_chat.dart';
 import '../../../search/search.dart';
 
@@ -46,6 +47,18 @@ class RecentChatsAppBarDesktop extends StatelessWidget
           offset: const Offset(-135, 0),
           position: PopupMenuPosition.under,
           padding: actionsIconPadding,
+          onSelected: (menu) {
+            switch (menu) {
+              case _PopupMenu.newGroup:
+              case _PopupMenu.starredMessages:
+                break;
+              case _PopupMenu.settings:
+                context.read<SettingsBloc>().add(const SettingsScreenOpen());
+                break;
+              case _PopupMenu.logout:
+                break;
+            }
+          },
         )
       ],
       bottom: const SearchBarDesktop(),
@@ -65,7 +78,6 @@ class RecentChatsAppBarDesktop extends StatelessWidget
       child: Text('Starred messages'),
     ),
     PopupMenuItem(
-      enabled: false,
       value: _PopupMenu.settings,
       child: Text('Settings'),
     ),

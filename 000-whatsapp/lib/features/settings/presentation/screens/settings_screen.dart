@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/models/models.dart';
+import '../../../../core/utils/extensions/target_platform.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../settings.dart';
@@ -18,7 +19,17 @@ class SettingsScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Settings')),
+        appBar: AppBar(
+          title: const Text('Settings'),
+          leading: BackButton(
+            onPressed: () {
+              context.read<SettingsBloc>().add(const SettingsScreenClose());
+              if (Theme.of(context).platform.isMobile) {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ),
         body: SingleChildScrollView(
           // Using Theme to override color of icon and subtitle in ListTile.
           child: Theme(

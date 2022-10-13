@@ -239,14 +239,22 @@ class _HomeScreenDesktop extends StatelessWidget {
               builder: (context, constrains) => Row(
                 children: [
                   // Left side of screen
+
                   // for recent chats, new chat
                   SizedBox(
                     width: _calculateWidth(constrains.maxWidth),
-                    child: BlocBuilder<NewChatBloc, NewChatState>(
-                      builder: (context, state) {
-                        if (state is NewChatSelectionScreenOpenState) {
+                    child: Builder(
+                      builder: (context) {
+                        if (context.select((NewChatBloc bloc) =>
+                            bloc.state is NewChatSelectionScreenOpenState)) {
                           return const NewChatSelectionScreen();
                         }
+
+                        if (context.select((SettingsBloc bloc) =>
+                            bloc.state is SettingsScreenOpenState)) {
+                          return const SettingsScreen();
+                        }
+
                         return const RecentChatsView();
                       },
                     ),
