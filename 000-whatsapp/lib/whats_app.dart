@@ -7,6 +7,7 @@ import 'features/home_screen/home_screen.dart';
 import 'core/models/models.dart';
 import 'core/utils/themes/dark_theme.dart';
 import 'core/utils/themes/light_theme.dart';
+import 'features/settings/settings.dart';
 
 class WhatsApp extends StatelessWidget {
   const WhatsApp({super.key});
@@ -27,6 +28,7 @@ class WhatsApp extends StatelessWidget {
           BlocProvider(create: (context) => NewChatBloc()),
           BlocProvider(create: (context) => ChatSearchBloc()),
           BlocProvider(create: (context) => UserProfileBloc()),
+          BlocProvider(create: (context) => SettingsBloc()),
         ],
         child: MaterialApp(
           theme: lightTheme,
