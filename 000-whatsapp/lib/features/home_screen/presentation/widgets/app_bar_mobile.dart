@@ -42,6 +42,7 @@ class AppBarMobile extends StatelessWidget {
           snap: true,
           forceElevated: true,
           actions: [
+            // Search icon
             IconButton(
               onPressed: () {
                 switch (context.read<TabViewBloc>().state.tabView) {
@@ -54,7 +55,12 @@ class AppBarMobile extends StatelessWidget {
               },
               icon: const Icon(Icons.search),
             ),
+
+            // More icon
             PopupMenuButton<_PopupMenu>(
+              itemBuilder: (context) => _popupMenuItems,
+              // Increasing PopupMenu width using constrains
+              constraints: const BoxConstraints(minWidth: 190),
               onSelected: (menu) {
                 switch (menu) {
                   case _PopupMenu.newGroup:
@@ -72,7 +78,6 @@ class AppBarMobile extends StatelessWidget {
                     break;
                 }
               },
-              itemBuilder: (context) => _popupMenuItems,
             ),
           ],
           bottom: TabBar(
