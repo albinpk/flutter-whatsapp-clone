@@ -74,7 +74,7 @@ class RecentChatsListTile extends StatelessWidget {
             // Last message
             Expanded(
               child: Text(
-                chat.lastMessage.content.text,
+                chat.lastMessage.content.text.split('\n').join(' '),
                 style: lastMessageTextStyle,
                 overflow: TextOverflow.ellipsis,
               ),
