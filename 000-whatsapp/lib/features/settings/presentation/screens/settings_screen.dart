@@ -12,6 +12,17 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Theme.of(context).platform.isMobile
+        ? const _SettingsScreenMobile()
+        : const _SettingsScreenDesktop();
+  }
+}
+
+class _SettingsScreenMobile extends StatelessWidget {
+  const _SettingsScreenMobile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
     return WillPopScope(
       onWillPop: () async {
@@ -19,17 +30,7 @@ class SettingsScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Settings'),
-          leading: BackButton(
-            onPressed: () {
-              context.read<SettingsBloc>().add(const SettingsScreenClose());
-              if (Theme.of(context).platform.isMobile) {
-                Navigator.of(context).pop();
-              }
-            },
-          ),
-        ),
+        appBar: AppBar(title: const Text('Settings')),
         body: SingleChildScrollView(
           // Using Theme to override color of icon and subtitle in ListTile.
           child: Theme(
@@ -122,6 +123,89 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SettingsScreenDesktop extends StatelessWidget {
+  const _SettingsScreenDesktop({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final customColors = CustomColors.of(context);
+    const divider = Divider(indent: 68);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+        leading: BackButton(
+          onPressed: () {
+            context.read<SettingsBloc>().add(const SettingsScreenClose());
+          },
+        ),
+      ),
+      body: SingleChildScrollView(
+        // Using Theme to override color of ListTile.leading icon.
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            iconTheme: IconThemeData(color: customColors.iconMuted),
+          ),
+          child: Column(
+            children: [
+              // User tile
+              Builder(
+                builder: (context) => ListTile(
+                  leading: const UserDP(radius: 30),
+                  title: Text(context.select((User user) => user.name)),
+                  subtitle: Text(context.select((User user) => user.about)),
+                  trailing: Icon(Icons.qr_code, color: customColors.primary),
+                ),
+              ),
+              const SizedBox(height: 5),
+
+              // Settings tiles
+              const ListTile(
+                leading: Icon(Icons.notifications),
+                title: Text('Notifications'),
+              ),
+              divider,
+              const ListTile(
+                leading: Icon(Icons.lock),
+                title: Text('Privacy'),
+              ),
+              divider,
+              const ListTile(
+                leading: Icon(Icons.security),
+                title: Text('Security'),
+              ),
+              divider,
+              const ListTile(
+                leading: Icon(Icons.brightness_medium),
+                title: Text('Theme'),
+              ),
+              divider,
+              const ListTile(
+                leading: Icon(Icons.wallpaper),
+                title: Text('Chat wallpaper'),
+              ),
+              divider,
+              const ListTile(
+                leading: Icon(Icons.insert_drive_file),
+                title: Text('Request Account Info'),
+              ),
+              divider,
+              const ListTile(
+                leading: Icon(Icons.brightness_auto),
+                title: Text('Keyboard shortcuts'),
+              ),
+              divider,
+              const ListTile(
+                leading: Icon(Icons.help),
+                title: Text('Help'),
+              ),
+            ],
           ),
         ),
       ),
