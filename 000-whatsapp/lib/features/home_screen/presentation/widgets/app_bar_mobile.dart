@@ -57,6 +57,12 @@ class AppBarMobile extends StatelessWidget {
             PopupMenuButton<_PopupMenu>(
               onSelected: (menu) {
                 switch (menu) {
+                  case _PopupMenu.newGroup:
+                  case _PopupMenu.newBroadcast:
+                  case _PopupMenu.linkedDevices:
+                  case _PopupMenu.starredMessages:
+                  case _PopupMenu.payments:
+                    break;
                   case _PopupMenu.settings:
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -66,7 +72,7 @@ class AppBarMobile extends StatelessWidget {
                     break;
                 }
               },
-              itemBuilder: _buildPopupMenuItems,
+              itemBuilder: (context) => _popupMenuItems,
             ),
           ],
           bottom: TabBar(
@@ -90,27 +96,46 @@ class AppBarMobile extends StatelessWidget {
     );
   }
 
-  List<PopupMenuEntry<_PopupMenu>> _buildPopupMenuItems(BuildContext context) {
-    return [
-      'New group',
-      'New broadcast',
-      'Linked devices',
-      'Starred messages',
-      'Payments',
-    ]
-        .map((e) => PopupMenuItem<_PopupMenu>(enabled: false, child: Text(e)))
-        .followedBy(
-      const [
-        PopupMenuItem<_PopupMenu>(
-          value: _PopupMenu.settings,
-          child: Text('Settings'),
-        ),
-      ],
-    ).toList();
-  }
+  /// Popup menu items.
+  static const _popupMenuItems = [
+    PopupMenuItem<_PopupMenu>(
+      enabled: false,
+      value: _PopupMenu.newGroup,
+      child: Text('New group'),
+    ),
+    PopupMenuItem<_PopupMenu>(
+      enabled: false,
+      value: _PopupMenu.newBroadcast,
+      child: Text('New broadcast'),
+    ),
+    PopupMenuItem<_PopupMenu>(
+      enabled: false,
+      value: _PopupMenu.linkedDevices,
+      child: Text('Linked devices'),
+    ),
+    PopupMenuItem<_PopupMenu>(
+      enabled: false,
+      value: _PopupMenu.starredMessages,
+      child: Text('Starred messages'),
+    ),
+    PopupMenuItem<_PopupMenu>(
+      enabled: false,
+      value: _PopupMenu.payments,
+      child: Text('Payments'),
+    ),
+    PopupMenuItem<_PopupMenu>(
+      value: _PopupMenu.settings,
+      child: Text('Settings'),
+    ),
+  ];
 }
 
-/// Popup menu items.
+/// Values for PopupMenuItem.
 enum _PopupMenu {
+  newGroup,
+  newBroadcast,
+  linkedDevices,
+  starredMessages,
+  payments,
   settings,
 }
