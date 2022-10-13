@@ -53,10 +53,7 @@ class AppBarMobile extends StatelessWidget {
               },
               icon: const Icon(Icons.search),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.more_vert),
-            ),
+            PopupMenuButton(itemBuilder: _buildPopupMenuItems),
           ],
           bottom: TabBar(
             controller: tabController,
@@ -77,5 +74,22 @@ class AppBarMobile extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<PopupMenuEntry<dynamic>> _buildPopupMenuItems(BuildContext context) {
+    return [
+      'New group',
+      'New broadcast',
+      'Linked devices',
+      'Starred messages',
+      'Payments',
+    ].map((e) => PopupMenuItem(enabled: false, child: Text(e))).followedBy(
+      [
+        PopupMenuItem(
+          onTap: () {},
+          child: const Text('Settings'),
+        ),
+      ],
+    ).toList();
   }
 }
