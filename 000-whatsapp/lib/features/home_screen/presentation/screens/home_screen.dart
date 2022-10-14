@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme.of(context).platform.isMobile
         ? const _HomeScreenMobile()
-        : const _HomeScreenDesktop();
+        : _HomeScreenDesktop();
   }
 }
 
@@ -216,106 +216,112 @@ class _NestedScrollViewState extends State<_NestedScrollView>
 }
 
 class _HomeScreenDesktop extends StatelessWidget {
-  const _HomeScreenDesktop({Key? key}) : super(key: key);
+  _HomeScreenDesktop({Key? key}) : super(key: key);
+
+  /// GlobalKey for Navigator on left side of the screen.
+  ///
+  /// For recent chats, new chat, settings, etc.
+  final _leftNavigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     const padding = 20.0;
-    final mainView = Center(
-      child: BothAxisScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: max(min(screenSize.width, 1600), 750),
-            maxHeight: max(screenSize.height, 510),
-          ),
-          child: Padding(
-            padding: screenSize.width > 1440
-                ? const EdgeInsets.all(padding).copyWith(
-                    bottom: screenSize.height > 510 ? padding : 0,
-                  )
-                : EdgeInsets.zero,
-            child: LayoutBuilder(
-              builder: (context, constrains) => Row(
-                children: [
-                  // Left side of screen
+    final mainView = MultiBlocListener(
+      listeners: [
+        BlocListener<NewChatBloc, NewChatState>(
+          listener: _newChatBlocListener,
+        ),
+        BlocListener<SettingsBloc, SettingsState>(
+          listener: _settingsBlocListener,
+        ),
+      ],
+      child: Center(
+        child: BothAxisScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: max(min(screenSize.width, 1600), 750),
+              maxHeight: max(screenSize.height, 510),
+            ),
+            child: Padding(
+              padding: screenSize.width > 1440
+                  ? const EdgeInsets.all(padding).copyWith(
+                      bottom: screenSize.height > 510 ? padding : 0,
+                    )
+                  : EdgeInsets.zero,
+              child: LayoutBuilder(
+                builder: (context, constrains) => Row(
+                  children: [
+                    // Left side of screen
 
-                  // for recent chats, new chat
-                  SizedBox(
-                    width: _calculateWidth(constrains.maxWidth),
-                    child: Builder(
-                      builder: (context) {
-                        if (context.select((NewChatBloc bloc) =>
-                            bloc.state is NewChatSelectionScreenOpenState)) {
-                          return const NewChatSelectionScreen();
-                        }
-
-                        if (context.select((SettingsBloc bloc) =>
-                            bloc.state is SettingsScreenOpenState)) {
-                          return const SettingsScreen();
-                        }
-
-                        return const RecentChatsView();
-                      },
+                    // for recent chats, new chat, settings
+                    SizedBox(
+                      width: _calculateWidth(constrains.maxWidth),
+                      // Using Navigator widget to handle navigation on left side
+                      child: Navigator(
+                        key: _leftNavigatorKey,
+                        initialRoute: 'recentChats',
+                        onGenerateRoute: _onGenerateRouteLeft,
+                      ),
                     ),
-                  ),
 
-                  // Right side of screen
-                  // for chat room and user profile
-                  Expanded(
-                    flex: 3,
-                    child: BlocConsumer<ChatRoomBloc, ChatRoomState>(
-                      listenWhen: (previous, current) {
-                        return current is ChatRoomOpenState;
-                      },
+                    // Right side of screen
+                    // for chat room and user profile
+                    Expanded(
+                      flex: 3,
+                      child: BlocConsumer<ChatRoomBloc, ChatRoomState>(
+                        listenWhen: (previous, current) {
+                          return current is ChatRoomOpenState;
+                        },
 
-                      // Close previous user's profile screen (if open)
-                      // when another chat room is open.
-                      listener: (context, state) {
+                        // Close previous user's profile screen (if open)
+                        // when another chat room is open.
+                        listener: (context, state) {
                         final userProfileBloc = context.read<UserProfileBloc>();
-                        if (userProfileBloc.state is UserProfileOpenState) {
-                          userProfileBloc.add(const UserProfileClose());
-                        }
-                      },
-                      buildWhen: (previous, current) {
-                        return current is ChatRoomOpenState ||
-                            current is ChatRoomCloseState;
-                      },
-                      builder: (context, state) {
-                        if (state is ChatRoomOpenState) {
-                          // Whether current user profile is open or not
-                          final isProfileOpen = context.select(
-                            (UserProfileBloc bloc) =>
-                                bloc.state is UserProfileOpenState,
-                          );
+                          if (userProfileBloc.state is UserProfileOpenState) {
+                            userProfileBloc.add(const UserProfileClose());
+                          }
+                        },
+                        buildWhen: (previous, current) {
+                          return current is ChatRoomOpenState ||
+                              current is ChatRoomCloseState;
+                        },
+                        builder: (context, state) {
+                          if (state is ChatRoomOpenState) {
+                            // Whether current user profile is open or not
+                            final isProfileOpen = context.select(
+                              (UserProfileBloc bloc) =>
+                                  bloc.state is UserProfileOpenState,
+                            );
 
-                          return RepositoryProvider.value(
-                            value: state.user,
-                            child: Row(
-                              children: [
-                                // If maxWidth <= 1000, then only show
-                                // chat room or profile screen, not both.
-                                // Otherwise show both screen in Row.
-                                if (constrains.maxWidth > 1000 ||
-                                    !isProfileOpen)
-                                  const Expanded(
-                                    flex: 6,
-                                    child: ChatRoomScreen(),
-                                  ),
-                                if (isProfileOpen)
-                                  const Expanded(
-                                    flex: 5,
-                                    child: UserProfileScreen(),
-                                  ),
-                              ],
-                            ),
-                          );
-                        }
-                        return const DefaultChatView();
-                      },
+                            return RepositoryProvider.value(
+                              value: state.user,
+                              child: Row(
+                                children: [
+                                  // If maxWidth <= 1000, then only show
+                                  // chat room or profile screen, not both.
+                                  // Otherwise show both screen in Row.
+                                  if (constrains.maxWidth > 1000 ||
+                                      !isProfileOpen)
+                                    const Expanded(
+                                      flex: 6,
+                                      child: ChatRoomScreen(),
+                                    ),
+                                  if (isProfileOpen)
+                                    const Expanded(
+                                      flex: 5,
+                                      child: UserProfileScreen(),
+                                    ),
+                                ],
+                              ),
+                            );
+                          }
+                          return const DefaultChatView();
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -323,6 +329,8 @@ class _HomeScreenDesktop extends StatelessWidget {
       ),
     );
 
+    // Add background for main content on large
+    // screen if Brightness is light.
     if (Theme.of(context).brightness == Brightness.light &&
         screenSize.width > 1440) {
       return Stack(
@@ -365,5 +373,48 @@ class _HomeScreenDesktop extends StatelessWidget {
       widthFactor = 0.4;
     }
     return maxWidth * widthFactor;
+  }
+
+  /// Generate Routes for left side.
+  Route<dynamic>? _onGenerateRouteLeft(RouteSettings settings) {
+    switch (settings.name) {
+      case 'recentChats':
+        return MaterialPageRoute(
+          builder: (context) => const RecentChatsView(),
+        );
+
+      case 'settings':
+        return MaterialPageRoute(
+          builder: (context) => const SettingsScreen(),
+        );
+
+      case 'newChat':
+        return MaterialPageRoute(
+          builder: (context) {
+            return const NewChatSelectionScreen();
+          },
+        );
+
+      default:
+        return null;
+    }
+  }
+
+  /// Listener for [NewChatBloc] to handle navigation.
+  void _newChatBlocListener(BuildContext context, NewChatState state) {
+    if (state is NewChatSelectionScreenOpenState) {
+      _leftNavigatorKey.currentState!.pushNamed('newChat');
+    } else if (state is NewChatSelectionScreenCloseState) {
+      _leftNavigatorKey.currentState!.pop();
+    }
+  }
+
+  /// Listener for [SettingsBloc] to handle navigation.
+  void _settingsBlocListener(BuildContext context, SettingsState state) {
+    if (state is SettingsScreenOpenState) {
+      _leftNavigatorKey.currentState!.pushNamed('settings');
+    } else if (state is SettingsScreenCloseState) {
+      _leftNavigatorKey.currentState!.pop();
+    }
   }
 }
