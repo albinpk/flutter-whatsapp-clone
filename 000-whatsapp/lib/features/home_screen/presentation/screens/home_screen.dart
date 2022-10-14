@@ -379,20 +379,18 @@ class _HomeScreenDesktop extends StatelessWidget {
   Route<dynamic>? _onGenerateRouteLeft(RouteSettings settings) {
     switch (settings.name) {
       case 'recentChats':
-        return MaterialPageRoute(
+        return _SlidePageRoute(
           builder: (context) => const RecentChatsView(),
         );
 
       case 'settings':
-        return MaterialPageRoute(
+        return _SlidePageRoute(
           builder: (context) => const SettingsScreen(),
         );
 
       case 'newChat':
-        return MaterialPageRoute(
-          builder: (context) {
-            return const NewChatSelectionScreen();
-          },
+        return _SlidePageRoute(
+          builder: (context) => const NewChatSelectionScreen(),
         );
 
       default:
@@ -417,4 +415,37 @@ class _HomeScreenDesktop extends StatelessWidget {
       _leftNavigatorKey.currentState!.pop();
     }
   }
+}
+
+/// Slide the page to view.
+///
+/// Used for navigation in left side of home screen in desktop.
+class _SlidePageRoute extends PageRouteBuilder {
+  _SlidePageRoute({
+    required WidgetBuilder builder,
+  }) : super(
+          pageBuilder: (context, _, __) => builder(context),
+          transitionDuration: _duration,
+          reverseTransitionDuration: _duration,
+        );
+
+  /// Duration for forward and reverse transition.
+  static const _duration = Duration(milliseconds: 200);
+
+  @override
+  RouteTransitionsBuilder get transitionsBuilder =>
+      (context, animation, _, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(-1, 0),
+            end: Offset.zero,
+          ).animate(
+            CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutCubic,
+            ),
+          ),
+          child: child,
+        );
+      };
 }
