@@ -267,58 +267,9 @@ class _HomeScreenDesktop extends StatelessWidget {
 
                     // Right side of screen
                     // for chat room and user profile
-                    Expanded(
+                    const Expanded(
                       flex: 3,
-                      child: BlocConsumer<ChatRoomBloc, ChatRoomState>(
-                        listenWhen: (previous, current) {
-                          return current is ChatRoomOpenState;
-                        },
-
-                        // Close previous user's profile screen (if open)
-                        // when another chat room is open.
-                        listener: (context, state) {
-                        final userProfileBloc = context.read<UserProfileBloc>();
-                          if (userProfileBloc.state is UserProfileOpenState) {
-                            userProfileBloc.add(const UserProfileClose());
-                          }
-                        },
-                        buildWhen: (previous, current) {
-                          return current is ChatRoomOpenState ||
-                              current is ChatRoomCloseState;
-                        },
-                        builder: (context, state) {
-                          if (state is ChatRoomOpenState) {
-                            // Whether current user profile is open or not
-                            final isProfileOpen = context.select(
-                              (UserProfileBloc bloc) =>
-                                  bloc.state is UserProfileOpenState,
-                            );
-
-                            return RepositoryProvider.value(
-                              value: state.user,
-                              child: Row(
-                                children: [
-                                  // If maxWidth <= 1000, then only show
-                                  // chat room or profile screen, not both.
-                                  // Otherwise show both screen in Row.
-                                  if (constrains.maxWidth > 1000 ||
-                                      !isProfileOpen)
-                                    const Expanded(
-                                      flex: 6,
-                                      child: ChatRoomScreen(),
-                                    ),
-                                  if (isProfileOpen)
-                                    const Expanded(
-                                      flex: 5,
-                                      child: UserProfileScreen(),
-                                    ),
-                                ],
-                              ),
-                            );
-                          }
-                          return const DefaultChatView();
-                        },
-                      ),
+                      child: _DesktopRightSideView(),
                     ),
                   ],
                 ),
@@ -448,4 +399,130 @@ class _SlidePageRoute extends PageRouteBuilder {
           child: child,
         );
       };
+}
+
+class _DesktopRightSideView extends StatefulWidget {
+  const _DesktopRightSideView({Key? key}) : super(key: key);
+
+  @override
+  State<_DesktopRightSideView> createState() => _DesktopRightSideViewState();
+}
+
+class _DesktopRightSideViewState extends State<_DesktopRightSideView> {
+  final _slideAnimationController = SlideAnimationController();
+
+  /// Whether the UserProfileScreen visible or not.
+  bool _showProfile = false;
+
+  @override
+  void dispose() {
+    _slideAnimationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<UserProfileBloc, UserProfileState>(
+          listener: _userProfileBlocListener,
+        ),
+        BlocListener<ChatRoomBloc, ChatRoomState>(
+          listener: _chatRoomBlocListener,
+        ),
+      ],
+      child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
+        builder: (context, state) {
+          if (state is ChatRoomOpenState) {
+            final width = MediaQuery.of(context).size.width;
+            return RepositoryProvider.value(
+              value: state.user,
+
+              // Using only Stack widget with FractionallySizedBox to show
+              // ChatRoom and UserProfile, instead of using Row and Stack together
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  // ChatRoom
+                  FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: _showProfile && width > 1000 ? 0.55 : 1,
+                    child: const ChatRoomScreen(),
+                  ),
+
+                  // UserProfile
+                  FractionallySizedBox(
+                    alignment: Alignment.centerRight,
+                    widthFactor: _showProfile
+                        ? width > 1000
+                            ? 0.45
+                            : 1
+                        : 0,
+                    child: !_showProfile
+                        ? null
+                        // Using SlideAnimation because the initial route in
+                        // Navigator widget would not animate.
+                        : SlideAnimation(
+                            controller: _slideAnimationController,
+                            // Profile navigation goes here (eg: Starred
+                            // messages, Disappearing messages, Encryption, etc.)
+                            child: Navigator(
+                              onGenerateRoute: (settings) {
+                                return NoAnimationPageRoute(
+                                  builder: (context) {
+                                    return const UserProfileScreen();
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          // Default view on desktop
+          return const DefaultChatView();
+        },
+      ),
+    );
+  }
+
+  /// Listener for [UserProfileBloc].
+  void _userProfileBlocListener(BuildContext context, UserProfileState state) {
+    if (state is UserProfileOpenState) {
+      if (_showProfile) {
+        // UserProfile is not disposed.
+        // The open event added before the hide animation finished.
+        // Therefore call show() method to forward the animation.
+        _slideAnimationController.show();
+      } else {
+        // UserProfile is disposed.
+        setState(() => _showProfile = true);
+      }
+    } else if (state is UserProfileCloseState) {
+      // If screen width > 1000, then dispose the UserProfile.
+      // Otherwise run hide animation then dispose UserProfile.
+      if (MediaQuery.of(context).size.width > 1000) {
+        setState(() => _showProfile = false);
+      } else {
+        _slideAnimationController.hide()?.then((value) {
+          setState(() => _showProfile = false);
+        });
+      }
+    }
+  }
+
+  /// Listener for [ChatRoomBloc].
+  void _chatRoomBlocListener(BuildContext context, ChatRoomState state) {
+    if (state is ChatRoomOpenState) {
+      final profileBloc = context.read<UserProfileBloc>();
+      if (profileBloc.state is UserProfileOpenState) {
+        // Closing UserProfile (if open) when another ChatRoom open.
+        setState(() => _showProfile = false); // Closing without animation.
+        profileBloc.add(const UserProfileClose());
+      }
+    }
+  }
 }
