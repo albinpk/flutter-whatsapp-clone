@@ -13,6 +13,7 @@ final lightTheme = ThemeData(
     textColor: lightThemeColors.onBackground,
     iconColor: lightThemeColors.iconMuted,
   ),
+  dialogBackgroundColor: lightThemeColors.dialogBackground,
   extensions: [lightThemeColors],
   colorScheme: _lightColorScheme,
 );

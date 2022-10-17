@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp/features/chat/models/message_model.dart';
 
 class CustomColors extends ThemeExtension<CustomColors> {
   /// Primary color (tealGreen) for FloatingActionButton
@@ -29,6 +28,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
   /// Message status icon color when status is [MessageStatus.read].
   final Color? readMessageCheckIcon;
 
+  /// Background color for [Dialog] widget.
+  final Color? dialogBackground;
+
   const CustomColors({
     required this.primary,
     required this.onPrimary,
@@ -43,6 +45,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.sendMessageBubbleBackground,
     required this.receiveMessageBubbleBackground,
     required this.readMessageCheckIcon,
+    required this.dialogBackground,
   });
 
   @override
@@ -70,6 +73,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
           other.receiveMessageBubbleBackground, t),
       readMessageCheckIcon:
           Color.lerp(readMessageCheckIcon, other.readMessageCheckIcon, t),
+      dialogBackground: Color.lerp(dialogBackground, other.dialogBackground, t),
     );
   }
 
@@ -92,6 +96,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? sendMessageBubbleBackground,
     Color? receiveMessageBubbleBackground,
     Color? readMessageCheckIcon,
+    Color? dialogBackground,
   }) {
     return CustomColors(
       primary: primary ?? this.primary,
@@ -109,6 +114,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       receiveMessageBubbleBackground:
           receiveMessageBubbleBackground ?? this.receiveMessageBubbleBackground,
       readMessageCheckIcon: readMessageCheckIcon ?? this.readMessageCheckIcon,
+      dialogBackground: dialogBackground ?? this.dialogBackground,
     );
   }
 }
