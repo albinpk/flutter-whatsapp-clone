@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/utils/themes/custom_colors.dart';
+import '../../../../../../core/widgets/widgets.dart';
 import '../../../../settings.dart';
 
 class ChatsSettingsScreen extends StatelessWidget {
@@ -10,83 +11,81 @@ class ChatsSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
+    final subtitleStyle = Theme.of(context).textTheme.bodyText2!.copyWith(
+          color: customColors.onBackgroundMuted,
+        );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chats'),
       ),
-      // Using Theme to override color of icon and subtitle in ListTile.
-      body: Theme(
-        data: Theme.of(context).copyWith(
-          // ListTile.leading icon color
-          iconTheme: IconThemeData(color: customColors.iconMuted),
-          textTheme: TextTheme(
-            // ListTile.subtitle color
-            caption: TextStyle(color: customColors.iconMuted),
+      body: ListView(
+        padding: kMaterialListPadding,
+        children: [
+          const _ListTitleItem('Display'),
+          const _ThemeTile(),
+          const ListTile(
+            leading: CenterIcon(Icons.wallpaper),
+            title: Text('Wallpaper'),
           ),
-        ),
-        child: ListView(
-          padding: kMaterialListPadding,
-          children: [
-            const _ListTitleItem('Display'),
-            const _ThemeTile(),
-            const ListTile(
-              leading: Icon(Icons.wallpaper),
-              title: Text('Wallpaper'),
-            ),
-            const Divider(),
+          const Divider(),
 
-            //
-            const _ListTitleItem('Chat settings'),
-            SwitchListTile(
-              value: false,
-              onChanged: (_) {},
-              secondary: const SizedBox.shrink(),
-              title: const Text('Enter is send'),
-              isThreeLine: true,
-              subtitle: const Text('Enter key will send your message'),
+          //
+          const _ListTitleItem('Chat settings'),
+          SwitchListTile(
+            value: false,
+            onChanged: (_) {},
+            secondary: const SizedBox.shrink(),
+            title: const Text('Enter is send'),
+            isThreeLine: true,
+            subtitle: Text(
+              'Enter key will send your message',
+              style: subtitleStyle,
             ),
-            SwitchListTile(
-              value: false,
-              onChanged: (_) {},
-              secondary: const SizedBox.shrink(),
-              title: const Text('Media visibility'),
-              isThreeLine: true,
-              subtitle: const Text(
-                "Show newly downloaded media in your device's gallery",
-              ),
+          ),
+          SwitchListTile(
+            value: false,
+            onChanged: (_) {},
+            secondary: const SizedBox.shrink(),
+            title: const Text('Media visibility'),
+            isThreeLine: true,
+            subtitle: Text(
+              "Show newly downloaded media in your device's gallery",
+              style: subtitleStyle,
             ),
-            const ListTile(
-              title: Text('Font size'),
-              leading: SizedBox.shrink(),
-              subtitle: Text('Medium'),
-            ),
-            const Divider(),
+          ),
+          ListTile(
+            title: const Text('Font size'),
+            leading: const SizedBox.shrink(),
+            subtitle: Text('Medium', style: subtitleStyle),
+          ),
+          const Divider(),
 
-            //
-            const _ListTitleItem('Archived chats'),
-            SwitchListTile(
-              value: false,
-              onChanged: (_) {},
-              secondary: const SizedBox.shrink(),
-              title: const Text('Keep chats archived'),
-              isThreeLine: true,
-              subtitle: const Text(
-                'Archived chats will remain archived when you receive a new message',
-              ),
+          //
+          const _ListTitleItem('Archived chats'),
+          SwitchListTile(
+            value: false,
+            onChanged: (_) {},
+            secondary: const SizedBox.shrink(),
+            title: const Text('Keep chats archived'),
+            isThreeLine: true,
+            subtitle: Text(
+              'Archived chats will remain archived when you receive a new message',
+              style: subtitleStyle,
             ),
-            const Divider(),
+          ),
+          const Divider(),
 
-            //
-            const ListTile(
-              title: Text('Chat backup'),
-              leading: Icon(Icons.cloud_upload),
-            ),
-            const ListTile(
-              title: Text('Chat history'),
-              leading: Icon(Icons.history),
-            ),
-          ],
-        ),
+          //
+          const ListTile(
+            title: Text('Chat backup'),
+            leading: CenterIcon(Icons.cloud_upload),
+          ),
+          const ListTile(
+            title: Text('Chat history'),
+            leading: CenterIcon(Icons.history),
+          ),
+        ],
       ),
     );
   }
@@ -122,7 +121,7 @@ class _ThemeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.brightness_medium),
+      leading: const CenterIcon(Icons.brightness_medium),
       title: const Text('Theme'),
       // Update subtitle when ThemeMode change
       subtitle: Builder(
@@ -130,7 +129,12 @@ class _ThemeTile extends StatelessWidget {
           final themeMode = context.select(
             (ChatSettingsBloc bloc) => bloc.state.themeMode,
           );
-          return Text(_getThemModeText(themeMode));
+          return Text(
+            _getThemModeText(themeMode),
+            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  color: CustomColors.of(context).onBackgroundMuted,
+                ),
+          );
         },
       ),
       onTap: () => _onTap(context),

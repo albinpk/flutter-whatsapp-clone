@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Center the icon in [ListTile.leading].
 class CenterIcon extends StatelessWidget {
+  /// Center the icon in [ListTile.leading].
   const CenterIcon(this.iconData, {super.key});
 
   final IconData iconData;
