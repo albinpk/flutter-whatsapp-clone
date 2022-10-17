@@ -180,6 +180,7 @@ class _ThemeTile extends StatelessWidget {
                         value: t,
                         title: Text(_getThemModeText(t)),
                         groupValue: selectedThemeMode,
+                        activeColor: CustomColors.of(context).primary,
                         onChanged: (value) {
                           setState(() => selectedThemeMode = value);
                         },
