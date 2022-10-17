@@ -29,6 +29,7 @@ class WhatsApp extends StatelessWidget {
           BlocProvider(create: (context) => ChatSearchBloc()),
           BlocProvider(create: (context) => UserProfileBloc()),
           BlocProvider(create: (context) => SettingsBloc()),
+          BlocProvider(create: (context) => ChatSettingsBloc()),
         ],
         child: MaterialApp(
           theme: lightTheme,
