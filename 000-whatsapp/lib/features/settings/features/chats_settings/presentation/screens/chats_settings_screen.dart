@@ -44,7 +44,7 @@ class ChatsSettingsScreen extends StatelessWidget {
             ),
           ),
           SwitchListTile(
-            value: false,
+            value: true,
             onChanged: (_) {},
             secondary: const SizedBox.shrink(),
             title: const Text('Media visibility'),
@@ -180,7 +180,6 @@ class _ThemeTile extends StatelessWidget {
                         value: t,
                         title: Text(_getThemModeText(t)),
                         groupValue: selectedThemeMode,
-                        activeColor: CustomColors.of(context).primary,
                         onChanged: (value) {
                           setState(() => selectedThemeMode = value);
                         },

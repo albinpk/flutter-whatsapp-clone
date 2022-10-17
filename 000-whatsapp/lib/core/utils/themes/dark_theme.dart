@@ -14,6 +14,7 @@ final darkTheme = ThemeData(
     iconColor: lightThemeColors.iconMuted,
   ),
   dialogBackgroundColor: darkThemeColors.dialogBackground,
+  toggleableActiveColor: darkThemeColors.primary,
   extensions: [darkThemeColors],
   colorScheme: _darkColorScheme,
 );

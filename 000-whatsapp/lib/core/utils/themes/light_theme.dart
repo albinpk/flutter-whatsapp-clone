@@ -14,6 +14,7 @@ final lightTheme = ThemeData(
     iconColor: lightThemeColors.iconMuted,
   ),
   dialogBackgroundColor: lightThemeColors.dialogBackground,
+  toggleableActiveColor: lightThemeColors.secondary,
   extensions: [lightThemeColors],
   colorScheme: _lightColorScheme,
 );
