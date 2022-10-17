@@ -31,11 +31,15 @@ class WhatsApp extends StatelessWidget {
           BlocProvider(create: (context) => SettingsBloc()),
           BlocProvider(create: (context) => ChatSettingsBloc()),
         ],
-        child: MaterialApp(
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          themeMode: ThemeMode.system,
-          home: const HomeScreen(),
+        child: Builder(
+          builder: (context) => MaterialApp(
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: context.select(
+              (ChatSettingsBloc bloc) => bloc.state.themeMode,
+            ),
+            home: const HomeScreen(),
+          ),
         ),
       ),
     );
