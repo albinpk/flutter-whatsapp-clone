@@ -54,7 +54,7 @@ class _SettingsScreenMobile extends StatelessWidget {
 
               // Settings tiles
               ListTile(
-                leading: const _CenterIcon(Icons.key),
+                leading: const CenterIcon(Icons.key),
                 title: const Text('Account'),
                 subtitle: Text(
                   'Privacy, security, change number',
@@ -62,7 +62,7 @@ class _SettingsScreenMobile extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: const _CenterIcon(Icons.message),
+                leading: const CenterIcon(Icons.message),
                 title: const Text('Chats'),
                 subtitle: Text(
                   'Theme, wallpapers, chat history',
@@ -79,7 +79,7 @@ class _SettingsScreenMobile extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: const _CenterIcon(Icons.notifications),
+                leading: const CenterIcon(Icons.notifications),
                 title: const Text('Notifications'),
                 subtitle: Text(
                   'Messages, group & call tones',
@@ -87,7 +87,7 @@ class _SettingsScreenMobile extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: const _CenterIcon(Icons.data_usage),
+                leading: const CenterIcon(Icons.data_usage),
                 title: const Text('Storage and data'),
                 subtitle: Text(
                   'Network usage, auto-download',
@@ -95,7 +95,7 @@ class _SettingsScreenMobile extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: const _CenterIcon(Icons.language),
+                leading: const CenterIcon(Icons.language),
                 title: const Text('App language'),
                 subtitle: Text(
                   "English (phone's language)",
@@ -103,7 +103,7 @@ class _SettingsScreenMobile extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: const _CenterIcon(Icons.help_outline),
+                leading: const CenterIcon(Icons.help_outline),
                 title: const Text('Help'),
                 subtitle: Text(
                   'Help center, contact us, privacy policy',
@@ -111,7 +111,7 @@ class _SettingsScreenMobile extends StatelessWidget {
                 ),
               ),
               const ListTile(
-                leading: _CenterIcon(Icons.group),
+                leading: CenterIcon(Icons.group),
                 title: Text('Invite a friend'),
               ),
 
@@ -149,31 +149,6 @@ class _SettingsScreenMobile extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// Center the icon in leading space.
-class _CenterIcon extends StatelessWidget {
-  const _CenterIcon(
-    this.iconData, {
-    Key? key,
-  }) : super(key: key);
-
-  final IconData iconData;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      // To center vertically
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // To center horizontally
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Icon(iconData),
-        )
-      ],
     );
   }
 }
