@@ -9,6 +9,8 @@ class SearchBarMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
+    final customColors = CustomColors.of(context);
     return WillPopScope(
       onWillPop: () async {
         context.read<ChatSearchBloc>().add(const ChatSearchClose());
@@ -16,7 +18,12 @@ class SearchBarMobile extends StatelessWidget {
       },
       child: SliverAppBar(
         pinned: true,
-        foregroundColor: CustomColors.of(context).onBackgroundMuted!,
+        elevation: 2,
+        shadowColor: Colors.black45,
+        forceElevated: true,
+        backgroundColor:
+            isLight ? customColors.background : customColors.secondary,
+        foregroundColor: customColors.onBackgroundMuted!,
         leading: const BackButton(),
         title: const SearchTextField(),
       ),
