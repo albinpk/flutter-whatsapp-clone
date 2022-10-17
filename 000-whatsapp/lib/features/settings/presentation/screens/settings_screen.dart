@@ -24,6 +24,10 @@ class _SettingsScreenMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
+    final subtitleStyle = Theme.of(context).textTheme.bodyText2!.copyWith(
+          color: customColors.onBackgroundMuted,
+        );
+
     return WillPopScope(
       onWillPop: () async {
         context.read<SettingsBloc>().add(const SettingsScreenClose());
@@ -32,109 +36,144 @@ class _SettingsScreenMobile extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: const Text('Settings')),
         body: SingleChildScrollView(
-          // Using Theme to override color of icon and subtitle in ListTile.
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              // ListTile.leading icon color
-              iconTheme: IconThemeData(color: customColors.iconMuted),
-              textTheme: TextTheme(
-                // ListTile.subtitle color
-                caption: TextStyle(color: customColors.iconMuted),
-              ),
-            ),
-            child: Column(
-              children: [
-                // User tile
-                Builder(
-                  builder: (context) => ListTile(
-                    leading: const UserDP(radius: 30),
-                    title: Text(context.select((User user) => user.name)),
-                    subtitle: Text(context.select((User user) => user.about)),
-                    trailing: Icon(Icons.qr_code, color: customColors.primary),
+          child: Column(
+            children: [
+              // User tile
+              Builder(
+                builder: (context) => ListTile(
+                  leading: const UserDP(radius: 30),
+                  title: Text(context.select((User user) => user.name)),
+                  subtitle: Text(
+                    context.select((User user) => user.about),
+                    style: subtitleStyle,
                   ),
+                  trailing: Icon(Icons.qr_code, color: customColors.primary),
                 ),
-                const Divider(),
+              ),
+              const Divider(),
 
-                // Settings tiles
-                const ListTile(
-                  leading: Icon(Icons.key),
-                  title: Text('Account'),
-                  subtitle: Text('Privacy, security, change number'),
+              // Settings tiles
+              ListTile(
+                leading: const _CenterIcon(Icons.key),
+                title: const Text('Account'),
+                subtitle: Text(
+                  'Privacy, security, change number',
+                  style: subtitleStyle,
                 ),
-                ListTile(
-                  leading: const Icon(Icons.message),
-                  title: const Text('Chats'),
-                  subtitle: const Text('Theme, wallpapers, chat history'),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const ChatsSettingsScreen();
-                        },
-                      ),
-                    );
-                  },
+              ),
+              ListTile(
+                leading: const _CenterIcon(Icons.message),
+                title: const Text('Chats'),
+                subtitle: Text(
+                  'Theme, wallpapers, chat history',
+                  style: subtitleStyle,
                 ),
-                const ListTile(
-                  leading: Icon(Icons.notifications),
-                  title: Text('Notifications'),
-                  subtitle: Text('Messages, group & call tones'),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const ChatsSettingsScreen();
+                      },
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const _CenterIcon(Icons.notifications),
+                title: const Text('Notifications'),
+                subtitle: Text(
+                  'Messages, group & call tones',
+                  style: subtitleStyle,
                 ),
-                const ListTile(
-                  leading: Icon(Icons.data_usage),
-                  title: Text('Storage and data'),
-                  subtitle: Text('Network usage, auto-download'),
+              ),
+              ListTile(
+                leading: const _CenterIcon(Icons.data_usage),
+                title: const Text('Storage and data'),
+                subtitle: Text(
+                  'Network usage, auto-download',
+                  style: subtitleStyle,
                 ),
-                const ListTile(
-                  leading: Icon(Icons.language),
-                  title: Text('App language'),
-                  subtitle: Text("English (phone's language)"),
+              ),
+              ListTile(
+                leading: const _CenterIcon(Icons.language),
+                title: const Text('App language'),
+                subtitle: Text(
+                  "English (phone's language)",
+                  style: subtitleStyle,
                 ),
-                const ListTile(
-                  leading: Icon(Icons.help_outline),
-                  title: Text('Help'),
-                  subtitle: Text('Help center, contact us, privacy policy'),
+              ),
+              ListTile(
+                leading: const _CenterIcon(Icons.help_outline),
+                title: const Text('Help'),
+                subtitle: Text(
+                  'Help center, contact us, privacy policy',
+                  style: subtitleStyle,
                 ),
-                const ListTile(
-                  leading: Icon(Icons.group),
-                  title: Text('Invite a friend'),
-                ),
+              ),
+              const ListTile(
+                leading: _CenterIcon(Icons.group),
+                title: Text('Invite a friend'),
+              ),
 
-                // "from meta"
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: Column(
-                    children: [
-                      Text(
-                        'from',
-                        style: TextStyle(color: customColors.iconMuted),
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.all_inclusive,
-                            size: 20,
+              // "from meta"
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40),
+                child: Column(
+                  children: [
+                    Text(
+                      'from',
+                      style: TextStyle(color: customColors.onBackgroundMuted),
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.all_inclusive,
+                          size: 20,
+                          color: customColors.onBackground,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          'Meta',
+                          style: TextStyle(
                             color: customColors.onBackground,
                           ),
-                          const SizedBox(width: 5),
-                          Text(
-                            'Meta',
-                            style: TextStyle(
-                              color: customColors.onBackground,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Center the icon in leading space.
+class _CenterIcon extends StatelessWidget {
+  const _CenterIcon(
+    this.iconData, {
+    Key? key,
+  }) : super(key: key);
+
+  final IconData iconData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      // To center vertically
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // To center horizontally
+        Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Icon(iconData),
+        )
+      ],
     );
   }
 }
