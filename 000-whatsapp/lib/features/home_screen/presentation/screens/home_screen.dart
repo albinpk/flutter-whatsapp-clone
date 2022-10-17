@@ -43,7 +43,7 @@ class _HomeScreenMobile extends StatelessWidget {
       child: BlocProvider(
         create: (context) => TabViewBloc(),
         child: const Scaffold(
-          body: _NestedScrollView(),
+          body: _MobileNestedScrollView(),
           floatingActionButton: FAB(),
         ),
       ),
@@ -105,14 +105,17 @@ class _HomeScreenMobile extends StatelessWidget {
   }
 }
 
-class _NestedScrollView extends StatefulWidget {
-  const _NestedScrollView({Key? key}) : super(key: key);
+/// Nested ScrollView on mobile.
+/// Contains SliverAppBar and TabBarView.
+class _MobileNestedScrollView extends StatefulWidget {
+  const _MobileNestedScrollView({Key? key}) : super(key: key);
 
   @override
-  State<_NestedScrollView> createState() => _NestedScrollViewState();
+  State<_MobileNestedScrollView> createState() =>
+      _MobileNestedScrollViewState();
 }
 
-class _NestedScrollViewState extends State<_NestedScrollView>
+class _MobileNestedScrollViewState extends State<_MobileNestedScrollView>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
 
