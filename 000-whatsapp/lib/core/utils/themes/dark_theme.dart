@@ -9,6 +9,10 @@ final darkTheme = ThemeData(
   popupMenuTheme: PopupMenuThemeData(
     color: darkThemeColors.secondary,
   ),
+  listTileTheme: ListTileThemeData(
+    textColor: darkThemeColors.onBackground,
+    iconColor: lightThemeColors.iconMuted,
+  ),
   extensions: [darkThemeColors],
   colorScheme: _darkColorScheme,
 );

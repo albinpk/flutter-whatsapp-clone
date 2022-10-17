@@ -9,6 +9,10 @@ final lightTheme = ThemeData(
   popupMenuTheme: PopupMenuThemeData(
     color: isMobile ? Colors.white : lightThemeColors.secondary,
   ),
+  listTileTheme: ListTileThemeData(
+    textColor: lightThemeColors.onBackground,
+    iconColor: lightThemeColors.iconMuted,
+  ),
   extensions: [lightThemeColors],
   colorScheme: _lightColorScheme,
 );
