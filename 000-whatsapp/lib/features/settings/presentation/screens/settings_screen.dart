@@ -61,10 +61,19 @@ class _SettingsScreenMobile extends StatelessWidget {
                   title: Text('Account'),
                   subtitle: Text('Privacy, security, change number'),
                 ),
-                const ListTile(
-                  leading: Icon(Icons.message),
-                  title: Text('Chats'),
-                  subtitle: Text('Theme, wallpapers, chat history'),
+                ListTile(
+                  leading: const Icon(Icons.message),
+                  title: const Text('Chats'),
+                  subtitle: const Text('Theme, wallpapers, chat history'),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const ChatsSettingsScreen();
+                        },
+                      ),
+                    );
+                  },
                 ),
                 const ListTile(
                   leading: Icon(Icons.notifications),
