@@ -21,110 +21,100 @@ class AppBarMobile extends StatelessWidget {
     final isLight = theme.brightness == Brightness.light;
     final customColors = CustomColors.of(context);
 
-    return BlocBuilder<ChatSearchBloc, ChatSearchState>(
-      buildWhen: (previous, current) {
-        return current is ChatSearchOpenState ||
-            current is ChatSearchCloseState;
-      },
-      builder: (context, state) {
-        if (state is ChatSearchOpenState) {
-          return const SearchBarMobile();
-        }
+    final isChatSearchOpen = context.select(
+      (ChatSearchBloc bloc) => bloc.state is ChatSearchOpenState,
+    );
 
-        return SliverAppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-          ),
-          foregroundColor: isLight ? null : customColors.onBackgroundMuted,
-          title: const Text('WhatsApp'),
-          floating: true,
-          pinned: true,
-          snap: true,
-          forceElevated: true,
-          actions: [
-            // Search icon
-            IconButton(
-              onPressed: () {
-                switch (context.read<TabViewBloc>().state.tabView) {
-                  case TabView.chats:
-                    context.read<ChatSearchBloc>().add(const ChatSearchOpen());
-                    break;
-                  case TabView.status:
-                  case TabView.calls:
-                }
-              },
-              icon: const Icon(Icons.search),
-            ),
+    if (isChatSearchOpen) return const SearchBarMobile();
 
-            // More icon
-            PopupMenuButton<_PopupMenu>(
-              itemBuilder: (context) => _popupMenuItems,
-              // Increasing PopupMenu width using constrains
-              constraints: const BoxConstraints(minWidth: 190),
-              onSelected: (menu) {
-                switch (menu) {
-                  case _PopupMenu.newGroup:
-                  case _PopupMenu.newBroadcast:
-                  case _PopupMenu.linkedDevices:
-                  case _PopupMenu.starredMessages:
-                  case _PopupMenu.payments:
-                    break;
-                  case _PopupMenu.settings:
-                    context
-                        .read<SettingsBloc>()
-                        .add(const SettingsScreenOpen());
-                    break;
-                }
-              },
-            ),
-          ],
-          bottom: TabBar(
-            controller: tabController,
-            indicatorWeight: 3,
-            labelColor: theme.indicatorColor,
-            labelStyle: theme.textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-            unselectedLabelColor:
-                isLight ? null : customColors.onBackgroundMuted,
-            tabs: [
-              Tab(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('CHATS'),
+    return SliverAppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+      foregroundColor: isLight ? null : customColors.onBackgroundMuted,
+      title: const Text('WhatsApp'),
+      floating: true,
+      pinned: true,
+      snap: true,
+      forceElevated: true,
+      actions: [
+        // Search icon
+        IconButton(
+          onPressed: () {
+            switch (context.read<TabViewBloc>().state.tabView) {
+              case TabView.chats:
+                context.read<ChatSearchBloc>().add(const ChatSearchOpen());
+                break;
+              case TabView.status:
+              case TabView.calls:
+            }
+          },
+          icon: const Icon(Icons.search),
+        ),
 
-                    // Unread chats count
-                    Builder(
-                      builder: (context) {
-                        final unreadCount = context.select(
-                          (ChatBloc bloc) => bloc.state.recentChats
-                              .where((c) => c.unReadMessageCount > 0)
-                              .length,
-                        );
+        // More icon
+        PopupMenuButton<_PopupMenu>(
+          itemBuilder: (context) => _popupMenuItems,
+          // Increasing PopupMenu width using constrains
+          constraints: const BoxConstraints(minWidth: 190),
+          onSelected: (menu) {
+            switch (menu) {
+              case _PopupMenu.newGroup:
+              case _PopupMenu.newBroadcast:
+              case _PopupMenu.linkedDevices:
+              case _PopupMenu.starredMessages:
+              case _PopupMenu.payments:
+                break;
+              case _PopupMenu.settings:
+                context.read<SettingsBloc>().add(const SettingsScreenOpen());
+                break;
+            }
+          },
+        ),
+      ],
+      bottom: TabBar(
+        controller: tabController,
+        indicatorWeight: 3,
+        labelColor: theme.indicatorColor,
+        labelStyle: theme.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+        unselectedLabelColor: isLight ? null : customColors.onBackgroundMuted,
+        tabs: [
+          Tab(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('CHATS'),
 
-                        if (unreadCount == 0) return const SizedBox.shrink();
+                // Unread chats count
+                Builder(
+                  builder: (context) {
+                    final unreadCount = context.select(
+                      (ChatBloc bloc) => bloc.state.recentChats
+                          .where((c) => c.unReadMessageCount > 0)
+                          .length,
+                    );
 
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: UnreadMessageCount(
-                            count: unreadCount,
-                            textColor: customColors.secondary!,
-                            color:
-                                isLight ? Colors.white : customColors.primary!,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                    if (unreadCount == 0) return const SizedBox.shrink();
+
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: UnreadMessageCount(
+                        count: unreadCount,
+                        textColor: customColors.secondary!,
+                        color: isLight ? Colors.white : customColors.primary!,
+                      ),
+                    );
+                  },
                 ),
-              ),
-              const Tab(child: Text('STATUS')),
-              const Tab(child: Text('CALLS')),
-            ],
+              ],
+            ),
           ),
-        );
-      },
+          const Tab(child: Text('STATUS')),
+          const Tab(child: Text('CALLS')),
+        ],
+      ),
     );
   }
 
