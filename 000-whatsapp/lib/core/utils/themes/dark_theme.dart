@@ -15,6 +15,15 @@ final darkTheme = ThemeData(
   ),
   dialogBackgroundColor: darkThemeColors.dialogBackground,
   toggleableActiveColor: darkThemeColors.primary,
+  chipTheme: ChipThemeData(
+    backgroundColor: const Color(0xFF26353D),
+    labelPadding: const EdgeInsets.only(left: 0, right: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 5),
+    iconTheme: IconThemeData(
+      color: darkThemeColors.onBackgroundMuted,
+      size: 18,
+    ),
+  ),
   extensions: [darkThemeColors],
   colorScheme: _darkColorScheme,
 );

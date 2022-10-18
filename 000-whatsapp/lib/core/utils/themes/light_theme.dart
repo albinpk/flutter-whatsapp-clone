@@ -15,6 +15,15 @@ final lightTheme = ThemeData(
   ),
   dialogBackgroundColor: lightThemeColors.dialogBackground,
   toggleableActiveColor: lightThemeColors.secondary,
+  chipTheme: ChipThemeData(
+    backgroundColor: const Color(0xFFE9EDEF),
+    labelPadding: const EdgeInsets.only(left: 0, right: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 5),
+    iconTheme: IconThemeData(
+      color: lightThemeColors.onBackgroundMuted,
+      size: 18,
+    ),
+  ),
   extensions: [lightThemeColors],
   colorScheme: _lightColorScheme,
 );
