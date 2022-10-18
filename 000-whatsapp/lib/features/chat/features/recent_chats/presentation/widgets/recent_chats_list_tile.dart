@@ -6,6 +6,7 @@ import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
+import '../../../../../home_screen/home_screen.dart';
 import '../../../../chat.dart';
 
 class RecentChatsListTile extends StatelessWidget {
@@ -92,7 +93,13 @@ class RecentChatsListTile extends StatelessWidget {
                   const Icon(Icons.volume_off),
                   const Icon(Icons.push_pin),
                   if (chat.unReadMessageCount > 0)
-                    _UnreadMessageBadge(count: chat.unReadMessageCount),
+                    UnreadMessageCount(
+                      count: chat.unReadMessageCount,
+                      textColor: customColors.background!,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? const Color(0xFF25D366)
+                          : CustomColors.of(context).primary!,
+                    )
                 ],
               ),
             ),
@@ -113,39 +120,5 @@ class RecentChatsListTile extends StatelessWidget {
     if (difference < 2) return 'Yesterday';
     if (difference < 7) return DateFormat(DateFormat.WEEKDAY).format(date);
     return DateFormat(DateFormat.YEAR_NUM_MONTH_DAY).format(date);
-  }
-}
-
-class _UnreadMessageBadge extends StatelessWidget {
-  const _UnreadMessageBadge({
-    Key? key,
-    required this.count,
-  }) : super(key: key);
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.square(
-      // Use size of other icons in ChatsListTile
-      dimension: IconTheme.of(context).size,
-      child: ClipOval(
-        child: ColoredBox(
-          color: Theme.of(context).brightness == Brightness.light
-              ? const Color(0xFF25D366)
-              : CustomColors.of(context).primary!,
-          child: Center(
-            child: Text(
-              '$count',
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
