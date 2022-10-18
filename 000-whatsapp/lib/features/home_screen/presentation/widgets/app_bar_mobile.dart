@@ -18,6 +18,8 @@ class AppBarMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isLight = theme.brightness == Brightness.light;
+    final customColors = CustomColors.of(context);
 
     return BlocBuilder<ChatSearchBloc, ChatSearchState>(
       buildWhen: (previous, current) {
@@ -33,9 +35,7 @@ class AppBarMobile extends StatelessWidget {
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
           ),
-          foregroundColor: theme.brightness == Brightness.dark
-              ? CustomColors.of(context).onBackgroundMuted
-              : null,
+          foregroundColor: isLight ? null : customColors.onBackgroundMuted,
           title: const Text('WhatsApp'),
           floating: true,
           pinned: true,
@@ -85,13 +85,42 @@ class AppBarMobile extends StatelessWidget {
             labelStyle: theme.textTheme.bodyLarge!.copyWith(
               fontWeight: FontWeight.bold,
             ),
-            unselectedLabelColor: theme.brightness == Brightness.dark
-                ? CustomColors.of(context).onBackgroundMuted
-                : null,
-            tabs: const [
-              Tab(child: Text('CHATS')),
-              Tab(child: Text('STATUS')),
-              Tab(child: Text('CALLS')),
+            unselectedLabelColor:
+                isLight ? null : customColors.onBackgroundMuted,
+            tabs: [
+              Tab(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('CHATS'),
+
+                    // Unread chats count
+                    Builder(
+                      builder: (context) {
+                        final unreadCount = context.select(
+                          (ChatBloc bloc) => bloc.state.recentChats
+                              .where((c) => c.unReadMessageCount > 0)
+                              .length,
+                        );
+
+                        if (unreadCount == 0) return const SizedBox.shrink();
+
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: UnreadMessageCount(
+                            count: unreadCount,
+                            textColor: customColors.secondary!,
+                            color:
+                                isLight ? Colors.white : customColors.primary!,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const Tab(child: Text('STATUS')),
+              const Tab(child: Text('CALLS')),
             ],
           ),
         );
