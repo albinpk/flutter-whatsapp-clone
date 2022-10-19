@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/models/models.dart';
+import '../views/users_and_contacts_view.dart';
 import '../widgets/widgets.dart';
-import 'list_item.dart';
+import 'list_item_impl.dart';
 
-class UserItem implements ListItem {
+/// User item in [UsersAndContactsView] ListView.
+class UserItem implements ListItemImpl {
   final WhatsAppUser user;
 
   const UserItem(this.user);

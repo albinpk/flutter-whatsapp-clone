@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../views/users_and_contacts_view.dart';
 import '../widgets/widgets.dart';
-import 'list_item.dart';
+import 'list_item_impl.dart';
 
-class ButtonItem implements ListItem {
+/// Button item in [UsersAndContactsView] ListView.
+class ButtonItem implements ListItemImpl {
   final String title;
   final IconData iconData;
   final Widget? trailing;

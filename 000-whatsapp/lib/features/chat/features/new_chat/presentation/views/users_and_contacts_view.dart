@@ -24,7 +24,7 @@ class _UsersAndContactsViewMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     final users = context.watch<List<WhatsAppUser>>();
     final contacts = context.watch<List<Contact>>();
-    final List<ListItem> items = _generateItems(context, contacts, users);
+    final List<ListItemImpl> items = _generateItems(context, contacts, users);
     return ListView.builder(
       padding: const EdgeInsets.only(top: 6),
       itemCount: items.length,
@@ -32,7 +32,7 @@ class _UsersAndContactsViewMobile extends StatelessWidget {
     );
   }
 
-  List<ListItem> _generateItems(
+  List<ListItemImpl> _generateItems(
     BuildContext context,
     List<Contact> contacts,
     List<WhatsAppUser> users,
@@ -74,7 +74,7 @@ class _UsersAndContactsViewDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final users = context.watch<List<WhatsAppUser>>();
-    final List<ListItem> items = _generateItems(users);
+    final List<ListItemImpl> items = _generateItems(users);
 
     return ListView.separated(
       separatorBuilder: (_, __) => const Divider(indent: 65, height: 1),
@@ -83,9 +83,9 @@ class _UsersAndContactsViewDesktop extends StatelessWidget {
     );
   }
 
-  List<ListItem> _generateItems(List<WhatsAppUser> users) {
+  List<ListItemImpl> _generateItems(List<WhatsAppUser> users) {
     String lastTitle = '';
-    final List<ListItem> items = [
+    final List<ListItemImpl> items = [
       const ButtonItem(title: 'New group', iconData: Icons.group),
     ];
     for (final user in users) {
