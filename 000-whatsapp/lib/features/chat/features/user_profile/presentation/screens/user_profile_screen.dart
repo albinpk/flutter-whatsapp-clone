@@ -35,24 +35,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? const Color(0xFF0B141A)
             : const Color(0xFFF7F8FA),
-        body: IconTheme(
-          data: IconThemeData(color: CustomColors.of(context).iconMuted),
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              UserProfileAppBar(scrollController: _scrollController),
-              const _ProfileHead(),
-              const _About(),
-              const _Options(),
-              const _Options2(),
-              const _GroupsInCommon(),
-              const _BlockAndReport(),
-              // Bottom padding
-              const SliverPadding(
-                padding: EdgeInsets.only(bottom: 20),
-              ),
-            ],
-          ),
+        body: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            UserProfileAppBar(scrollController: _scrollController),
+            const _ProfileHead(),
+            const _About(),
+            const _Options(),
+            const _Options2(),
+            const _GroupsInCommon(),
+            const _BlockAndReport(),
+            // Bottom padding
+            const SliverPadding(
+              padding: EdgeInsets.only(bottom: 20),
+            ),
+          ],
         ),
       ),
     );
@@ -189,28 +186,28 @@ class _Options extends StatelessWidget {
           SwitchListTile(
             value: false,
             onChanged: (v) {},
-            secondary: const Icon(Icons.notifications),
+            secondary: const CenterIcon(Icons.notifications),
             title: const Text('Mute notifications'),
           ),
 
           // Options only available on mobile
           if (isMobile) ...[
             const ListTile(
-              leading: Icon(Icons.music_note),
+              leading: CenterIcon(Icons.music_note),
               title: Text('Custom notification'),
             ),
             const ListTile(
-              leading: Icon(Icons.image),
+              leading: CenterIcon(Icons.image),
               title: Text('Media visibility'),
             ),
             const ListTile(
-              leading: Icon(Icons.currency_rupee),
+              leading: CenterIcon(Icons.currency_rupee),
               title: Text('Payments'),
             ),
           ],
 
           const ListTile(
-            leading: Icon(Icons.star),
+            leading: CenterIcon(Icons.star),
             title: Text('Starred messages'),
             // trailing: Text('1'), // Show count
           ),
@@ -225,21 +222,25 @@ class _Options2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final subtitleStyle = Theme.of(context).textTheme.bodyText2!.copyWith(
+          color: CustomColors.of(context).onBackgroundMuted,
+        );
     return _Card(
       child: Column(
-        children: const [
+        children: [
           ListTile(
-            leading: Icon(Icons.lock),
-            title: Text('Encryption'),
+            leading: const CenterIcon(Icons.lock),
+            title: const Text('Encryption'),
             isThreeLine: true,
             subtitle: Text(
               'Messages and calls are end-to-end encrypted. Tap to verify.',
+              style: subtitleStyle,
             ),
           ),
           ListTile(
-            leading: Icon(Icons.av_timer_outlined),
-            title: Text('Disappearing messages'),
-            subtitle: Text('Off'),
+            leading: const CenterIcon(Icons.av_timer_outlined),
+            title: const Text('Disappearing messages'),
+            subtitle: Text('Off', style: subtitleStyle),
           ),
         ],
       ),
@@ -298,13 +299,13 @@ class _BlockAndReport extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.block),
+            leading: const CenterIcon(Icons.block),
             title: Text('Block $name'),
             iconColor: color,
             textColor: color,
           ),
           ListTile(
-            leading: const Icon(Icons.thumb_down),
+            leading: const CenterIcon(Icons.thumb_down),
             title: Text('Report $name'),
             iconColor: color,
             textColor: color,
