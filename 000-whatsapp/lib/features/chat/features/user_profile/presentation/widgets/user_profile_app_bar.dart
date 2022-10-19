@@ -113,6 +113,8 @@ class _UserProfileAppBarMobileState extends State<_UserProfileAppBarMobile>
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
     final topPadding = mediaQuery.padding.top;
+    final theme = Theme.of(context);
+    final customColors = CustomColors.of(context);
 
     // Animate user DP form center to top left corner on scroll
     return AnimatedBuilder(
@@ -120,14 +122,20 @@ class _UserProfileAppBarMobileState extends State<_UserProfileAppBarMobile>
       builder: (context, _) {
         return SliverAppBar(
           leading: BackButton(
+            color: theme.brightness == Brightness.dark
+                ? customColors.onSecondary
+                : ColorTween(
+                    begin: customColors.onBackgroundMuted,
+                    end: customColors.onSecondary,
+                  ).evaluate(_controller),
             onPressed: () {
               context.read<UserProfileBloc>().add(const UserProfileClose());
               Navigator.of(context).pop();
             },
           ),
           backgroundColor: ColorTween(
-            begin: CustomColors.of(context).background!,
-            end: CustomColors.of(context).secondary,
+            begin: customColors.background,
+            end: customColors.secondary,
           ).evaluate(
             CurvedAnimation(
               parent: _controller,
@@ -164,7 +172,9 @@ class _UserProfileAppBarMobileState extends State<_UserProfileAppBarMobile>
                           widthFactor: _nameWidthAnimation.value,
                           child: Text(
                             context.select((WhatsAppUser user) => user.name),
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: theme.textTheme.titleLarge!.copyWith(
+                              color: customColors.onSecondary,
+                            ),
                           ),
                         ),
                       ),
