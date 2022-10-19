@@ -7,6 +7,7 @@ import '../../../../core/utils/extensions/target_platform.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../chat/chat.dart';
 import '../../../settings/settings.dart';
+import '../../../status/status.dart';
 import '../../home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -210,7 +211,7 @@ class _MobileNestedScrollViewState extends State<_MobileNestedScrollView>
         controller: _tabController,
         children: const [
           RecentChatsView(),
-          Center(child: Text('STATUS')),
+          StatusListView(),
           Center(child: Text('CALLS')),
         ],
       ),
