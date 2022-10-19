@@ -258,15 +258,7 @@ class _GroupsInCommon extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              'No groups in common',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: customColors.onBackgroundMuted,
-                  ),
-            ),
-          ),
+          const ListSectionTitle('No groups in common'),
           ListTile(
             leading: CircleAvatar(
               backgroundColor: customColors.primary,

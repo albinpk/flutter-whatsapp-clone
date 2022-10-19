@@ -22,7 +22,7 @@ class ChatsSettingsScreen extends StatelessWidget {
       body: ListView(
         padding: kMaterialListPadding,
         children: [
-          const _ListTitleItem('Display'),
+          const ListSectionTitle('Display'),
           const _ThemeTile(),
           const ListTile(
             leading: CenterIcon(Icons.wallpaper),
@@ -31,7 +31,7 @@ class ChatsSettingsScreen extends StatelessWidget {
           const Divider(),
 
           //
-          const _ListTitleItem('Chat settings'),
+          const ListSectionTitle('Chat settings'),
           SwitchListTile(
             value: false,
             onChanged: (_) {},
@@ -62,7 +62,7 @@ class ChatsSettingsScreen extends StatelessWidget {
           const Divider(),
 
           //
-          const _ListTitleItem('Archived chats'),
+          const ListSectionTitle('Archived chats'),
           SwitchListTile(
             value: false,
             onChanged: (_) {},
@@ -86,29 +86,6 @@ class ChatsSettingsScreen extends StatelessWidget {
             leading: CenterIcon(Icons.history),
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// Title for a settings section.
-class _ListTitleItem extends StatelessWidget {
-  const _ListTitleItem(
-    this._text, {
-    Key? key,
-  }) : super(key: key);
-
-  final String _text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20).copyWith(bottom: 5),
-      child: Text(
-        _text,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: CustomColors.of(context).onBackgroundMuted,
-            ),
       ),
     );
   }
