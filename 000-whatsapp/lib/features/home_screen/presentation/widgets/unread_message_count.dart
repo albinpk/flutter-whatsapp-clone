@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/widgets/widgets.dart';
+
 class UnreadMessageCount extends StatelessWidget {
   /// Unread message count badge.
   const UnreadMessageCount({
@@ -20,21 +22,14 @@ class UnreadMessageCount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.square(
-      dimension: 20,
-      child: ClipOval(
-        child: ColoredBox(
-          color: color,
-          child: Center(
-            child: Text(
-              '$count',
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: textColor,
-                    fontSize: 11,
-                  ),
+    return ColoredCircle(
+      color: color,
+      child: Text(
+        '$count',
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: textColor,
+              fontSize: 11,
             ),
-          ),
-        ),
       ),
     );
   }
