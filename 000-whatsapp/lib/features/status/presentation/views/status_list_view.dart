@@ -21,7 +21,11 @@ class StatusListView extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return const _MyStatusTile();
+              return const StatusTile(
+                leading: StatusPreviewCircle(),
+                title: 'User',
+                subtitle: 'Just now',
+              );
             },
             childCount: 1,
           ),
