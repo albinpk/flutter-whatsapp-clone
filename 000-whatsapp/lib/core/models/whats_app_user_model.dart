@@ -28,13 +28,12 @@ class WhatsAppUser extends Equatable {
   });
 
   /// Create WhatsApp user from [Contact].
-  factory WhatsAppUser.fromContact(Contact contact) {
-    return WhatsAppUser(
+  WhatsAppUser.fromContact(Contact contact)
+      : this(
           id: _uuid.v4(),
           name: contact.name,
           phNumber: contact.phNumber,
         );
-  }
 
   @override
   List<Object> get props => [id, name, phNumber, about];
