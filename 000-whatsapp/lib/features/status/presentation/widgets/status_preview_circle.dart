@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/themes/custom_colors.dart';
-import '../../../../core/widgets/widgets.dart';
-import 'status_tile.dart';
+import '../../status.dart';
 
 /// Leading widget in [StatusTile].
 class StatusPreviewCircle extends StatelessWidget {
-  const StatusPreviewCircle({super.key});
+  const StatusPreviewCircle({
+    super.key,
+    required this.status,
+  });
+
+  final Status status;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +22,17 @@ class StatusPreviewCircle extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(50),
       ),
-      child: const Padding(
-        padding: EdgeInsets.all(4.5),
-        child: UserDP(radius: 22),
+      child: Padding(
+        padding: const EdgeInsets.all(4.5),
+        child: CircleAvatar(
+          radius: 22,
+          backgroundImage: status.content.imgUrl != null
+              ? Image.network(
+                  status.content.imgUrl!,
+                  fit: BoxFit.scaleDown,
+                ).image
+              : null,
+        ),
       ),
     );
   }
