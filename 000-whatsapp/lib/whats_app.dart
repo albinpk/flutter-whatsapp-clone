@@ -8,6 +8,7 @@ import 'core/models/models.dart';
 import 'core/utils/themes/dark_theme.dart';
 import 'core/utils/themes/light_theme.dart';
 import 'features/settings/settings.dart';
+import 'features/status/status.dart';
 
 class WhatsApp extends StatelessWidget {
   const WhatsApp({super.key});
@@ -30,6 +31,11 @@ class WhatsApp extends StatelessWidget {
           BlocProvider(create: (context) => UserProfileBloc()),
           BlocProvider(create: (context) => SettingsBloc()),
           BlocProvider(create: (context) => ChatSettingsBloc()),
+          BlocProvider(
+            create: (context) => StatusBloc(
+              whatsAppUsers: context.read<List<WhatsAppUser>>(),
+            ),
+          )
         ],
         child: Builder(
           builder: (context) => MaterialApp(
