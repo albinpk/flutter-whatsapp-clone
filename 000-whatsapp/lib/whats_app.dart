@@ -32,10 +32,11 @@ class WhatsApp extends StatelessWidget {
           BlocProvider(create: (context) => SettingsBloc()),
           BlocProvider(create: (context) => ChatSettingsBloc()),
           BlocProvider(
+            lazy: false,
             create: (context) => StatusBloc(
               whatsAppUsers: context.read<List<WhatsAppUser>>(),
             ),
-          )
+          ),
         ],
         child: Builder(
           builder: (context) => MaterialApp(
