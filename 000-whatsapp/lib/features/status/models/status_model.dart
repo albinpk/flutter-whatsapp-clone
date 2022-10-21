@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../../core/models/models.dart';
 
 /// WhatsApp status model.
 class Status extends Equatable {
@@ -8,6 +11,9 @@ class Status extends Equatable {
   /// Status content.
   final StatusContent content;
 
+  /// Author of this status.
+  final WhatsAppUser author;
+
   /// Status time.
   final DateTime time;
 
@@ -15,8 +21,13 @@ class Status extends Equatable {
   const Status({
     required this.id,
     required this.content,
+    required this.author,
     required this.time,
   });
+
+  Status.fromContent(this.content, {required this.author})
+      : id = const Uuid().v4(),
+        time = DateTime.now();
 
   @override
   List<Object> get props => [id, content, time];
@@ -41,6 +52,11 @@ class StatusContent extends Equatable {
     this.imgUrl,
     this.text,
   }) : assert(imgUrl != null || text != null);
+
+  /// Create status with random image.
+  const StatusContent.random()
+      : imgUrl = 'https/picsum.photos/200/300',
+        text = null;
 
   @override
   List<Object?> get props => [imgUrl, text];
