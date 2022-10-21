@@ -22,7 +22,7 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
     Future.delayed(const Duration(seconds: 5), () {
       add(StatusAdd(
         status: Status.fromContent(
-          const StatusContent.random(),
+          StatusContent.random(),
           author: whatsAppUsers.first,
         ),
       ));

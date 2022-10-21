@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/models/models.dart';
+
+final _random = Random();
 
 /// WhatsApp status model.
 class Status extends Equatable {
@@ -54,8 +58,10 @@ class StatusContent extends Equatable {
   }) : assert(imgUrl != null || text != null);
 
   /// Create status with random image.
-  const StatusContent.random()
-      : imgUrl = 'https/picsum.photos/200/300',
+  StatusContent.random()
+      : imgUrl = 'https://picsum.photos'
+            '/${_random.nextInt(500) + 1000}'
+            '/${_random.nextInt(2000) + 1000}',
         text = null;
 
   @override
