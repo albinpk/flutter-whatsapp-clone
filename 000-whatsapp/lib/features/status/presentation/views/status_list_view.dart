@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -15,7 +16,15 @@ class StatusListView extends StatelessWidget {
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         ),
         const SliverToBoxAdapter(child: _MyStatusTile()),
-        const SliverToBoxAdapter(child: ListSectionTitle('Recent updates')),
+        SliverToBoxAdapter(
+          child: Builder(builder: (context) {
+            if (context
+                .select((StatusBloc bloc) => bloc.state.statuses.isEmpty)) {
+              return const ListSectionTitle('No recent updates');
+            }
+            return const ListSectionTitle('Recent updates');
+          }),
+        ),
 
         // Status list
         SliverList(
