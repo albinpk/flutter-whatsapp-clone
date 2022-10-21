@@ -5,20 +5,23 @@ import '../../../../core/utils/themes/custom_colors.dart';
 class StatusTile extends StatelessWidget {
   /// Create a status tile widget.
   const StatusTile({
-    Key? key,
+    super.key,
     required this.leading,
     required this.title,
     required this.subtitle,
-  }) : super(key: key);
+    required this.onTap,
+  });
 
   final Widget leading;
   final String title;
   final String subtitle;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
+      onTap: onTap,
       leading: leading,
       title: Text(
         title,
