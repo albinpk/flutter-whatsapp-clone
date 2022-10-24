@@ -152,7 +152,9 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
 
           AppBar(
-            elevation: 0,
+            // Elevation for text visibility on white screen
+            elevation: 0.1,
+            shadowColor: Colors.black26,
             backgroundColor: Colors.transparent,
             titleSpacing: 0,
             title: Row(
@@ -165,7 +167,9 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
                     Text(status.author.name),
                     Text(
                       DateFormat(DateFormat.HOUR_MINUTE).format(status.time),
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Colors.white,
+                          ),
                     ),
                   ],
                 ),
