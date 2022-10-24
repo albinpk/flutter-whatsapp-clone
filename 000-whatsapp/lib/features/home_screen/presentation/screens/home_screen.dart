@@ -200,20 +200,30 @@ class _MobileNestedScrollViewState extends State<_MobileNestedScrollView>
   Widget build(BuildContext context) {
     context.select((ChatSearchBloc bloc) => bloc.state is ChatSearchOpenState);
 
-    return NestedScrollView(
-      headerSliverBuilder: (context, _) => [
-        SliverOverlapAbsorber(
-          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          sliver: AppBarMobile(tabController: _tabController),
-        ),
-      ],
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          RecentChatsView(),
-          StatusListView(),
-          Center(child: Text('CALLS')),
+    return WillPopScope(
+      onWillPop: () async {
+        if (_tabAnimation.value != 0) {
+          _tabController.animateTo(0);
+          _tabController.indexIsChanging;
+          return false;
+        }
+        return true;
+      },
+      child: NestedScrollView(
+        headerSliverBuilder: (context, _) => [
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            sliver: AppBarMobile(tabController: _tabController),
+          ),
         ],
+        body: TabBarView(
+          controller: _tabController,
+          children: const [
+            RecentChatsView(),
+            StatusListView(),
+            Center(child: Text('CALLS')),
+          ],
+        ),
       ),
     );
   }
