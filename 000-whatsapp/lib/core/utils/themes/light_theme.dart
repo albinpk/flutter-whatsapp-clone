@@ -14,7 +14,8 @@ final lightTheme = ThemeData(
     iconColor: lightThemeColors.iconMuted,
   ),
   dialogBackgroundColor: lightThemeColors.dialogBackground,
-  toggleableActiveColor: lightThemeColors.secondary,
+  toggleableActiveColor:
+      isMobile ? lightThemeColors.secondary : lightThemeColors.primary,
   chipTheme: ChipThemeData(
     backgroundColor: const Color(0xFFE9EDEF),
     labelPadding: const EdgeInsets.only(left: 0, right: 5),

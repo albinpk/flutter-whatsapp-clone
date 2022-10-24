@@ -202,9 +202,10 @@ class _SettingsScreenDesktop extends StatelessWidget {
                 title: Text('Security'),
               ),
               divider,
-              const ListTile(
-                leading: CenterIcon(Icons.brightness_medium),
-                title: Text('Theme'),
+              ListTile(
+                leading: const CenterIcon(Icons.brightness_medium),
+                title: const Text('Theme'),
+                onTap: () => _onTapTheme(context),
               ),
               divider,
               const ListTile(
@@ -231,5 +232,97 @@ class _SettingsScreenDesktop extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Show dialog to select theme.
+  void _onTapTheme(BuildContext context) async {
+    final chatSettingsBloc = context.read<ChatSettingsBloc>();
+    final currentThemeMode = chatSettingsBloc.state.themeMode;
+
+    final newThemeMode = await showDialog<ThemeMode>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        final buttonStyle = TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 22),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+            side: BorderSide(
+              color: CustomColors.of(context).onBackgroundMuted!,
+              width: 0.1,
+            ),
+          ),
+        );
+        // Initial groupValue for RadioListTile,
+        // and it updated by StatefulBuilder below.
+        ThemeMode? selectedThemeMode = currentThemeMode;
+        return AlertDialog(
+          title: const Text('Choose theme'),
+          contentPadding: const EdgeInsets.only(top: 20),
+          actionsPadding: const EdgeInsets.all(20),
+          scrollable: true,
+          content: SizedBox(
+            width: 500,
+            // Using StatefulBuilder to update RadioListTile values on tap
+            child: StatefulBuilder(
+              builder: (context, setState) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: ThemeMode.values
+                    .map((t) => RadioListTile<ThemeMode>(
+                          value: t,
+                          title: Text(_getThemModeText(t)),
+                          groupValue: selectedThemeMode,
+                          onChanged: (value) {
+                            setState(() => selectedThemeMode = value);
+                          },
+                        ))
+                    .toList(),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              style: buttonStyle.copyWith(
+                foregroundColor: MaterialStatePropertyAll(
+                  CustomColors.of(context).primary,
+                ),
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('CANCEL'),
+            ),
+            TextButton(
+              style: buttonStyle.copyWith(
+                backgroundColor: MaterialStatePropertyAll(
+                  CustomColors.of(context).primary,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop<ThemeMode>(selectedThemeMode);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+
+    // Update Bloc if theme changed
+    if (newThemeMode != null && newThemeMode != currentThemeMode) {
+      chatSettingsBloc.add(
+        ChatSettingsThemeModeChange(themeMode: newThemeMode),
+      );
+    }
+  }
+
+  /// Convert [ThemeMode] to string.
+  String _getThemModeText(ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return 'System default';
+      case ThemeMode.light:
+        return 'Light';
+      case ThemeMode.dark:
+        return 'Dark';
+    }
   }
 }
