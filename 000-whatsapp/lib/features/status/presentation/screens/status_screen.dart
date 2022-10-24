@@ -61,6 +61,7 @@ class _StatusScreenState extends State<StatusScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      backgroundColor: Colors.black,
       appBar: _AppBar(
         status: widget.status,
         animation: _controller,
