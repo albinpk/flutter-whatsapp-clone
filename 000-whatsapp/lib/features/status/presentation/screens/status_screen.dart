@@ -45,7 +45,9 @@ class _StatusScreenState extends State<StatusScreen>
   void dispose() {
     _controller.removeStatusListener(_animationStatusListener);
     _controller.dispose();
-    _timer?.cancel();
+    _tapDetectorTimer?.cancel();
+    _appBarVisible.dispose();
+    _appBarVisibilityTimer?.cancel();
     super.dispose();
   }
 
@@ -54,17 +56,40 @@ class _StatusScreenState extends State<StatusScreen>
   // Pop the screen on normal tap.
   // If it is long tap then stop the animation,
   // and forward it when tapUp on tapCancel detected.
-  Timer? _timer;
+  Timer? _tapDetectorTimer;
   bool _isLong = false;
+
+  /// Whether appBar visible or not.
+  ///
+  /// AppBar is hidden after long press for 500 milliseconds.
+  final _appBarVisible = ValueNotifier<bool>(true);
+
+  /// Timer for hide appBar after long tap.
+  Timer? _appBarVisibilityTimer;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
-      appBar: _AppBar(
-        status: widget.status,
-        animation: _controller,
+      appBar: PreferredSize(
+        // +2 for status progress bar
+        preferredSize: const Size.fromHeight(kToolbarHeight + 2),
+        child: ValueListenableBuilder<bool>(
+          valueListenable: _appBarVisible,
+          builder: (context, value, child) {
+            return AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.ease,
+              opacity: value ? 1 : 0,
+              child: child,
+            );
+          },
+          child: _AppBar(
+            status: widget.status,
+            animation: _controller,
+          ),
+        ),
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -80,29 +105,42 @@ class _StatusScreenState extends State<StatusScreen>
     );
   }
 
-  // Stop the animation and start the timer.
   void _onTapDown(_) {
+    // Stop the animation and start the timer for detect tap
     _controller.stop();
-    _timer = Timer(
+    _tapDetectorTimer = Timer(
       const Duration(milliseconds: 100),
       () => _isLong = true,
     );
+
+    // Start timer to hide appBar
+    _appBarVisibilityTimer = Timer(
+      const Duration(milliseconds: 500),
+      () => _appBarVisible.value = false,
+    );
   }
 
-  // Forward the animation if its long tap,
-  // otherwise pop the screen.
   void _onTapUpOrCancel([_]) {
+    // Show appBar
+    if (_appBarVisible.value) {
+      _appBarVisibilityTimer!.cancel();
+    } else {
+      _appBarVisible.value = true;
+    }
+
+    // Forward the animation if its long tap,
+    // otherwise pop the screen.
     if (_isLong) {
       _controller.forward();
       _isLong = false;
     } else {
-      _timer!.cancel();
+      _tapDetectorTimer!.cancel();
       Navigator.of(context).pop();
     }
   }
 }
 
-class _AppBar extends StatelessWidget implements PreferredSizeWidget {
+class _AppBar extends StatelessWidget {
   const _AppBar({
     Key? key,
     required this.status,
@@ -180,7 +218,4 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 2);
 }
