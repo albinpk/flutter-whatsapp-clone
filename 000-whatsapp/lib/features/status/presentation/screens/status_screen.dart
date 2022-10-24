@@ -77,12 +77,16 @@ class _StatusScreenState extends State<StatusScreen>
         preferredSize: const Size.fromHeight(kToolbarHeight + 2),
         child: ValueListenableBuilder<bool>(
           valueListenable: _appBarVisible,
-          builder: (context, value, child) {
-            return AnimatedOpacity(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.ease,
-              opacity: value ? 1 : 0,
-              child: child,
+          builder: (context, isVisible, child) {
+            // Use IgnorePointer to ignore back button tap when appBar is hidden
+            return IgnorePointer(
+              ignoring: !isVisible,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease,
+                opacity: isVisible ? 1 : 0,
+                child: child,
+              ),
             );
           },
           child: _AppBar(
