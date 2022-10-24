@@ -42,7 +42,13 @@ class StatusListView extends StatelessWidget {
                   title: status.author.name,
                   subtitle:
                       DateFormat(DateFormat.HOUR_MINUTE).format(status.time),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => StatusScreen(status: status),
+                      ),
+                    );
+                  },
                 );
               },
             ),
