@@ -159,7 +159,7 @@ class _SettingsScreenDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
-    const divider = Divider(indent: 68);
+    const divider = Divider(indent: 68, height: 0);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -170,11 +170,9 @@ class _SettingsScreenDesktop extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        // Using Theme to override color of ListTile.leading icon.
-        child: Theme(
-          data: Theme.of(context).copyWith(
-            iconTheme: IconThemeData(color: customColors.iconMuted),
-          ),
+        // Using ListTileTheme to override minVerticalPadding
+        child: ListTileTheme(
+          minVerticalPadding: 20,
           child: Column(
             children: [
               // User tile
@@ -190,42 +188,42 @@ class _SettingsScreenDesktop extends StatelessWidget {
 
               // Settings tiles
               const ListTile(
-                leading: Icon(Icons.notifications),
+                leading: CenterIcon(Icons.notifications),
                 title: Text('Notifications'),
               ),
               divider,
               const ListTile(
-                leading: Icon(Icons.lock),
+                leading: CenterIcon(Icons.lock),
                 title: Text('Privacy'),
               ),
               divider,
               const ListTile(
-                leading: Icon(Icons.security),
+                leading: CenterIcon(Icons.security),
                 title: Text('Security'),
               ),
               divider,
               const ListTile(
-                leading: Icon(Icons.brightness_medium),
+                leading: CenterIcon(Icons.brightness_medium),
                 title: Text('Theme'),
               ),
               divider,
               const ListTile(
-                leading: Icon(Icons.wallpaper),
+                leading: CenterIcon(Icons.wallpaper),
                 title: Text('Chat wallpaper'),
               ),
               divider,
               const ListTile(
-                leading: Icon(Icons.insert_drive_file),
+                leading: CenterIcon(Icons.insert_drive_file),
                 title: Text('Request Account Info'),
               ),
               divider,
               const ListTile(
-                leading: Icon(Icons.brightness_auto),
+                leading: CenterIcon(Icons.brightness_auto),
                 title: Text('Keyboard shortcuts'),
               ),
               divider,
               const ListTile(
-                leading: Icon(Icons.help),
+                leading: CenterIcon(Icons.help),
                 title: Text('Help'),
               ),
             ],
