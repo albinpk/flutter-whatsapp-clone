@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/extensions/target_platform.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
+import '../../../../core/widgets/widgets.dart';
 import '../../../chat/chat.dart';
 import '../../../settings/settings.dart';
 import '../../../status/status.dart';
@@ -77,19 +78,11 @@ class _HomeScreenMobile extends StatelessWidget {
   void _userProfileBlocListener(BuildContext context, UserProfileState state) {
     if (state is UserProfileOpenState) {
       Navigator.of(context).push(
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) {
-            return RepositoryProvider.value(
-              value: state.user,
-              child: const UserProfileScreen(),
-            );
-          },
-          transitionsBuilder: (_, animation, __, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
+        FadePageRoute(
+          builder: (_) => RepositoryProvider.value(
+            value: state.user,
+            child: const UserProfileScreen(),
+          ),
         ),
       );
     }
