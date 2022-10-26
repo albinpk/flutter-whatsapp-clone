@@ -2,6 +2,8 @@
 
 A WhatsApp UI clone in flutter (work in progress).
 
+[Web demo ↗️][weblink]
+
 ### Todos
 
 - [x] Home screen
@@ -18,4 +20,6 @@ A WhatsApp UI clone in flutter (work in progress).
 
 - Mobile
 - Desktop
-- Web
+- [Web][weblink]
+
+[weblink]: https://albinpk.github.io/flutter-clones
