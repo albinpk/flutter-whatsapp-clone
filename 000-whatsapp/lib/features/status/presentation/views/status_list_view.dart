@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -16,41 +15,60 @@ class StatusListView extends StatelessWidget {
         SliverOverlapInjector(
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         ),
+
+        // My status / Add status
         const SliverToBoxAdapter(child: _MyStatusTile()),
+
+        // List title
         SliverToBoxAdapter(
           child: Builder(builder: (context) {
             if (context
                 .select((StatusBloc bloc) => bloc.state.statuses.isEmpty)) {
               return const ListSectionTitle('No recent updates');
             }
-            return const ListSectionTitle('Recent updates');
+            if (context
+                .select((StatusBloc bloc) => bloc.state.recent.isNotEmpty)) {
+              return const ListSectionTitle('Recent updates');
+            }
+            return const ListSectionTitle('Viewed updates');
           }),
         ),
 
-        // Status list
+        // Recent status list
         Builder(builder: (context) {
           final statusList = context.select(
-            (StatusBloc bloc) => bloc.state.statuses,
+            (StatusBloc bloc) => bloc.state.recent,
           );
           return SliverList(
             delegate: SliverChildBuilderDelegate(
               childCount: statusList.length,
-              (context, index) {
-                final status = statusList[index];
-                return StatusTile(
-                  leading: StatusPreviewCircle(status: status),
-                  title: status.author.name,
-                  subtitle:
-                      DateFormat(DateFormat.HOUR_MINUTE).format(status.time),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => StatusScreen(status: status),
-                      ),
-                    );
-                  },
-                );
-              },
+              (context, index) => StatusTile.fromStatus(statusList[index]),
+            ),
+          );
+        }),
+
+        // List title
+        Builder(
+          builder: (context) {
+            return SliverToBoxAdapter(
+              child: context.select((StatusBloc bloc) =>
+                      bloc.state.viewed.isNotEmpty &&
+                      bloc.state.recent.isNotEmpty)
+                  ? const ListSectionTitle('Viewed updates')
+                  : const SizedBox.shrink(),
+            );
+          },
+        ),
+
+        // Viewed status list
+        Builder(builder: (context) {
+          final statusList = context.select(
+            (StatusBloc bloc) => bloc.state.viewed,
+          );
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: statusList.length,
+              (context, index) => StatusTile.fromStatus(statusList[index]),
             ),
           );
         }),
