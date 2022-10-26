@@ -10,7 +10,7 @@ part 'status_state.dart';
 class StatusBloc extends Bloc<StatusEvent, StatusState> {
   StatusBloc({
     required List<WhatsAppUser> whatsAppUsers,
-  }) : super(const StatusState.initial()) {
+  }) : super(StatusState.initial(whatsAppUsers)) {
     // Add a status after 5 seconds.
     _addStatusAfterDelay(whatsAppUsers);
 

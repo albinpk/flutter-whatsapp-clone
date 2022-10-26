@@ -5,10 +5,23 @@ class StatusState extends Equatable {
     required this.statuses,
   });
 
-  const StatusState.initial() : this(statuses: const []);
+  StatusState.initial(List<WhatsAppUser> whatsAppUsers)
+      : statuses = [
+          Status.fromContent(
+            StatusContent.random(),
+            author: whatsAppUsers.last,
+            isSeen: true,
+          ),
+        ];
 
   /// List of [Status].
   final List<Status> statuses;
+
+  /// List of recent (unseen) [Status].
+  List<Status> get recent => statuses.where((s) => !s.isSeen).toList();
+
+  /// List of viewed [Status].
+  List<Status> get viewed => statuses.where((s) => s.isSeen).toList();
 
   @override
   List<Object> get props => [statuses];
