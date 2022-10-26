@@ -1,12 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/models/models.dart';
+import 'core/utils/extensions/target_platform.dart';
+import 'core/utils/themes/dark_theme.dart';
+import 'core/utils/themes/light_theme.dart';
 import 'dummy_data/dummy_data.dart';
 import 'features/chat/chat.dart';
 import 'features/home_screen/home_screen.dart';
-import 'core/models/models.dart';
-import 'core/utils/themes/dark_theme.dart';
-import 'core/utils/themes/light_theme.dart';
 import 'features/settings/settings.dart';
 import 'features/status/status.dart';
 
@@ -15,6 +17,16 @@ class WhatsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (defaultTargetPlatform.isWebMobile) {
+      return const MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: Text('Please open in desktop browser.'),
+          ),
+        ),
+      );
+    }
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => UserRepository()),
