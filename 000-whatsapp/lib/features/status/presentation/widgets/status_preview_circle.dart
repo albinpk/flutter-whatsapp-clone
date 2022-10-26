@@ -14,11 +14,14 @@ class StatusPreviewCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = CustomColors.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(
           width: 2.5,
-          color: CustomColors.of(context).primary!,
+          color: status.isSeen
+              ? customColors.onBackgroundMuted!
+              : customColors.primary!,
         ),
         borderRadius: BorderRadius.circular(50),
       ),
