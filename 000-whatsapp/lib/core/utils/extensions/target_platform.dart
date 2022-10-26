@@ -5,11 +5,14 @@ extension PlatformType on TargetPlatform {
   bool get isDesktop => !isMobile;
 
   /// Return `true` if [TargetPlatform] is (native) android, ios or fuchsia.
-  bool get isMobile =>
-      !kIsWeb &&
-      const <TargetPlatform>{
-        TargetPlatform.android,
-        TargetPlatform.iOS,
-        TargetPlatform.fuchsia,
-      }.contains(this);
+  bool get isMobile => !kIsWeb && _mobilePlatforms.contains(this);
+
+  /// Return `true` if
+  bool get isWebMobile => kIsWeb && _mobilePlatforms.contains(this);
+
+  static const _mobilePlatforms = <TargetPlatform>{
+    TargetPlatform.android,
+    TargetPlatform.iOS,
+    TargetPlatform.fuchsia,
+  };
 }
