@@ -21,15 +21,19 @@ class Status extends Equatable {
   /// Status time.
   final DateTime time;
 
+  /// Whether the status is seen by user.
+  final bool isSeen;
+
   /// Create a WhatsApp status.
   const Status({
     required this.id,
     required this.content,
     required this.author,
     required this.time,
+    this.isSeen = false,
   });
 
-  Status.fromContent(this.content, {required this.author})
+  Status.fromContent(this.content, {required this.author, this.isSeen = false})
       : id = const Uuid().v4(),
         time = DateTime.now();
 
