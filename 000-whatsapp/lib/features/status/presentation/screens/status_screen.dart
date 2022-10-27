@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -40,10 +41,19 @@ class _StatusScreenState extends State<StatusScreen>
     widget.pageController.addListener(_pageListener);
   }
 
-  /// Pop the screen when animation completed.
+  /// Show next status when animation completed.
+  /// If it is the last status then pop the screen.
   void _animationStatusListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
-      Navigator.of(context).pop();
+      if (widget.pageController.page! ==
+          context.read<StatusBloc>().state.statuses.length - 1) {
+        Navigator.of(context).pop();
+      } else {
+        widget.pageController.nextPage(
+          duration: kTabScrollDuration,
+          curve: Curves.ease,
+        );
+      }
     }
   }
 
