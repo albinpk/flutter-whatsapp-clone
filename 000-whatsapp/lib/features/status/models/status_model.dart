@@ -33,12 +33,22 @@ class Status extends Equatable {
     this.isSeen = false,
   });
 
+  /// Create status from [StatusContent].
   Status.fromContent(this.content, {required this.author, this.isSeen = false})
       : id = const Uuid().v4(),
         time = DateTime.now();
 
+  /// Return same status with `isSeen: true`.
+  Status get asSeen => Status(
+        isSeen: true,
+        id: id,
+        content: content,
+        author: author,
+        time: time,
+      );
+
   @override
-  List<Object> get props => [id, content, time];
+  List<Object> get props => [id, content, author, time, isSeen];
 }
 
 /// Content of WhatsApp status.
