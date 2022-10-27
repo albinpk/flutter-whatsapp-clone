@@ -11,9 +11,15 @@ class StatusScreen extends StatefulWidget {
   const StatusScreen({
     super.key,
     required this.status,
+    required this.pageController,
   });
 
   final Status status;
+
+  /// The [StatusPageView] controller.
+  ///
+  /// To stop animation on page scroll.
+  final PageController pageController;
 
   @override
   State<StatusScreen> createState() => _StatusScreenState();
@@ -31,6 +37,7 @@ class _StatusScreenState extends State<StatusScreen>
   void initState() {
     super.initState();
     _controller.addStatusListener(_animationStatusListener);
+    widget.pageController.addListener(_pageListener);
   }
 
   /// Pop the screen when animation completed.
@@ -40,10 +47,18 @@ class _StatusScreenState extends State<StatusScreen>
     }
   }
 
+  void _pageListener() {
+    if (widget.pageController.page! - widget.pageController.page!.floor() !=
+        0) {
+      _controller.stop();
+    }
+  }
+
   @override
   void dispose() {
     _controller.removeStatusListener(_animationStatusListener);
     _controller.dispose();
+    widget.pageController.removeListener(_pageListener);
     _tapDetectorTimer?.cancel();
     _appBarVisible.dispose();
     _appBarVisibilityTimer?.cancel();
@@ -107,7 +122,7 @@ class _StatusScreenState extends State<StatusScreen>
             onVisibilityChanged: (info) {
               if (info.visibleFraction == 1) _controller.forward();
             },
-          child: Image.network(widget.status.content.imgUrl!),
+            child: Image.network(widget.status.content.imgUrl!),
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/utils/themes/custom_colors.dart';
@@ -38,7 +39,13 @@ class StatusTile extends StatelessWidget {
           () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => StatusScreen(status: _status!),
+                builder: (context) => StatusPageView(
+                  initialPage: context
+                      .read<StatusBloc>()
+                      .state
+                      .statuses
+                      .indexOf(_status!),
+                ),
               ),
             );
           },
