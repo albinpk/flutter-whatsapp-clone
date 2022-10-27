@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/widgets/widgets.dart';
 import '../../status.dart';
@@ -29,9 +30,7 @@ class _StatusScreenState extends State<StatusScreen>
   @override
   void initState() {
     super.initState();
-    _controller
-      ..forward()
-      ..addStatusListener(_animationStatusListener);
+    _controller.addStatusListener(_animationStatusListener);
   }
 
   /// Pop the screen when animation completed.
@@ -103,7 +102,13 @@ class _StatusScreenState extends State<StatusScreen>
 
         // Status image
         child: Center(
+          child: VisibilityDetector(
+            key: ValueKey(widget.status.id),
+            onVisibilityChanged: (info) {
+              if (info.visibleFraction == 1) _controller.forward();
+            },
           child: Image.network(widget.status.content.imgUrl!),
+          ),
         ),
       ),
     );
