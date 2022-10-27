@@ -130,7 +130,14 @@ class _StatusScreenState extends State<StatusScreen>
           child: VisibilityDetector(
             key: ValueKey(widget.status.id),
             onVisibilityChanged: (info) {
-              if (info.visibleFraction == 1) _controller.forward();
+              if (info.visibleFraction == 1) {
+                _controller.forward();
+                if (!widget.status.isSeen) {
+                  context
+                      .read<StatusBloc>()
+                      .add(StatusViewed(status: widget.status));
+                }
+              }
             },
             child: Image.network(widget.status.content.imgUrl!),
           ),
