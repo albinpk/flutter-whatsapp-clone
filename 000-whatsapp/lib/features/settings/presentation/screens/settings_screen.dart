@@ -158,7 +158,6 @@ class _SettingsScreenDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final customColors = CustomColors.of(context);
     const divider = Divider(indent: 68, height: 0);
     return Scaffold(
       appBar: AppBar(
@@ -175,18 +174,7 @@ class _SettingsScreenDesktop extends StatelessWidget {
           minVerticalPadding: 20,
           child: Column(
             children: [
-              // User tile
-              Builder(
-                builder: (context) {
-                  final user = context.watch<User>();
-                  return ListTile(
-                    leading: UserDP(radius: 30, url: user.dpUrl),
-                    title: Text(user.name),
-                    subtitle: Text(user.about),
-                    trailing: Icon(Icons.qr_code, color: customColors.primary),
-                  );
-                },
-              ),
+              const _UserTile(),
               const SizedBox(height: 5),
 
               // Settings tiles
@@ -327,5 +315,39 @@ class _SettingsScreenDesktop extends StatelessWidget {
       case ThemeMode.dark:
         return 'Dark';
     }
+  }
+}
+
+class _UserTile extends StatelessWidget {
+  const _UserTile({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final user = context.watch<User>();
+    return InkWell(
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          children: [
+            UserDP(radius: 35, url: user.dpUrl),
+            const SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.name,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 5),
+                Text(user.about),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
