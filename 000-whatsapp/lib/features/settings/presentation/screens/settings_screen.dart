@@ -314,13 +314,6 @@ class _SettingsScreenDesktop extends StatelessWidget {
       chatSettingsBloc.add(
         ChatSettingsThemeModeChange(themeMode: newThemeMode),
       );
-
-      // FIXME: (?) the left side Navigator reset to initial route after theme changed.
-      // Can't navigate to settings route again because the [SettingsScreenClose]
-      // event not added to bloc (last event is [SettingsScreenOpen])
-      // Therefore after changing theme, add [SettingsScreenClose] event to SettingsBloc.
-      // ignore: use_build_context_synchronously
-      context.read<SettingsBloc>().add(const SettingsScreenClose());
     }
   }
 
