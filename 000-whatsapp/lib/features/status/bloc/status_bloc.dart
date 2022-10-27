@@ -15,21 +15,32 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
     _addStatusAfterDelay(whatsAppUsers);
 
     on<StatusAdd>(_onAdd);
+    on<StatusViewed>(_onViewed);
   }
 
   /// Add a status after 5 seconds.
   void _addStatusAfterDelay(List<WhatsAppUser> whatsAppUsers) {
     Future.delayed(const Duration(seconds: 5), () {
-      add(StatusAdd(
-        status: Status.fromContent(
-          StatusContent.random(),
+        add(StatusAdd(
+          status: Status.fromContent(
+            StatusContent.random(),
           author: whatsAppUsers.first,
-        ),
-      ));
+          ),
+        ));
     });
   }
 
   void _onAdd(StatusAdd event, Emitter<StatusState> emit) {
     emit(state.copyWith(statuses: [event.status, ...state.statuses]));
+  }
+
+  void _onViewed(StatusViewed event, Emitter<StatusState> emit) {
+    emit(
+      state.copyWith(
+        statuses: state.statuses
+            .map((s) => s == event.status ? s.asSeen : s)
+            .toList(),
+      ),
+    );
   }
 }

@@ -15,3 +15,12 @@ class StatusAdd extends StatusEvent {
   @override
   List<Object> get props => [status];
 }
+
+class StatusViewed extends StatusEvent {
+  const StatusViewed({required this.status});
+
+  final Status status;
+
+  @override
+  List<Object> get props => [status];
+}
