@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
@@ -16,7 +18,25 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final _scrollController = ScrollController();
+  final _scrollController = ScrollController(
+    // To animate ScrollView in desktop
+    initialScrollOffset: defaultTargetPlatform.isDesktop ? 200 : 0,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    if (defaultTargetPlatform.isDesktop) {
+      // Animate ScrollView to top
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOutExpo,
+        );
+      });
+    }
+  }
 
   @override
   void dispose() {
