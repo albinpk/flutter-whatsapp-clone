@@ -40,7 +40,7 @@ class RecentChatsListTile extends StatelessWidget {
     return ListTile(
       selected: isSelected,
       selectedTileColor: customColors.secondary,
-      leading: const UserDP(radius: 25),
+      leading: UserDP(radius: 25, url: chat.user.dpUrl),
       title: Row(
         children: [
           // User name

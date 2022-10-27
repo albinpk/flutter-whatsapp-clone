@@ -40,15 +40,15 @@ class _SettingsScreenMobile extends StatelessWidget {
             children: [
               // User tile
               Builder(
-                builder: (context) => ListTile(
-                  leading: const UserDP(radius: 30),
-                  title: Text(context.select((User user) => user.name)),
-                  subtitle: Text(
-                    context.select((User user) => user.about),
-                    style: subtitleStyle,
-                  ),
-                  trailing: Icon(Icons.qr_code, color: customColors.primary),
-                ),
+                builder: (context) {
+                  final user = context.watch<User>();
+                  return ListTile(
+                    leading: UserDP(radius: 30, url: user.dpUrl),
+                    title: Text(user.name),
+                    subtitle: Text(user.about, style: subtitleStyle),
+                    trailing: Icon(Icons.qr_code, color: customColors.primary),
+                  );
+                },
               ),
               const Divider(),
 
@@ -177,12 +177,15 @@ class _SettingsScreenDesktop extends StatelessWidget {
             children: [
               // User tile
               Builder(
-                builder: (context) => ListTile(
-                  leading: const UserDP(radius: 30),
-                  title: Text(context.select((User user) => user.name)),
-                  subtitle: Text(context.select((User user) => user.about)),
-                  trailing: Icon(Icons.qr_code, color: customColors.primary),
-                ),
+                builder: (context) {
+                  final user = context.watch<User>();
+                  return ListTile(
+                    leading: UserDP(radius: 30, url: user.dpUrl),
+                    title: Text(user.name),
+                    subtitle: Text(user.about),
+                    trailing: Icon(Icons.qr_code, color: customColors.primary),
+                  );
+                },
               ),
               const SizedBox(height: 5),
 

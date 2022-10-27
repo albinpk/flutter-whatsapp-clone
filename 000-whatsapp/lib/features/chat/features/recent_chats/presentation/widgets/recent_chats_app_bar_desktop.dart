@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../settings/settings.dart';
@@ -15,9 +16,13 @@ class RecentChatsAppBarDesktop extends StatelessWidget
   Widget build(BuildContext context) {
     const actionsIconPadding = EdgeInsets.symmetric(horizontal: 15);
     return AppBar(
-      leading: const Padding(
-        padding: EdgeInsets.only(left: 15),
-        child: FittedBox(child: UserDP()),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 15),
+        child: FittedBox(
+          child: UserDP(
+            url: context.select((User u) => u.dpUrl),
+          ),
+        ),
       ),
       iconTheme: IconThemeData(
         color: Theme.of(context).brightness == Brightness.light

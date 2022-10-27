@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/models/models.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../status.dart';
@@ -89,7 +90,10 @@ class _MyStatusTile extends StatelessWidget {
       leading: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          const UserDP(radius: 25),
+          UserDP(
+            radius: 25,
+            url: context.select((User u) => u.dpUrl),
+          ),
           ColoredCircle(
             color: CustomColors.of(context).primary!,
             child: const FittedBox(

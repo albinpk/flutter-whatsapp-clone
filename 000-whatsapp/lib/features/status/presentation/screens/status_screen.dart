@@ -238,7 +238,7 @@ class _AppBar extends StatelessWidget {
             titleSpacing: 0,
             title: Row(
               children: [
-                const UserDP(),
+                UserDP(url: status.author.dpUrl),
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -18,7 +18,7 @@ class UserTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const UserDP(),
+      leading: UserDP(url: user.dpUrl),
       title: Text(
         user.name,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
