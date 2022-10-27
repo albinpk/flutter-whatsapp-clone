@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme.of(context).platform.isMobile
         ? const _HomeScreenMobile()
-        : _HomeScreenDesktop();
+        : const _HomeScreenDesktop();
   }
 }
 
@@ -222,9 +222,14 @@ class _MobileNestedScrollViewState extends State<_MobileNestedScrollView>
   }
 }
 
-class _HomeScreenDesktop extends StatelessWidget {
-  _HomeScreenDesktop({Key? key}) : super(key: key);
+class _HomeScreenDesktop extends StatefulWidget {
+  const _HomeScreenDesktop({Key? key}) : super(key: key);
 
+  @override
+  State<_HomeScreenDesktop> createState() => _HomeScreenDesktopState();
+}
+
+class _HomeScreenDesktopState extends State<_HomeScreenDesktop> {
   /// GlobalKey for Navigator on left side of the screen.
   ///
   /// For recent chats, new chat, settings, etc.
