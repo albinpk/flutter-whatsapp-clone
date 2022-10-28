@@ -124,8 +124,42 @@ class _ProfileSettingsScreenMobile extends StatelessWidget {
   }
 }
 
-class _ProfileSettingsScreenDesktop extends StatelessWidget {
+class _ProfileSettingsScreenDesktop extends StatefulWidget {
   const _ProfileSettingsScreenDesktop({Key? key}) : super(key: key);
+
+  @override
+  State<_ProfileSettingsScreenDesktop> createState() =>
+      _ProfileSettingsScreenDesktopState();
+}
+
+class _ProfileSettingsScreenDesktopState
+    extends State<_ProfileSettingsScreenDesktop>
+    with SingleTickerProviderStateMixin {
+  // To animate the user DP (in initState)
+  late final _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 600),
+  );
+
+  late final _dpAnimation = Tween<double>(
+    begin: 0,
+    end: 160,
+  ).animate(CurvedAnimation(
+    parent: _controller,
+    curve: Curves.ease,
+  ));
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +186,16 @@ class _ProfileSettingsScreenDesktop extends StatelessWidget {
           children: [
             // User DP
             const SizedBox(height: 20),
-            UserDP(radius: 80, url: user.dpUrl),
+            AnimatedBuilder(
+              animation: _dpAnimation,
+              builder: (context, dp) {
+                return SizedBox.square(
+                  dimension: _dpAnimation.value,
+                  child: dp,
+                );
+              },
+              child: UserDP(url: user.dpUrl),
+            ),
             const SizedBox(height: 20),
 
             // Name and about
