@@ -26,7 +26,10 @@ class ProfileSettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              UserDP(radius: 80, url: user.dpUrl),
+              Hero(
+                tag: 'user-profile-dp',
+                child: UserDP(radius: 80, url: user.dpUrl),
+              ),
               const SizedBox(height: 20),
               ListTile(
                 leading: const Padding(

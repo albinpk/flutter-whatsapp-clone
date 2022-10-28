@@ -32,9 +32,12 @@ class UserProfileTile extends StatelessWidget {
         padding: const EdgeInsets.all(17),
         child: Row(
           children: [
-            UserDP(
+            Hero(
+              tag: 'user-profile-dp',
+              child: UserDP(
                 radius: isMobile ? 30 : 35,
                 url: user.dpUrl,
+              ),
             ),
             const SizedBox(width: 20),
             Column(
