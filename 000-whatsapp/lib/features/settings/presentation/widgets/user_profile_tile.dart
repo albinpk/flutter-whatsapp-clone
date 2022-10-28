@@ -5,6 +5,7 @@ import '../../../../core/models/models.dart';
 import '../../../../core/utils/extensions/target_platform.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../settings.dart';
 
 class UserProfileTile extends StatelessWidget {
   const UserProfileTile({super.key});
@@ -18,14 +19,22 @@ class UserProfileTile extends StatelessWidget {
     final customColors = CustomColors.of(context);
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return const ProfileSettingsScreen();
+            },
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(17),
         child: Row(
           children: [
             UserDP(
-              radius: isMobile ? 30 : 35,
-              url: user.dpUrl,
+                radius: isMobile ? 30 : 35,
+                url: user.dpUrl,
             ),
             const SizedBox(width: 20),
             Column(
