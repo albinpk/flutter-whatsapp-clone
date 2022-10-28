@@ -2,12 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
+import '../../../../../../core/utils/extensions/target_platform.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../profile_settings.dart';
 
 class ProfileSettingsScreen extends StatelessWidget {
   const ProfileSettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme.of(context).platform.isMobile
+        ? const _ProfileSettingsScreenMobile()
+        : const _ProfileSettingsScreenDesktop();
+  }
+}
+
+class _ProfileSettingsScreenMobile extends StatelessWidget {
+  const _ProfileSettingsScreenMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +118,83 @@ class ProfileSettingsScreen extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileSettingsScreenDesktop extends StatelessWidget {
+  const _ProfileSettingsScreenDesktop({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final customColors = CustomColors.of(context);
+    final textTheme = Theme.of(context).textTheme;
+    final titleTextStyle = textTheme.bodyMedium!.copyWith(
+      color: customColors.primary,
+    );
+    final user = context.watch<User>();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+        leading: BackButton(
+          onPressed: () {
+            context
+                .read<ProfileSettingsBloc>()
+                .add(const ProfileSettingsClose());
+          },
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // User DP
+            const SizedBox(height: 20),
+            UserDP(radius: 80, url: user.dpUrl),
+            const SizedBox(height: 20),
+
+            // Name and about
+            Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // User name
+                  Text('Your name', style: titleTextStyle),
+                  const SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Text(user.name),
+                      const Spacer(),
+                      Icon(Icons.edit, color: customColors.iconMuted),
+                    ],
+                  ),
+                  const SizedBox(height: 25),
+                  Text(
+                    'This is not your username or pin. '
+                    'This name will be visible to your WhatsApp contacts.',
+                    style: textTheme.bodyMedium!.copyWith(
+                      color: customColors.onBackgroundMuted,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+
+                  // About
+                  Text('About', style: titleTextStyle),
+                  const SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Text(user.about),
+                      const Spacer(),
+                      Icon(Icons.edit, color: customColors.iconMuted),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

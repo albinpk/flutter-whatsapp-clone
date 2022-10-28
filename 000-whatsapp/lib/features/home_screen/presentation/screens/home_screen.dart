@@ -263,6 +263,9 @@ class _HomeScreenDesktopState extends State<_HomeScreenDesktop> {
         BlocListener<SettingsBloc, SettingsState>(
           listener: _settingsBlocListener,
         ),
+        BlocListener<ProfileSettingsBloc, ProfileSettingsState>(
+          listener: _profileSettingsBlocListener,
+        ),
       ],
       child: Center(
         child: BothAxisScrollView(
@@ -367,6 +370,11 @@ class _HomeScreenDesktopState extends State<_HomeScreenDesktop> {
           builder: (context) => const SettingsScreen(),
         );
 
+      case 'profile':
+        return SlidePageRoute(
+          builder: (context) => const ProfileSettingsScreen(),
+        );
+
       case 'newChat':
         return SlidePageRoute(
           builder: (context) => const NewChatSelectionScreen(),
@@ -391,6 +399,18 @@ class _HomeScreenDesktopState extends State<_HomeScreenDesktop> {
     if (state is SettingsScreenOpenState) {
       _leftNavigatorKey.currentState!.pushNamed('settings');
     } else if (state is SettingsScreenCloseState) {
+      _leftNavigatorKey.currentState!.pop();
+    }
+  }
+
+  /// Listener for [ProfileSettingsBloc] to handle navigation.
+  void _profileSettingsBlocListener(
+    BuildContext context,
+    ProfileSettingsState state,
+  ) {
+    if (state is ProfileSettingsOpenState) {
+      _leftNavigatorKey.currentState!.pushNamed('profile');
+    } else if (state is ProfileSettingsCloseState) {
       _leftNavigatorKey.currentState!.pop();
     }
   }
