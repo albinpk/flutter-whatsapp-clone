@@ -19,12 +19,19 @@ class RecentChatsAppBarDesktop extends StatelessWidget
       leading: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: FittedBox(
-          child: UserDP(
-            url: context.select((User u) => u.dpUrl),
+          child: GestureDetector(
+            onTap: () {
+              context
+                  .read<ProfileSettingsBloc>()
+                  .add(const ProfileSettingsOpen());
+            },
+            child: UserDP(
+              url: context.select((User u) => u.dpUrl),
+            ),
           ),
         ),
       ),
-      iconTheme: IconThemeData(
+      actionsIconTheme: IconThemeData(
         color: Theme.of(context).brightness == Brightness.light
             ? CustomColors.of(context).onBackgroundMuted
             : CustomColors.of(context).iconMuted,
