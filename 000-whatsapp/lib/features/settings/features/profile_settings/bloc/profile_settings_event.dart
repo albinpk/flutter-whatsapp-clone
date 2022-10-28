@@ -6,3 +6,11 @@ abstract class ProfileSettingsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class ProfileSettingsOpen extends ProfileSettingsEvent {
+  const ProfileSettingsOpen();
+}
+
+class ProfileSettingsClose extends ProfileSettingsEvent {
+  const ProfileSettingsClose();
+}

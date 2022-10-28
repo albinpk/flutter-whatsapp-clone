@@ -7,8 +7,18 @@ part 'profile_settings_state.dart';
 class ProfileSettingsBloc
     extends Bloc<ProfileSettingsEvent, ProfileSettingsState> {
   ProfileSettingsBloc() : super(ProfileSettingsInitial()) {
-    on<ProfileSettingsEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<ProfileSettingsOpen>(_onOpen);
+    on<ProfileSettingsClose>(_onClose);
+  }
+
+  void _onOpen(ProfileSettingsOpen event, Emitter<ProfileSettingsState> emit) {
+    emit(const ProfileSettingsOpenState());
+  }
+
+  void _onClose(
+    ProfileSettingsClose event,
+    Emitter<ProfileSettingsState> emit,
+  ) {
+    emit(const ProfileSettingsCloseState());
   }
 }

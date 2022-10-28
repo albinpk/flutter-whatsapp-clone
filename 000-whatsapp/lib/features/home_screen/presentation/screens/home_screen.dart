@@ -41,6 +41,9 @@ class _HomeScreenMobile extends StatelessWidget {
         BlocListener<SettingsBloc, SettingsState>(
           listener: _settingsBlocListener,
         ),
+        BlocListener<ProfileSettingsBloc, ProfileSettingsState>(
+          listener: _profileSettingsBlocListener,
+        )
       ],
       child: BlocProvider(
         create: (context) => TabViewBloc(),
@@ -93,6 +96,19 @@ class _HomeScreenMobile extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const SettingsScreen(),
+        ),
+      );
+    }
+  }
+
+  void _profileSettingsBlocListener(
+    BuildContext context,
+    ProfileSettingsState state,
+  ) {
+    if (state is ProfileSettingsOpenState) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const ProfileSettingsScreen(),
         ),
       );
     }

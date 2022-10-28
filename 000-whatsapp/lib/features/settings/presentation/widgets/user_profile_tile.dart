@@ -20,13 +20,7 @@ class UserProfileTile extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return const ProfileSettingsScreen();
-            },
-          ),
-        );
+        context.read<ProfileSettingsBloc>().add(const ProfileSettingsOpen());
       },
       child: Padding(
         padding: const EdgeInsets.all(17),

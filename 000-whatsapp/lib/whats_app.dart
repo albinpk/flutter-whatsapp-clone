@@ -43,6 +43,7 @@ class WhatsApp extends StatelessWidget {
           BlocProvider(create: (context) => UserProfileBloc()),
           BlocProvider(create: (context) => SettingsBloc()),
           BlocProvider(create: (context) => ChatSettingsBloc()),
+          BlocProvider(create: (context) => ProfileSettingsBloc()),
           BlocProvider(
             lazy: false,
             create: (context) => StatusBloc(
