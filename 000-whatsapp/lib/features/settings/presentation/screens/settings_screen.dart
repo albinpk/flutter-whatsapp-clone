@@ -38,19 +38,8 @@ class _SettingsScreenMobile extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // User tile
-              Builder(
-                builder: (context) {
-                  final user = context.watch<User>();
-                  return ListTile(
-                    leading: UserDP(radius: 30, url: user.dpUrl),
-                    title: Text(user.name),
-                    subtitle: Text(user.about, style: subtitleStyle),
-                    trailing: Icon(Icons.qr_code, color: customColors.primary),
-                  );
-                },
-              ),
-              const Divider(),
+              const _UserTile(),
+              const Divider(height: 0),
 
               // Settings tiles
               ListTile(
@@ -326,25 +315,46 @@ class _UserTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<User>();
+    final theme = Theme.of(context);
+    final isMobile = theme.platform.isMobile;
+    final textTheme = theme.textTheme;
+    final customColors = CustomColors.of(context);
+
     return InkWell(
       onTap: () {},
       child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(17),
         child: Row(
           children: [
-            UserDP(radius: 35, url: user.dpUrl),
+            UserDP(
+              radius: isMobile ? 30 : 35,
+              url: user.dpUrl,
+            ),
             const SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   user.name,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: textTheme.titleLarge!.copyWith(
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
                 const SizedBox(height: 5),
-                Text(user.about),
+                Text(
+                  user.about,
+                  style: textTheme.bodyMedium!.copyWith(
+                    color: customColors.onBackgroundMuted,
+                  ),
+                ),
               ],
             ),
+            const Spacer(),
+            if (isMobile)
+              Icon(
+                Icons.qr_code,
+                color: customColors.primary,
+              ),
           ],
         ),
       ),
