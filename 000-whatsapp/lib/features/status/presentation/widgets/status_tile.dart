@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/utils/themes/custom_colors.dart';
+import '../../../../core/widgets/widgets.dart';
 import '../../status.dart';
 
 class StatusTile extends StatelessWidget {
@@ -39,7 +40,7 @@ class StatusTile extends StatelessWidget {
       onTap: onTap ??
           () {
             Navigator.of(context).push(
-              MaterialPageRoute(
+              FadePageRoute(
                 builder: (context) => StatusPageView(
                   initialPage: context
                       .read<StatusBloc>()
