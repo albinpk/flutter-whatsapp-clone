@@ -200,35 +200,7 @@ class _AppBar extends StatelessWidget {
       child: Column(
         children: [
           // Status progress
-          SizedBox(
-            height: 2,
-            width: MediaQuery.of(context).size.width - 10,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Status progress bar background
-                  const ColoredBox(color: Colors.white30),
-                  // Status progress bar
-                  AnimatedBuilder(
-                    animation: animation,
-                    builder: (context, child) {
-                      return FractionallySizedBox(
-                        alignment: Alignment.centerLeft,
-                        heightFactor: 1,
-                        widthFactor: animation.value,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: const ColoredBox(color: Colors.white),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
+          StatusProgressBar(animation: animation),
 
           AppBar(
             // Elevation for text visibility on white screen
