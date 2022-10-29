@@ -50,6 +50,7 @@ class WhatsApp extends StatelessWidget {
               whatsAppUsers: context.read<List<WhatsAppUser>>(),
             ),
           ),
+          BlocProvider(create: (context) => StatusListViewCubit()),
         ],
         child: Builder(
           builder: (context) => MaterialApp(
