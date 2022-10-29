@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/models/models.dart';
+import '../../../../core/utils/extensions/target_platform.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../status.dart';
@@ -11,11 +12,23 @@ class StatusListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Theme.of(context).platform.isMobile
+        ? const _StatusListViewContent()
+        : const Scaffold(body: _StatusListViewContent());
+  }
+}
+
+class _StatusListViewContent extends StatelessWidget {
+  const _StatusListViewContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverOverlapInjector(
-          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-        ),
+        if (Theme.of(context).platform.isMobile)
+          SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
 
         // My status / Add status
         const SliverToBoxAdapter(child: _MyStatusTile()),
@@ -94,12 +107,13 @@ class _MyStatusTile extends StatelessWidget {
             radius: 25,
             url: context.select((User u) => u.dpUrl),
           ),
-          ColoredCircle(
-            color: CustomColors.of(context).primary!,
-            child: const FittedBox(
-              child: Icon(Icons.add, color: Colors.white),
+          if (Theme.of(context).platform.isMobile)
+            ColoredCircle(
+              color: CustomColors.of(context).primary!,
+              child: const FittedBox(
+                child: Icon(Icons.add, color: Colors.white),
+              ),
             ),
-          ),
         ],
       ),
       title: 'My status',
