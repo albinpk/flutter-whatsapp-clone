@@ -5,6 +5,7 @@ import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../settings/settings.dart';
+import '../../../../../status/status.dart';
 import '../../../new_chat/new_chat.dart';
 import '../../../search/search.dart';
 
@@ -37,9 +38,9 @@ class RecentChatsAppBarDesktop extends StatelessWidget
             : CustomColors.of(context).iconMuted,
       ),
       actions: [
-        // Search icon
+        // Status icon
         IconButton(
-          onPressed: () {},
+          onPressed: () => context.read<StatusListViewCubit>().push(),
           icon: const Icon(Icons.circle_outlined),
           padding: actionsIconPadding,
         ),

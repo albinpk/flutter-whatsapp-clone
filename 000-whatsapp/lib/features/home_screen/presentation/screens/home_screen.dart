@@ -266,6 +266,9 @@ class _HomeScreenDesktopState extends State<_HomeScreenDesktop> {
         BlocListener<ProfileSettingsBloc, ProfileSettingsState>(
           listener: _profileSettingsBlocListener,
         ),
+        BlocListener<StatusListViewCubit, StatusListViewState>(
+          listener: _statusListViewCubitListener,
+        ),
       ],
       child: Center(
         child: BothAxisScrollView(
@@ -412,6 +415,21 @@ class _HomeScreenDesktopState extends State<_HomeScreenDesktop> {
       _leftNavigatorKey.currentState!.pushNamed('profile');
     } else if (state is ProfileSettingsCloseState) {
       _leftNavigatorKey.currentState!.pop();
+    }
+  }
+
+  void _statusListViewCubitListener(
+    BuildContext context,
+    StatusListViewState state,
+  ) {
+    if (state is StatusListViewOpenState) {
+      Navigator.of(context).push(
+        FadePageRoute(
+          builder: (context) => const StatusListView(),
+        ),
+      );
+    } else if (state is StatusListViewCloseState) {
+      Navigator.of(context).pop();
     }
   }
 }
