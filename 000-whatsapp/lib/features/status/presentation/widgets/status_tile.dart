@@ -35,6 +35,7 @@ class StatusTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
+      visualDensity: VisualDensity.standard,
       onTap: onTap ??
           () {
             Navigator.of(context).push(
