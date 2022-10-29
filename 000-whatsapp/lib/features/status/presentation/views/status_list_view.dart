@@ -13,13 +13,88 @@ class StatusListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme.of(context).platform.isMobile
-        ? const _StatusListViewContent()
-        : const Scaffold(body: _StatusListViewContent());
+        ? const _StatusListViewMobile()
+        : const _StatusListViewDesktop();
   }
 }
 
-class _StatusListViewContent extends StatelessWidget {
-  const _StatusListViewContent({Key? key}) : super(key: key);
+class _StatusListViewMobile extends StatelessWidget {
+  const _StatusListViewMobile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const _StatusList();
+  }
+}
+
+class _StatusListViewDesktop extends StatelessWidget {
+  const _StatusListViewDesktop({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var customColors = CustomColors.of(context);
+    return Scaffold(
+      body: Row(
+        children: [
+          // Status list
+          const Expanded(
+            flex: 2,
+            child: _StatusList(),
+          ),
+
+          // Right side of screen with close button
+          Expanded(
+            flex: 3,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, right: 15),
+                      child: IconButton(
+                        icon: const Icon(Icons.close),
+                        iconSize: 30,
+                        onPressed: () {
+                          context.read<StatusListViewCubit>().pop();
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.donut_large_rounded,
+                          size: 80,
+                          color: customColors.onBackgroundMuted,
+                        ),
+                        const SizedBox(height: 30),
+                        Text(
+                          'Click on a contact to view their status updates',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: customColors.onBackgroundMuted,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatusList extends StatelessWidget {
+  const _StatusList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
