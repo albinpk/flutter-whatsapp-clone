@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -42,54 +40,55 @@ class _StatusScreenState extends State<StatusScreen>
   }
 
   /// Show next status when animation completed.
-  /// If it is the last status then pop the screen.
   void _animationStatusListener(AnimationStatus status) {
-    if (status == AnimationStatus.completed) {
-      if (widget.pageController.page! ==
-          context.read<StatusBloc>().state.statuses.length - 1) {
-        Navigator.of(context).pop();
-      } else {
-        widget.pageController.nextPage(
-          duration: kTabScrollDuration,
-          curve: Curves.ease,
-        );
-      }
-    }
+    if (status == AnimationStatus.completed) _next();
   }
 
+  /// Pause the animation while page swiping.
   void _pageListener() {
     if (widget.pageController.page! - widget.pageController.page!.floor() !=
         0) {
-      _controller.stop();
+      _pause();
     }
   }
+
+  /// Play/Continue the status progress animation.
+  void _play() {
+    _controller.forward();
+    if (!_appBarVisible.value) {
+      _appBarVisible.value = true;
+    }
+  }
+
+  /// Pause the status progress animation.
+  void _pause() => _controller.stop();
+
+  /// Animate to next status page.
+  /// If it is the last status then pop the screen.
+  void _next() {
+    if (widget.pageController.page! ==
+        context.read<StatusBloc>().state.statuses.length - 1) {
+      Navigator.of(context).pop();
+    } else {
+      widget.pageController.nextPage(
+        duration: kTabScrollDuration,
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  /// Whether the appBar is visible or not.
+  /// AppBar will hide after long press.
+  final _appBarVisible = ValueNotifier<bool>(true);
 
   @override
   void dispose() {
     _controller.removeStatusListener(_animationStatusListener);
     _controller.dispose();
     widget.pageController.removeListener(_pageListener);
-    _tapDetectorTimer?.cancel();
     _appBarVisible.dispose();
-    _appBarVisibilityTimer?.cancel();
     super.dispose();
   }
-
-  /// Timer for detect normal and long tap.
-
-  // Pop the screen on normal tap.
-  // If it is long tap then stop the animation,
-  // and forward it when tapUp on tapCancel detected.
-  Timer? _tapDetectorTimer;
-  bool _isLong = false;
-
-  /// Whether appBar visible or not.
-  ///
-  /// AppBar is hidden after long press for 500 milliseconds.
-  final _appBarVisible = ValueNotifier<bool>(true);
-
-  /// Timer for hide appBar after long tap.
-  Timer? _appBarVisibilityTimer;
 
   @override
   Widget build(BuildContext context) {
@@ -121,9 +120,10 @@ class _StatusScreenState extends State<StatusScreen>
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTapDown: _onTapDown,
-        onTapUp: _onTapUpOrCancel,
-        onTapCancel: _onTapUpOrCancel,
+        onTapDown: (_) => _pause(),
+        onTapUp: (_) => _next(),
+        onLongPress: () => _appBarVisible.value = false,
+        onLongPressUp: _play,
 
         // Status image
         child: Center(
@@ -131,7 +131,7 @@ class _StatusScreenState extends State<StatusScreen>
             key: ValueKey(widget.status.id),
             onVisibilityChanged: (info) {
               if (info.visibleFraction == 1) {
-                _controller.forward();
+                _play();
                 if (!widget.status.isSeen) {
                   context
                       .read<StatusBloc>()
@@ -144,40 +144,6 @@ class _StatusScreenState extends State<StatusScreen>
         ),
       ),
     );
-  }
-
-  void _onTapDown(_) {
-    // Stop the animation and start the timer for detect tap
-    _controller.stop();
-    _tapDetectorTimer = Timer(
-      const Duration(milliseconds: 100),
-      () => _isLong = true,
-    );
-
-    // Start timer to hide appBar
-    _appBarVisibilityTimer = Timer(
-      const Duration(milliseconds: 500),
-      () => _appBarVisible.value = false,
-    );
-  }
-
-  void _onTapUpOrCancel([_]) {
-    // Show appBar
-    if (_appBarVisible.value) {
-      _appBarVisibilityTimer!.cancel();
-    } else {
-      _appBarVisible.value = true;
-    }
-
-    // Forward the animation if its long tap,
-    // otherwise pop the screen.
-    if (_isLong) {
-      _controller.forward();
-      _isLong = false;
-    } else {
-      _tapDetectorTimer!.cancel();
-      Navigator.of(context).pop();
-    }
   }
 }
 
