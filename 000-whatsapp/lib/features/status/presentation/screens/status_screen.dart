@@ -36,8 +36,13 @@ class _StatusScreenState extends State<StatusScreen>
   void initState() {
     super.initState();
     _controller.addStatusListener(_animationStatusListener);
-    widget.pageController.addListener(_pageListener);
+    _pageController.addListener(_pageListener);
   }
+
+  late final _statusBloc = context.read<StatusBloc>();
+
+  /// Status page view controller.
+  late final _pageController = widget.pageController;
 
   /// Show next status when animation completed.
   void _animationStatusListener(AnimationStatus status) {
@@ -46,8 +51,7 @@ class _StatusScreenState extends State<StatusScreen>
 
   /// Pause the animation while page swiping.
   void _pageListener() {
-    if (widget.pageController.page! - widget.pageController.page!.floor() !=
-        0) {
+    if (_pageController.page! - _pageController.page!.floor() != 0) {
       _pause();
     }
   }
@@ -55,9 +59,7 @@ class _StatusScreenState extends State<StatusScreen>
   /// Play/Continue the status progress animation.
   void _play() {
     _controller.forward();
-    if (!_appBarVisible.value) {
-      _appBarVisible.value = true;
-    }
+    _appBarVisible.value = true;
   }
 
   /// Pause the status progress animation.
@@ -66,15 +68,25 @@ class _StatusScreenState extends State<StatusScreen>
   /// Animate to next status page.
   /// If it is the last status then pop the screen.
   void _next() {
-    if (widget.pageController.page! ==
-        context.read<StatusBloc>().state.statuses.length - 1) {
-      Navigator.of(context).pop();
-    } else {
-      widget.pageController.nextPage(
-        duration: kTabScrollDuration,
-        curve: Curves.ease,
-      );
+    if (_pageController.page! == _statusBloc.state.statuses.length - 1) {
+      return Navigator.of(context).pop();
     }
+
+    _pageController.nextPage(
+      duration: kTabScrollDuration,
+      curve: Curves.ease,
+    );
+  }
+
+  /// Animate to previous status page.
+  /// If it is the first status then continue the animation.
+  void _prev() {
+    if (_pageController.page == 0) return _play();
+
+    _pageController.previousPage(
+      duration: kTabScrollDuration,
+      curve: Curves.ease,
+    );
   }
 
   /// Whether the appBar is visible or not.
@@ -85,7 +97,7 @@ class _StatusScreenState extends State<StatusScreen>
   void dispose() {
     _controller.removeStatusListener(_animationStatusListener);
     _controller.dispose();
-    widget.pageController.removeListener(_pageListener);
+    _pageController.removeListener(_pageListener);
     _appBarVisible.dispose();
     super.dispose();
   }
@@ -121,7 +133,12 @@ class _StatusScreenState extends State<StatusScreen>
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTapDown: (_) => _pause(),
-        onTapUp: (_) => _next(),
+        onTapUp: (details) {
+          // Show previous status if use tap on left edge of the screen.
+          // Otherwise show next status.
+          if (details.globalPosition.dx <= 80) return _prev();
+          _next();
+        },
         onLongPress: () => _appBarVisible.value = false,
         onLongPressUp: _play,
 
@@ -133,9 +150,7 @@ class _StatusScreenState extends State<StatusScreen>
               if (info.visibleFraction == 1) {
                 _play();
                 if (!widget.status.isSeen) {
-                  context
-                      .read<StatusBloc>()
-                      .add(StatusViewed(status: widget.status));
+                  _statusBloc.add(StatusViewed(status: widget.status));
                 }
               }
             },
