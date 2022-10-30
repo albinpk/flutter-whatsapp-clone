@@ -17,6 +17,7 @@ class WhatsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Disable the app on web version on mobile.
     if (defaultTargetPlatform.isWebMobile) {
       return const MaterialApp(
         home: Scaffold(
