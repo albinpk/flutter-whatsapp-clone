@@ -271,8 +271,8 @@ class _StatusScreenDesktopState extends State<_StatusScreenDesktop>
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-        // +17 for status progress bar + top padding (2+15)
-        preferredSize: const Size.fromHeight(kToolbarHeight + 17),
+        // +20 for status progress bar + top padding (5+15)
+        preferredSize: const Size.fromHeight(kToolbarHeight + 20),
         child: _AppBar.desktop(
           status: widget.status,
           animation: _controller,

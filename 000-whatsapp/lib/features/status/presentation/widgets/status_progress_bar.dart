@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/utils/extensions/target_platform.dart';
+
 class StatusProgressBar extends StatelessWidget {
   const StatusProgressBar({
     super.key,
@@ -12,7 +14,7 @@ class StatusProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 2,
+      height: Theme.of(context).platform.isMobile ? 2 : 5,
       width: MediaQuery.of(context).size.width - 10,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),
