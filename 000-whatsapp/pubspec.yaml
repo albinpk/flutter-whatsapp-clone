@@ -18,6 +18,11 @@ dependencies:
   uuid: ^3.0.6
   intl: ^0.17.0
   visibility_detector: ^0.3.3
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
+      ref: 17d4710c17f4913137e7ec931f6e71eaef443363
 
 dev_dependencies:
   flutter_test:
