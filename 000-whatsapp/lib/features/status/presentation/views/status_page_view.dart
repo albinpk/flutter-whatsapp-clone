@@ -79,6 +79,7 @@ class _StatusPageViewState extends State<StatusPageView> {
                       padding: const EdgeInsets.all(20),
                       child: IconButton(
                         onPressed: _prev,
+                        color: Colors.white,
                         icon: const Icon(Icons.arrow_back_ios_rounded),
                       ),
                     ),
@@ -92,6 +93,7 @@ class _StatusPageViewState extends State<StatusPageView> {
                       padding: const EdgeInsets.all(20),
                       child: IconButton(
                         onPressed: _next,
+                        color: Colors.white,
                         icon: const Icon(Icons.arrow_forward_ios_rounded),
                       ),
                     ),

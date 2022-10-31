@@ -376,6 +376,7 @@ class _AppBar extends StatelessWidget {
           backgroundColor: Colors.transparent,
           titleSpacing: 0,
           automaticallyImplyLeading: isMobile,
+          foregroundColor: Colors.white,
           title: Row(
             children: [
               UserDP(url: status.author.dpUrl),
@@ -432,7 +433,7 @@ class _AppBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const BackButton(),
+            const BackButton(color: Colors.white),
 
             // AppBar with progress bar
             Flexible(
@@ -446,6 +447,7 @@ class _AppBar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.close),
               iconSize: 30,
+              color: Colors.white,
               onPressed: () {
                 // Pop the StatusScreen
                 Navigator.of(context).pop();
