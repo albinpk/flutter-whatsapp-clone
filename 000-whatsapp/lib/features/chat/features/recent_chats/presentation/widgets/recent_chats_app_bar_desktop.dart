@@ -41,7 +41,7 @@ class RecentChatsAppBarDesktop extends StatelessWidget
         // Status icon
         IconButton(
           onPressed: () => context.read<StatusListViewCubit>().push(),
-          icon: const Icon(Icons.circle_outlined),
+          icon: const Icon(Icons.donut_large_rounded),
           padding: actionsIconPadding,
         ),
 
