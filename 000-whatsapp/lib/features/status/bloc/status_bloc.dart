@@ -21,12 +21,14 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
   /// Add a status after 5 seconds.
   void _addStatusAfterDelay(List<WhatsAppUser> whatsAppUsers) {
     Future.delayed(const Duration(seconds: 5), () {
+      for (int i = 0; i < 5; i++) {
         add(StatusAdd(
           status: Status.fromContent(
             StatusContent.random(),
-          author: whatsAppUsers.first,
+            author: whatsAppUsers[i + 1],
           ),
         ));
+      }
     });
   }
 
