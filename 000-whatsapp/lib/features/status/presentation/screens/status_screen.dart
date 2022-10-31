@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -287,19 +289,40 @@ class _StatusScreenDesktopState extends State<_StatusScreenDesktop>
         onTapUp: (_) => _play(),
 
         // Status image
-        child: Center(
-          child: VisibilityDetector(
-            key: ValueKey(widget.status.id),
-            onVisibilityChanged: (info) {
-              if (info.visibleFraction == 1) {
-                _play();
-                if (!widget.status.isSeen) {
-                  _statusBloc.add(StatusViewed(status: widget.status));
-                }
-              }
-            },
-            child: Image.network(widget.status.content.imgUrl!),
-          ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Background blur image
+            ImageFiltered(
+              imageFilter: ImageFilter.blur(
+                sigmaX: 20,
+                sigmaY: 20,
+              ),
+              child: Image.network(
+                widget.status.content.imgUrl!,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            // To darken the blur image
+            const ColoredBox(color: Colors.black45),
+
+            // Actual status image
+            Center(
+              child: VisibilityDetector(
+                key: ValueKey(widget.status.id),
+                onVisibilityChanged: (info) {
+                  if (info.visibleFraction == 1) {
+                    _play();
+                    if (!widget.status.isSeen) {
+                      _statusBloc.add(StatusViewed(status: widget.status));
+                    }
+                  }
+                },
+                child: Image.network(widget.status.content.imgUrl!),
+              ),
+            ),
+          ],
         ),
       ),
     );
