@@ -292,6 +292,10 @@ class _DateTimeItem extends StatelessWidget {
   /// Format DateTime to readable text.
   /// eg: `Today`, `Friday`, `June 1, 2022`.
   String _formatDate(DateTime date) {
+    // Subtracting hours from date.
+    // Otherwise this method return "Today" even if the
+    // time is before "12:00 AM" (depends on DateTime.now).
+    date = date.subtract(Duration(hours: date.hour));
     final difference = DateTime.now().difference(date).inDays;
     if (difference < 1) return 'Today';
     if (difference < 2) return 'Yesterday';
