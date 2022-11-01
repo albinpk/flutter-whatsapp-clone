@@ -40,7 +40,10 @@ class RecentChatsListTile extends StatelessWidget {
     return ListTile(
       selected: isSelected,
       selectedTileColor: customColors.secondary,
-      leading: UserDP(radius: 25, url: chat.user.dpUrl),
+      leading: GestureDetector(
+        onTap: () => _showDpDialog(context),
+        child: UserDP(radius: 25, url: chat.user.dpUrl),
+      ),
       title: Row(
         children: [
           // User name
@@ -109,6 +112,15 @@ class RecentChatsListTile extends StatelessWidget {
       onTap: () {
         context.read<ChatRoomBloc>().add(ChatRoomOpen(user: chat.user));
       },
+    );
+  }
+
+  /// Show user dp in a Dialog widget when pressed on UserDp in ListTile.
+  void _showDpDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black38,
+      builder: (context) => DPDialog(user: chat.user),
     );
   }
 
