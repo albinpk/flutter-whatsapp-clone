@@ -145,67 +145,71 @@ class _StatusScreenMobileState extends State<_StatusScreenMobile>
     super.dispose();
   }
 
+  /// The whole status content.
+  /// Extracted to a field to reuse in Transform widget in the build method.
+  late final _statusContent = Scaffold(
+    extendBodyBehindAppBar: true,
+    backgroundColor: Colors.black,
+    appBar: PreferredSize(
+      // +2 for status progress bar
+      preferredSize: const Size.fromHeight(kToolbarHeight + 2),
+      child: ValueListenableBuilder<bool>(
+        valueListenable: _appBarVisible,
+        builder: (context, isVisible, child) {
+          // Use IgnorePointer to ignore back button tap when appBar is hidden
+          return IgnorePointer(
+            ignoring: !isVisible,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.ease,
+              opacity: isVisible ? 1 : 0,
+              child: child,
+            ),
+          );
+        },
+        child: _AppBar.mobile(
+          status: widget.status,
+          animation: _controller,
+        ),
+      ),
+    ),
+    body: GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTapDown: (_) => _pause(),
+      onTapUp: (details) {
+        // Show previous status if use tap on left edge of the screen.
+        // Otherwise show next status.
+        if (details.globalPosition.dx <= 80) return _prev();
+        _next();
+      },
+      onLongPress: () => _appBarVisible.value = false,
+      onLongPressUp: _play,
+
+      // Status image
+      child: Center(
+        child: VisibilityDetector(
+          key: ValueKey(widget.status.id),
+          onVisibilityChanged: (info) {
+            if (info.visibleFraction == 1) {
+              _play();
+              if (!widget.status.isSeen) {
+                _statusBloc.add(StatusViewed(status: widget.status));
+              }
+            }
+          },
+          child: Image.network(widget.status.content.imgUrl!),
+        ),
+      ),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Transform(
       // * 0.3 used to decrease spacing between pages
       transform: Matrix4.identity()..rotateZ((widget.index - _page) * 0.3),
       alignment: Alignment.bottomCenter,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        backgroundColor: Colors.black,
-        appBar: PreferredSize(
-          // +2 for status progress bar
-          preferredSize: const Size.fromHeight(kToolbarHeight + 2),
-          child: ValueListenableBuilder<bool>(
-            valueListenable: _appBarVisible,
-            builder: (context, isVisible, child) {
-              // Use IgnorePointer to ignore back button tap when appBar is hidden
-              return IgnorePointer(
-                ignoring: !isVisible,
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.ease,
-                  opacity: isVisible ? 1 : 0,
-                  child: child,
-                ),
-              );
-            },
-            child: _AppBar.mobile(
-              status: widget.status,
-              animation: _controller,
-            ),
-          ),
-        ),
-        body: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (_) => _pause(),
-          onTapUp: (details) {
-            // Show previous status if use tap on left edge of the screen.
-            // Otherwise show next status.
-            if (details.globalPosition.dx <= 80) return _prev();
-            _next();
-          },
-          onLongPress: () => _appBarVisible.value = false,
-          onLongPressUp: _play,
-
-          // Status image
-          child: Center(
-            child: VisibilityDetector(
-              key: ValueKey(widget.status.id),
-              onVisibilityChanged: (info) {
-                if (info.visibleFraction == 1) {
-                  _play();
-                  if (!widget.status.isSeen) {
-                    _statusBloc.add(StatusViewed(status: widget.status));
-                  }
-                }
-              },
-              child: Image.network(widget.status.content.imgUrl!),
-            ),
-          ),
-        ),
-      ),
+      child: _statusContent,
     );
   }
 }
