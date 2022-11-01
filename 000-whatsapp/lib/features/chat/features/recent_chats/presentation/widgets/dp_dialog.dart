@@ -17,6 +17,18 @@ class DPDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customColors = CustomColors.of(context);
+    final isLight = Theme.of(context).brightness == Brightness.light;
+
+    final Image userDp;
+    if (user.dpUrl != null) {
+      userDp = Image.network(user.dpUrl!);
+    } else {
+      userDp = Image.asset(
+        isLight
+            ? 'assets/images/default-user-avatar-light.png'
+            : 'assets/images/default-user-avatar-dark.png',
+      );
+    }
 
     return Dialog(
       backgroundColor: customColors.background,
@@ -28,7 +40,7 @@ class DPDialog extends StatelessWidget {
           Stack(
             children: [
               // User DP
-              Image.network(user.dpUrl!),
+              userDp,
 
               // User name
               SizedBox(
