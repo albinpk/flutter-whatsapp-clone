@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/models/models.dart';
 import '../../../../../../core/utils/themes/custom_colors.dart';
-import 'recent_chats_list_tile.dart';
+import '../../../../chat.dart';
 
 /// Dialog widget that shows when pressed
 /// on user dp in [RecentChatsListTile].
@@ -46,6 +47,7 @@ class DPDialog extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ColoredBox(
+                  // User name background, for visibility
                   color: Colors.black45,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -68,20 +70,35 @@ class DPDialog extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                // Message button
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                    context.read<ChatRoomBloc>().add(ChatRoomOpen(user: user));
+                  },
                   icon: const Icon(Icons.message),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.call),
+
+                // Voice call button
+                const IconButton(
+                  onPressed: null,
+                  icon: Icon(Icons.call),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.videocam),
+
+                // Video call button
+                const IconButton(
+                  onPressed: null,
+                  icon: Icon(Icons.videocam),
                 ),
+
+                // Profile button
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                    context
+                        .read<UserProfileBloc>()
+                        .add(UserProfileOpen(user: user));
+                  },
                   icon: const Icon(Icons.info_outline),
                 ),
               ],
