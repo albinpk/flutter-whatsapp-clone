@@ -9,8 +9,10 @@ class DefaultChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customColors = CustomColors.of(context);
+
     return Scaffold(
-      backgroundColor: CustomColors.of(context).secondary,
+      backgroundColor: customColors.secondary,
       body: Center(
         child: Column(
           children: [
@@ -20,7 +22,7 @@ class DefaultChatView extends StatelessWidget {
               child: FittedBox(
                 child: Icon(
                   Icons.laptop_mac,
-                  color: CustomColors.of(context).onBackgroundMuted,
+                  color: customColors.onBackgroundMuted,
                 ),
               ),
             ),
@@ -40,16 +42,26 @@ class DefaultChatView extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.w400,
-                    color: CustomColors.of(context).onBackgroundMuted,
+                    color: customColors.onBackgroundMuted,
                     height: 1.4,
                   ),
             ),
             const Spacer(),
-            Text(
-              ' End-to-end Encrypted',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: CustomColors.of(context).onBackgroundMuted,
-                  ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.lock,
+                  size: 16,
+                  color: customColors.onBackgroundMuted,
+                ),
+                Text(
+                  'End-to-end Encrypted',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: customColors.onBackgroundMuted,
+                      ),
+                ),
+              ],
             ),
             const SizedBox(height: 30),
             SizedBox(
@@ -58,7 +70,7 @@ class DefaultChatView extends StatelessWidget {
               child: ColoredBox(
                 color: Theme.of(context).brightness == Brightness.light
                     ? const Color(0xFF25D366)
-                    : CustomColors.of(context).primary!,
+                    : customColors.primary!,
               ),
             ),
           ],
