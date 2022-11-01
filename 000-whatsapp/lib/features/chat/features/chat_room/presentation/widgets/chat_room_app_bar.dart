@@ -75,7 +75,9 @@ class _Leading extends StatelessWidget {
                   child: FittedBox(
                     child: Hero(
                       tag: context.select((WhatsAppUser user) => user.id),
-                      child: const UserDP(),
+                      child: UserDP(
+                        url: context.select((WhatsAppUser u) => u.dpUrl),
+                      ),
                     ),
                   ),
                 ),
@@ -106,9 +108,11 @@ class _Title extends StatelessWidget {
         child: Row(
           children: [
             if (Theme.of(context).platform.isDesktop)
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: UserDP(),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: UserDP(
+                  url: context.select((WhatsAppUser u) => u.dpUrl),
+                ),
               ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

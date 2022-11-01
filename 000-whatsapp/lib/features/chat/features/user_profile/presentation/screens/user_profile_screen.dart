@@ -89,9 +89,12 @@ class _ProfileHead extends StatelessWidget {
           children: [
             // Show UserDP on desktop.
             // On mobile, UserDP is part on AppBar
-            if (isDesktop) ...const [
-              UserDP(radius: 80),
-              SizedBox(height: 10),
+            if (isDesktop) ...[
+              UserDP(
+                radius: 80,
+                url: context.select((WhatsAppUser u) => u.dpUrl),
+              ),
+              const SizedBox(height: 10),
             ],
 
             // User name
