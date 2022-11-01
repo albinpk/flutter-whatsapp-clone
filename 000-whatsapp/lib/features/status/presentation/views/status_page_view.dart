@@ -66,6 +66,7 @@ class _StatusPageViewState extends State<StatusPageView> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: isMobile
           ? statusPageView
           : Stack(
