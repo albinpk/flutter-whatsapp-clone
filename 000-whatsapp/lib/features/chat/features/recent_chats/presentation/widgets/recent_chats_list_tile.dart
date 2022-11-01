@@ -21,9 +21,10 @@ class RecentChatsListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final customColors = CustomColors.of(context);
+    final isDesktop = theme.platform.isDesktop;
 
     bool isSelected = false;
-    if (theme.platform.isDesktop) {
+    if (isDesktop) {
       // To highlight selected chat on desktop
       isSelected = context.select(
         (ChatRoomBloc bloc) {
@@ -41,7 +42,7 @@ class RecentChatsListTile extends StatelessWidget {
       selected: isSelected,
       selectedTileColor: customColors.secondary,
       leading: GestureDetector(
-        onTap: () => _showDpDialog(context),
+        onTap: !isDesktop ? () => _showDpDialog(context) : null,
         child: UserDP(radius: 25, url: chat.user.dpUrl),
       ),
       title: Row(
