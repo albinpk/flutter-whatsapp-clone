@@ -59,6 +59,7 @@ class _StatusPageViewState extends State<StatusPageView> {
       itemBuilder: (context, index) {
         return StatusScreen(
           status: statuses[index],
+          index: index,
           pageController: _pageController,
         );
       },

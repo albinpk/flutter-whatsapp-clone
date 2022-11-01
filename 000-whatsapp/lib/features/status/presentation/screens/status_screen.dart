@@ -14,9 +14,13 @@ class StatusScreen extends StatelessWidget {
     super.key,
     required this.status,
     required this.pageController,
+    required this.index,
   });
 
   final Status status;
+
+  /// Status index.
+  final int index;
 
   /// The [StatusPageView] controller.
   ///
@@ -26,7 +30,11 @@ class StatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme.of(context).platform.isMobile
-        ? _StatusScreenMobile(status: status, pageController: pageController)
+        ? _StatusScreenMobile(
+            status: status,
+            index: index,
+            pageController: pageController,
+          )
         : _StatusScreenDesktop(status: status, pageController: pageController);
   }
 }
@@ -36,9 +44,13 @@ class _StatusScreenMobile extends StatefulWidget {
     Key? key,
     required this.status,
     required this.pageController,
+    required this.index,
   }) : super(key: key);
 
   final Status status;
+
+  /// Status index.
+  final int index;
 
   /// The [StatusPageView] controller.
   ///
@@ -74,9 +86,15 @@ class _StatusScreenMobileState extends State<_StatusScreenMobile>
     if (status == AnimationStatus.completed) _next();
   }
 
+  /// Current page in PageView.
+  /// Used to animate pages on swipe.
+  late double _page = widget.index.toDouble();
+
   /// Pause the animation while page swiping.
   void _pageListener() {
-    if (_pageController.page! - _pageController.page!.floor() != 0) {
+    setState(() => _page = _pageController.page!);
+
+    if (_page - _page.floor() != 0) {
       _pause();
     }
   }
@@ -93,7 +111,7 @@ class _StatusScreenMobileState extends State<_StatusScreenMobile>
   /// Animate to next status page.
   /// If it is the last status then pop the screen.
   void _next() {
-    if (_pageController.page! == _statusBloc.state.statuses.length - 1) {
+    if (_page == _statusBloc.state.statuses.length - 1) {
       return Navigator.of(context).pop();
     }
 
@@ -106,7 +124,7 @@ class _StatusScreenMobileState extends State<_StatusScreenMobile>
   /// Animate to previous status page.
   /// If it is the first status then continue the animation.
   void _prev() {
-    if (_pageController.page == 0) return _play();
+    if (_page == 0) return _play();
 
     _pageController.previousPage(
       duration: kTabScrollDuration,
@@ -129,57 +147,62 @@ class _StatusScreenMobileState extends State<_StatusScreenMobile>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: Colors.black,
-      appBar: PreferredSize(
-        // +2 for status progress bar
-        preferredSize: const Size.fromHeight(kToolbarHeight + 2),
-        child: ValueListenableBuilder<bool>(
-          valueListenable: _appBarVisible,
-          builder: (context, isVisible, child) {
-            // Use IgnorePointer to ignore back button tap when appBar is hidden
-            return IgnorePointer(
-              ignoring: !isVisible,
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.ease,
-                opacity: isVisible ? 1 : 0,
-                child: child,
-              ),
-            );
-          },
-          child: _AppBar.mobile(
-            status: widget.status,
-            animation: _controller,
+    return Transform(
+      // * 0.3 used to decrease spacing between pages
+      transform: Matrix4.identity()..rotateZ((widget.index - _page) * 0.3),
+      alignment: Alignment.bottomCenter,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.black,
+        appBar: PreferredSize(
+          // +2 for status progress bar
+          preferredSize: const Size.fromHeight(kToolbarHeight + 2),
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _appBarVisible,
+            builder: (context, isVisible, child) {
+              // Use IgnorePointer to ignore back button tap when appBar is hidden
+              return IgnorePointer(
+                ignoring: !isVisible,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.ease,
+                  opacity: isVisible ? 1 : 0,
+                  child: child,
+                ),
+              );
+            },
+            child: _AppBar.mobile(
+              status: widget.status,
+              animation: _controller,
+            ),
           ),
         ),
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTapDown: (_) => _pause(),
-        onTapUp: (details) {
-          // Show previous status if use tap on left edge of the screen.
-          // Otherwise show next status.
-          if (details.globalPosition.dx <= 80) return _prev();
-          _next();
-        },
-        onLongPress: () => _appBarVisible.value = false,
-        onLongPressUp: _play,
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (_) => _pause(),
+          onTapUp: (details) {
+            // Show previous status if use tap on left edge of the screen.
+            // Otherwise show next status.
+            if (details.globalPosition.dx <= 80) return _prev();
+            _next();
+          },
+          onLongPress: () => _appBarVisible.value = false,
+          onLongPressUp: _play,
 
-        // Status image
-        child: Center(
-          child: VisibilityDetector(
-            key: ValueKey(widget.status.id),
-            onVisibilityChanged: (info) {
-              if (info.visibleFraction == 1) {
-                _play();
-                if (!widget.status.isSeen) {
-                  _statusBloc.add(StatusViewed(status: widget.status));
+          // Status image
+          child: Center(
+            child: VisibilityDetector(
+              key: ValueKey(widget.status.id),
+              onVisibilityChanged: (info) {
+                if (info.visibleFraction == 1) {
+                  _play();
+                  if (!widget.status.isSeen) {
+                    _statusBloc.add(StatusViewed(status: widget.status));
+                  }
                 }
-              }
-            },
-            child: Image.network(widget.status.content.imgUrl!),
+              },
+              child: Image.network(widget.status.content.imgUrl!),
+            ),
           ),
         ),
       ),
