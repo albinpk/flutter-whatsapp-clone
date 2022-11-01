@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../chat/chat.dart';
 import '../../../../core/utils/themes/custom_colors.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../../chat/chat.dart';
 import '../../../settings/settings.dart';
+import '../../../status/status.dart';
 import '../../home_screen.dart';
 
 class AppBarMobile extends StatelessWidget {
@@ -111,7 +113,33 @@ class AppBarMobile extends StatelessWidget {
               ],
             ),
           ),
-          const Tab(child: Text('STATUS')),
+          Tab(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('STATUS'),
+
+                // Recent statuses label
+                Builder(
+                  builder: (context) {
+                    final haveRecentStatus = context.select(
+                      (StatusBloc bloc) => bloc.state.recent.isNotEmpty,
+                    );
+
+                    if (!haveRecentStatus) return const SizedBox.shrink();
+
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: ColoredCircle(
+                        dimension: 6,
+                        color: isLight ? Colors.white : customColors.primary!,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
           const Tab(child: Text('CALLS')),
         ],
       ),
