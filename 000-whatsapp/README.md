@@ -38,3 +38,31 @@ A working [web demo ↗️][weblink]
 - [picsum.photos](https://picsum.photos)
 
 [weblink]: https://albinpk.github.io/flutter-clones
+
+## Screenshots
+
+- ### Android
+
+  <p>
+    <img src="./docs/images/recent-chats-dark.jpg" alt="recent-chats-dark" height="300" />
+    <img src="./docs/images/recent-chats-light.jpg" alt="recent-chats-light" height="300" />
+    <img src="./docs/images/new-chat-dark.jpg" alt="new-chat-dark" height="300" />
+    <img src="./docs/images/new-chat-light.jpg" alt="new-chat-light" height="300" />
+    <img src="./docs/images/chat-search-dark.jpg" alt="chat-search-dark" height="300" />
+    <img src="./docs/images/chat-search-light.jpg" alt="chat-search-light" height="300" />
+    <img src="./docs/images/user-dp-dark.jpg" alt="user-dp-dark" height="300" />
+    <img src="./docs/images/user-dp-light.jpg" alt="user-dp-light" height="300" />
+    <img src="./docs/images/chat-room-dark.jpg" alt="chat-room-dark" height="300" />
+    <img src="./docs/images/chat-room-light.jpg" alt="chat-room-light" height="300" />
+    <img src="./docs/images/user-profile-dark.jpg" alt="user-profile-dark" height="300" />
+    <img src="./docs/images/user-profile-light.jpg" alt="user-profile-light" height="300" />
+    <img src="./docs/images/status-list-dark.jpg" alt="status-list-dark" height="300" />
+    <img src="./docs/images/status-list-light.jpg" alt="status-list-light" height="300" />
+    <img src="./docs/images/settings-dark.jpg" alt="settings-dark" height="300" />
+    <img src="./docs/images/settings-light.jpg" alt="settings-light" height="300" />
+    <img src="./docs/images/profile-settings-dark.jpg" alt="profile-settings-dark" height="300" />
+    <img src="./docs/images/profile-settings-light.jpg" alt="profile-settings-light" height="300" />
+    <img src="./docs/images/chat-settings-dark.jpg" alt="chat-settings-dark" height="300" />
+    <img src="./docs/images/chat-settings-light.jpg" alt="chat-settings-light" height="300" />
+    <img src="./docs/images/status-screen.jpg" alt="status-screen" height="300" />
+  </p>
