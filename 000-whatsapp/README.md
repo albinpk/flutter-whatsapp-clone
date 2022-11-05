@@ -41,7 +41,7 @@ A working [web demo ↗️][weblink]
 
 ## Screenshots
 
-- ### Android
+- ### Mobile
 
   <p>
     <img src="./docs/screenshots/mobile/recent-chats-dark.jpg" alt="recent-chats-dark" height="300" />
@@ -65,4 +65,25 @@ A working [web demo ↗️][weblink]
     <img src="./docs/screenshots/mobile/chat-settings-dark.jpg" alt="chat-settings-dark" height="300" />
     <img src="./docs/screenshots/mobile/chat-settings-light.jpg" alt="chat-settings-light" height="300" />
     <img src="./docs/screenshots/mobile/status-screen.jpg" alt="status-screen" height="300" />
+  </p>
+
+- ### Desktop
+
+  <p>
+    <img src="./docs/screenshots/desktop/home-dark.png" height="300" />
+    <img src="./docs/screenshots/desktop/home-light.png" height="300" />
+    <img src="./docs/screenshots/desktop/new-chat-dark.png" height="300" />
+    <img src="./docs/screenshots/desktop/new-chat-light.png" height="300" />
+    <img src="./docs/screenshots/desktop/chat-room-dark.png" height="300" />
+    <img src="./docs/screenshots/desktop/chat-room-light.png" height="300" />
+    <img src="./docs/screenshots/desktop/user-profile-dark.png" height="300" />
+    <img src="./docs/screenshots/desktop/user-profile-light.png" height="300" />
+    <img src="./docs/screenshots/desktop/settings-dark.png" height="300" />
+    <img src="./docs/screenshots/desktop/profile-settings-dark.png" height="300" />
+    <img src="./docs/screenshots/desktop/theme-settings-light.png" height="300" />
+    <img src="./docs/screenshots/desktop/status-list-dark.png" height="300" />
+    <img src="./docs/screenshots/desktop/status-screen-1.png" height="300" />
+    <img src="./docs/screenshots/desktop/status-screen-2.png" height="300" />
+    <img src="./docs/screenshots/desktop/responsive-large.png" height="300" />
+    <img src="./docs/screenshots/desktop/responsive-small.png" height="300" />
   </p>
