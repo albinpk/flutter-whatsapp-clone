@@ -2,7 +2,7 @@
     package="com.example.whatsapp">
    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="whatsapp"
+        android:label="WhatsApp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

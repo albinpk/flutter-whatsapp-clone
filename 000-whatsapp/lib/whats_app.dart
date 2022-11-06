@@ -20,6 +20,7 @@ class WhatsApp extends StatelessWidget {
     // Disable the app on web version on mobile.
     if (defaultTargetPlatform.isWebMobile) {
       return const MaterialApp(
+        title: 'WhatsApp',
         home: Scaffold(
           body: Center(
             child: Text('Please open in desktop browser.'),
@@ -55,6 +56,7 @@ class WhatsApp extends StatelessWidget {
         ],
         child: Builder(
           builder: (context) => MaterialApp(
+            title: 'WhatsApp',
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: context.select(
