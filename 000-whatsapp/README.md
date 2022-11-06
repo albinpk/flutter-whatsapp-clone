@@ -76,20 +76,20 @@ A working [web demo ↗️][weblink]
 - ### Desktop
 
   <p>
-    <img src="./docs/screenshots/desktop/home-dark.png" height="300" />
-    <img src="./docs/screenshots/desktop/home-light.png" height="300" />
-    <img src="./docs/screenshots/desktop/new-chat-dark.png" height="300" />
-    <img src="./docs/screenshots/desktop/new-chat-light.png" height="300" />
-    <img src="./docs/screenshots/desktop/chat-room-dark.png" height="300" />
-    <img src="./docs/screenshots/desktop/chat-room-light.png" height="300" />
-    <img src="./docs/screenshots/desktop/user-profile-dark.png" height="300" />
-    <img src="./docs/screenshots/desktop/user-profile-light.png" height="300" />
-    <img src="./docs/screenshots/desktop/settings-dark.png" height="300" />
-    <img src="./docs/screenshots/desktop/profile-settings-dark.png" height="300" />
-    <img src="./docs/screenshots/desktop/theme-settings-light.png" height="300" />
-    <img src="./docs/screenshots/desktop/status-list-dark.png" height="300" />
-    <img src="./docs/screenshots/desktop/status-screen-1.png" height="300" />
-    <img src="./docs/screenshots/desktop/status-screen-2.png" height="300" />
-    <img src="./docs/screenshots/desktop/responsive-large.png" height="300" />
-    <img src="./docs/screenshots/desktop/responsive-small.png" height="300" />
+    <img src="./docs/screenshots/desktop/home-dark.png" width="400" />
+    <img src="./docs/screenshots/desktop/home-light.png" width="400" />
+    <img src="./docs/screenshots/desktop/new-chat-dark.png" height="224.890" />
+    <img src="./docs/screenshots/desktop/new-chat-light.png" height="224.890" />
+    <img src="./docs/screenshots/desktop/chat-room-dark.png" width="400" />
+    <img src="./docs/screenshots/desktop/chat-room-light.png" width="400" />
+    <img src="./docs/screenshots/desktop/user-profile-dark.png" height="224.890" />
+    <img src="./docs/screenshots/desktop/user-profile-light.png" width="400" />
+    <img src="./docs/screenshots/desktop/settings-dark.png" height="224.890" />
+    <img src="./docs/screenshots/desktop/profile-settings-dark.png" height="224.890" />
+    <img src="./docs/screenshots/desktop/theme-settings-light.png" width="400" />
+    <img src="./docs/screenshots/desktop/status-list-dark.png" width="400" />
+    <img src="./docs/screenshots/desktop/status-screen-1.png" width="400" />
+    <img src="./docs/screenshots/desktop/status-screen-2.png" width="400" />
+    <img src="./docs/screenshots/desktop/responsive-large.png" width="400" />
+    <img src="./docs/screenshots/desktop/responsive-small.png" width="400" />
   </p>
