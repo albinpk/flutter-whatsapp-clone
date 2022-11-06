@@ -44,6 +44,12 @@ A working [web demo ↗️][weblink]
 - ### Mobile
 
   <p>
+    <img src="./docs/screenshots/mobile/home.gif" alt="home-gif" height="300" />
+    <img src="./docs/screenshots/mobile/settings.gif" alt="settings-gif" height="300" />
+    <img src="./docs/screenshots/mobile/chat-room.gif" alt="chat-room-gif" height="300" />
+    <img src="./docs/screenshots/mobile/user-profile.gif" alt="user-profile-gif" height="300" />
+    <img src="./docs/screenshots/mobile/status.gif" alt="status-gif" height="300" />
+    <br>
     <img src="./docs/screenshots/mobile/recent-chats-dark.jpg" alt="recent-chats-dark" height="300" />
     <img src="./docs/screenshots/mobile/recent-chats-light.jpg" alt="recent-chats-light" height="300" />
     <img src="./docs/screenshots/mobile/new-chat-dark.jpg" alt="new-chat-dark" height="300" />
