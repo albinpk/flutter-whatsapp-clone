@@ -1,4 +1,8 @@
-# WhatsApp
+<h1 align="center">
+<img src="./assets/icons/whatsapp-icon.png" height="200px" alt="WhatsApp UI logo"/>
+<br>
+WhatsApp Clone
+</h1>
 
 A WhatsApp UI clone in flutter (work in progress).
 
