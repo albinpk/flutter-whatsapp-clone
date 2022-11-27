@@ -53,3 +53,15 @@ flutter_icons:
   windows:
     generate: true
     image_path: "assets/icons/whatsapp-icon.png"
+
+# flutter_native_splash config
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#111B21"
+  image: "assets/images/whatsapp-splash-image-light.png"
+  image_dark: "assets/images/whatsapp-splash-image-dark.png"
+  android_12:
+    color: "#FFFFFF"
+    color_dark: "#111B21"
+    image: "assets/images/whatsapp-splash-image-light.png"
+    image_dark: "assets/images/whatsapp-splash-image-dark.png"
